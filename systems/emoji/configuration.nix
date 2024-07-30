@@ -59,6 +59,7 @@
   environment.systemPackages = with pkgs; [
     git # required to use flakes
     vim
+    lshw
   ];
 
   # Use vim as default editor
