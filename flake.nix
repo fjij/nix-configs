@@ -11,11 +11,11 @@
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
-    # Here, "nixos" is the system's hostname
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+    # Here, "emoji" is the system's hostname
+    nixosConfigurations.emoji = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        ./configuration.nix
+        ./systems/emoji/configuration.nix
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
