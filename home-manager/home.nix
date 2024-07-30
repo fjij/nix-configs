@@ -38,6 +38,10 @@
     ".gitconfig".source = ./configs/git/gitconfig;
     ".gitignore".source = ./configs/git/gitignore;
     ".ssh/rc".source = ./configs/ssh/rc;
+    "scripts" = {
+      source = ./configs/scripts;
+      recursive = true;
+    };
   };
 
   xdg.configFile = {
