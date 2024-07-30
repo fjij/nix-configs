@@ -11,7 +11,6 @@
     git
     git-lfs
     tmux
-    fish
     jq
     rsync
     gnupg

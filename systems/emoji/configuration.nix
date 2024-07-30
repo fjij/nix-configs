@@ -45,6 +45,7 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEuZghgOTkdblxNA+cg8JQnQumgyxGiOoTouB7vT5XIW"
     ];
     packages = with pkgs; [];
+    shell = pkgs.fish;
   };
 
   # Allow unfree packages
@@ -70,6 +71,7 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+  programs.fish.enable = true;
 
   # List services that you want to enable:
 
