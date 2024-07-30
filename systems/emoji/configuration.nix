@@ -73,6 +73,9 @@
   # };
   programs.fish.enable = true;
 
+  # Command not found is broken with flakes: https://github.com/NixOS/nixpkgs/issues/171054
+  programs.command-not-found.enable = false;
+
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
