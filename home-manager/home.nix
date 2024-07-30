@@ -14,6 +14,7 @@
     jq
     rsync
     gnupg
+    just
     # glitter
     bat
     gum
