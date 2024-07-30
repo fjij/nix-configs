@@ -35,9 +35,17 @@
 
   home.stateVersion = "24.05";
 
-  xdg.configFile.nvim = {
-    source = ./configs/nvim;
-    recursive = true;
+  home.file.".tmux.conf".source = ./configs/tmux/tmux.conf;
+
+  xdg.configFile = {
+    nvim = {
+      source = ./configs/nvim;
+      recursive = true;
+    };
+    fish = {
+      source = ./configs/fish;
+      recursive = true;
+    };
   };
 
   programs.home-manager.enable = true;
