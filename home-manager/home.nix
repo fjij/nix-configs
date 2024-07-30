@@ -15,6 +15,8 @@
     rsync
     gnupg
     just
+    age
+    sops
     # glitter
     bat
     gum
