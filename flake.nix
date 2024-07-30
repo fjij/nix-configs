@@ -20,7 +20,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.willh = import ./home.nix;
+          home-manager.users.willh = import ./home-manager/home.nix;
 	}
       ];
     };

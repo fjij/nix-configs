@@ -35,5 +35,10 @@
 
   home.stateVersion = "24.05";
 
+  xdg.configFile.nvim = {
+    source = ./configs/nvim;
+    recursive = true;
+  };
+
   programs.home-manager.enable = true;
 }
