@@ -33,9 +33,13 @@
     userEmail = "30779570+fjij@users.noreply.github.com";
   };
 
-  home.stateVersion = "24.05";
-
-  home.file.".tmux.conf".source = ./configs/tmux/tmux.conf;
+  # Classic dotfiles
+  home.file = {
+    ".tmux.conf".source = ./configs/tmux/tmux.conf;
+    ".gitconfig".source = ./configs/git/gitconfig;
+    ".gitignore".source = ./configs/git/gitignore;
+    ".ssh/rc".source = ./configs/ssh/rc;
+  };
 
   xdg.configFile = {
     nvim = {
@@ -47,6 +51,8 @@
       recursive = true;
     };
   };
+
+  home.stateVersion = "24.05";
 
   programs.home-manager.enable = true;
 }
