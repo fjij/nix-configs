@@ -71,6 +71,8 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+
+  # https://nixos.wiki/wiki/Command_Shell
   programs.fish.enable = true;
 
   # Command not found is broken with flakes: https://github.com/NixOS/nixpkgs/issues/171054
