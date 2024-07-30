@@ -7,7 +7,7 @@
   # enable the tailscale service
   services.tailscale.enable = true;
 
-  systemd.services.tailscale-autoconnect = let key = "tskey-auth-<add your own tailscale key here>"; in {
+  systemd.services.tailscale-autoconnect = let key = "tskey-auth-add-your-own-tailscale-key-here"; in {
     description = "Automatic connection to Tailscale";
 
     # make sure tailscale is running before trying to connect to tailscale
