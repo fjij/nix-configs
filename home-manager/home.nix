@@ -19,7 +19,6 @@
     just
     age
     sops
-    alejandra
     # glitter
     bat
     gum
