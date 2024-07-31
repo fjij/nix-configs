@@ -11,6 +11,11 @@
 
   nixpkgs.hostPlatform = "aarch64-darwin";
 
+  users.users.will = {
+    home = "/Users/will";
+    shell = pkgs.fish;
+  };
+
   programs.fish.enable = true;
 
   # Auto upgrade nix package and the daemon service.

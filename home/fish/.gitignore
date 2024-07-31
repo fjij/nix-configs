@@ -1,0 +1,3 @@
+local_config.fish
+fish_variables
+completions

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+pmset -g batt

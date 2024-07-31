@@ -1,0 +1,9 @@
+#!/usr/bin/env fish
+# Delete branches that are already closed on GitHub
+set closed_branches (gh pr list --author=@me --state=closed --json='headRefName' | jq -r '.[] | .headRefName')
+for branch in $closed_branches
+    # check if branch exists
+    if git rev-parse --verify $branch 2&>/dev/null
+        git branch --delete $branch
+    end
+end

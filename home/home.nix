@@ -3,8 +3,8 @@
   pkgs,
   ...
 }: {
-  home.username = "willh";
-  home.homeDirectory = "/home/willh";
+  # home.username = "will";
+  # home.homeDirectory = "/Users/will";
 
   home.packages = with pkgs; [
     # tools
@@ -39,23 +39,23 @@
 
   # Classic dotfiles
   home.file = {
-    ".tmux.conf".source = ./configs/tmux/tmux.conf;
-    ".gitconfig".source = ./configs/git/gitconfig;
-    ".gitignore".source = ./configs/git/gitignore;
-    ".ssh/rc".source = ./configs/ssh/rc;
+    ".tmux.conf".source = ./tmux/tmux.conf;
+    ".gitconfig".source = ./git/gitconfig;
+    ".gitignore".source = ./git/gitignore;
+    ".ssh/rc".source = ./ssh/rc;
     "scripts" = {
-      source = ./configs/scripts;
+      source = ./scripts;
       recursive = true;
     };
   };
 
   xdg.configFile = {
     nvim = {
-      source = ./configs/nvim;
+      source = ./nvim;
       recursive = true;
     };
     fish = {
-      source = ./configs/fish;
+      source = ./fish;
       recursive = true;
     };
   };

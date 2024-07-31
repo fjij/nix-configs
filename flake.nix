@@ -40,13 +40,23 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.willh = import ./home-manager/home.nix;
+          home-manager.users.willh = import ./home/home.nix;
         }
       ];
     };
 
     darwinConfigurations."Wills-MacBook-Air" = nix-darwin.lib.darwinSystem {
-      modules = [./systems/mac/configuration.nix];
+      specialArgs = {inherit inputs;};
+      modules = [
+        ./systems/mac/configuration.nix
+        home-manager.darwinModules.home-manager
+        {
+          home-manager.backupFileExtension = ".bak";
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.will = import ./home/home.nix;
+        }
+      ];
     };
   };
 }

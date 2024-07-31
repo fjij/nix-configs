@@ -47,6 +47,7 @@
     ];
     packages = with pkgs; [];
     shell = pkgs.fish;
+    home = "/home/willh";
   };
 
   # Allow unfree packages
