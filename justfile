@@ -12,7 +12,7 @@ secrets-file := 'secrets/secrets.yaml'
 op-secret := 'op://secrets/age-willh/private-key'
 age-key-file := '~/keys.txt'
 configure-sops-key := ('
-if op -v > /dev/null; then
+if command -v op; then
     export SOPS_AGE_KEY=$(op read ' + op-secret + ')
 fi
 if [ -f ' + age-key-file + ' ]; then
