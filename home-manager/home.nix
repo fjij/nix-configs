@@ -1,9 +1,11 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   home.username = "willh";
   home.homeDirectory = "/home/willh";
-  
+
   home.packages = with pkgs; [
     # tools
     ripgrep
@@ -17,6 +19,7 @@
     just
     age
     sops
+    alejandra
     # glitter
     bat
     gum

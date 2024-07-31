@@ -14,7 +14,13 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, sops-nix, ... }@inputs: {
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    sops-nix,
+    ...
+  } @ inputs: {
     # Here, "emoji" is the system's hostname
     nixosConfigurations.emoji = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";

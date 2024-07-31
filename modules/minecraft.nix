@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   # Howto: https://tailscale.com/blog/nixos-minecraft
   services.minecraft-server = {
     enable = true;

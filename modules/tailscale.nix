@@ -1,10 +1,12 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   sops.secrets.tailscale-authkey = {};
 
   # make the tailscale command usable to users
-  environment.systemPackages = [ pkgs.tailscale ];
+  environment.systemPackages = [pkgs.tailscale];
 
   # enable the tailscale service
   services.tailscale = {
@@ -12,7 +14,7 @@
     openFirewall = true;
     authKeyFile = config.sops.secrets.tailscale-authkey.path;
     # extraUpFlags = [
-      # "--advertise-routes=10.0.0.0/8"
+    # "--advertise-routes=10.0.0.0/8"
     # ];
   };
 }
