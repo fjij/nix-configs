@@ -12,6 +12,10 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -19,6 +23,7 @@
     nixpkgs,
     home-manager,
     sops-nix,
+    nix-darwin,
     ...
   } @ inputs: {
     # Here, "emoji" is the system's hostname
@@ -38,6 +43,10 @@
           home-manager.users.willh = import ./home-manager/home.nix;
         }
       ];
+    };
+
+    darwinConfigurations."Wills-MacBook-Air" = nix-darwin.lib.darwinSystem {
+      modules = [./systems/mac/configuration.nix];
     };
   };
 }

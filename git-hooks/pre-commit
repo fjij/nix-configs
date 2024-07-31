@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
+set -euxo pipefail
+
 nix-shell -p alejandra --run 'alejandra --check .'
 nix-shell -p just --run 'just --unstable --fmt --check'
