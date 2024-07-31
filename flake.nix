@@ -24,6 +24,7 @@
         ./modules/nvidia.nix
         ./modules/sops.nix
         ./modules/tailscale.nix
+        ./modules/minecraft.nix
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
