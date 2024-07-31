@@ -37,19 +37,19 @@ fi
 secrets-edit:
     #!/usr/bin/env bash
     {{ configure-sops-key }}
-    sops {{ secrets-file }}
+    nix-shell -p sops --run 'sops {{ secrets-file }}'
 
 # Rotate the data encryption key and re-encrypt the secrets file
 secrets-rotate:
     #!/usr/bin/env bash
     {{ configure-sops-key }}
-    sops --rotate --in-place {{ secrets-file }}
+    nix-shell -p sops --run 'sops --rotate --in-place {{ secrets-file }}'
 
 # Re-encrypt the secrets file with the current key set (.sops.yaml)
 secrets-sync:
     #!/usr/bin/env bash
     {{ configure-sops-key }}
-    sops updatekeys {{ secrets-file }}
+    nix-shell -p sops --run 'sops updatekeys {{ secrets-file }}'
 
 host-ssh-pubkey := '/etc/ssh/ssh_host_ed25519_key.pub'
 
