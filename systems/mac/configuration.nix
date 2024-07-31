@@ -50,7 +50,7 @@
     startup.chime = false;
 
     defaults = {
-      loginwindow.LoginwindowText = "woah this is my cool logginwindow.LoginwindowText";
+      loginwindow.LoginwindowText = "Back to, back to, back to, back to you";
 
       finder = {
         AppleShowAllExtensions = true;
