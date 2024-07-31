@@ -16,8 +16,16 @@ fmt:
     just --unstable --fmt
 
 # Rebuild using the local repo flake
-rebuild-local:
-    sudo nixos-rebuild switch --flake '.?submodules=1'
+deploy:
+    #!/usr/bin/env bash
+    if uname -s | grep Darwin > /dev/null; then
+      nix run \
+        --extra-experimental-features nix-command \
+        --extra-experimental-features flakes \
+        nix-darwin -- switch --flake '.?submodules=1'
+    else
+      sudo nixos-rebuild switch --flake '.?submodules=1'
+    fi
 
 # Sops
 
