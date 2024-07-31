@@ -10,6 +10,8 @@
   ];
 
   nixpkgs.hostPlatform = "aarch64-darwin";
+  # for 1password CLI
+  nixpkgs.config.allowUnfree = true;
 
   # List of users managed by nix-darwin
   # https://github.com/LnL7/nix-darwin/issues/811

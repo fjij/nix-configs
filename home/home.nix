@@ -19,6 +19,7 @@
     just
     age
     sops
+    _1password
     # glitter
     bat
     gum
