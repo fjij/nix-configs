@@ -27,5 +27,41 @@
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
-  nix.package = pkgs.nix;
+  nix = {
+    package = pkgs.nix;
+    gc = {
+      automatic = true;
+      interval.Weekday = 0;
+      options = "--delete-older-than 1w";
+    };
+    settings = {
+      experimental-features = "nix-command flakes";
+      auto-optimise-store = true;
+      trusted-users = [
+        "root"
+        "@admin"
+      ];
+    };
+  };
+
+  security.pam.enableSudoTouchIdAuth = true;
+
+  system = {
+    startup.chime = false;
+
+    defaults = {
+      loginwindow.LoginwindowText = "woah this is my cool logginwindow.LoginwindowText";
+
+      finder = {
+        AppleShowAllExtensions = true;
+        # List view
+        FXPreferredViewStyle = "Nlsv";
+      };
+
+      NSGlobalDomain = {
+        KeyRepeat = 2;
+        InitialKeyRepeat = 25;
+      };
+    };
+  };
 }
