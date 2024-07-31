@@ -2,7 +2,7 @@
 
 My NixOS config!
 
-## Deploying the config using a remote copy of the repo
+## Deploying the config without cloning the repo
 
 ```sh
 sudo nixos-rebuild switch --flake github:fjij/nixos-config#<hostname>?submodules=1
@@ -28,4 +28,10 @@ Or, if the hostname is already set:
 
 ```sh
 sudo nixos-rebuild switch --flake .?submodules=1
+```
+
+## Setup git hooks
+
+```sh
+just init-hooks
 ```

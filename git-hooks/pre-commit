@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+nix-shell -p alejandra --run 'alejandra --check .'
+nix-shell -p just --run 'just --unstable --fmt --check'

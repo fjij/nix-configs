@@ -2,6 +2,19 @@
 help:
     just --list
 
+# Setup git hooks
+init-hooks:
+    #!/usr/bin/env bash
+    if [ -d ./.git/hooks/ ]; then
+      mv .git/hooks .git/hooks.bak
+    fi
+    ln -s $PWD/git-hooks .git/hooks
+
+# Code formatting
+fmt:
+    nix-shell -p alejandra --run 'alejandra .'
+    just --unstable --fmt
+
 # Rebuild using the local repo flake
 rebuild-local:
     sudo nixos-rebuild switch --flake '.?submodules=1'
