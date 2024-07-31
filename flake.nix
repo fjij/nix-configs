@@ -49,9 +49,9 @@
       specialArgs = {inherit inputs;};
       modules = [
         ./systems/mac/configuration.nix
+        ./modules/tailscale-mac.nix
         home-manager.darwinModules.home-manager
         {
-          home-manager.backupFileExtension = ".bak";
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.will = import ./home/home.nix;
