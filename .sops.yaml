@@ -4,10 +4,12 @@
 # for a more complex example.
 keys:
   - &admin_emoji age1en7c62ec62260wtwr6xvsc3d6vusyyr6sxc99fystl2ttpalsapscrfe67
+  - &admin_willh age15wfm5z7pe46dp052wgr469zhhuqf5uzujhw5clzrvkpz7mkz5v8sv6arcs
   - &server_emoji age1pfcqadqnee3wgmcqlpdajjkvf2l5r7709my4u4rxlpmsgd9fyppq0zvka3
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *admin_emoji
+      - *admin_willh
       - *server_emoji

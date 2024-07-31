@@ -1,8 +1,9 @@
 # Show the list of commands
+
 export SOPS_AGE_KEY_FILE := '/home/willh/keys.txt'
 
 help:
-  just --list
+    just --list
 
 secrets-file := 'secrets/secrets.yaml'
 
@@ -12,16 +13,16 @@ rebuild-local:
 
 # Edit the secrets file
 secrets-edit:
-    sops {{secrets-file}}
+    sops {{ secrets-file }}
 
 # Rotate the data encryption key and re-encrypt the secrets file
 secrets-rotate:
-  sops --rotate --in-place {{secrets-file}}
+    sops --rotate --in-place {{ secrets-file }}
 
 # Re-encrypt the secrets file with the current key set (.sops.yaml)
 secrets-sync:
-  sops updatekeys {{secrets-file}}
+    sops updatekeys {{ secrets-file }}
 
 # Display the age pubkey of the local machine
 get-local-pubkey:
-  nix-shell -p ssh-to-age --run 'cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
+    nix-shell -p ssh-to-age --run 'cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
