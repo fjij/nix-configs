@@ -16,6 +16,26 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-homebrew = {
+      url = "github:zhaofengli-wip/nix-homebrew";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    homebrew-bundle = {
+      url = "github:homebrew/homebrew-bundle";
+      flake = false;
+    };
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
+    koekeishiya-formulae = {
+      url = "github:koekeishiya/homebrew-formulae";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -50,11 +70,14 @@
       modules = [
         ./systems/mac/configuration.nix
         ./modules/tailscale-mac.nix
+        ./modules/homebrew.nix
         home-manager.darwinModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.will = import ./home/home.nix;
+          home-manager.users.will.imports = [
+            ./home/home.nix
+          ];
         }
       ];
     };
