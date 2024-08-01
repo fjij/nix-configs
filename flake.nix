@@ -77,6 +77,7 @@
           home-manager.useUserPackages = true;
           home-manager.users.will.imports = [
             ./home/home.nix
+            ./home/home-ui.nix
           ];
         }
       ];

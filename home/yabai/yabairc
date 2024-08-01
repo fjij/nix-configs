@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# To start yabai:
+#   yabai --start-service
+# To stop yabai:
+#   yabai --stop-service
+
+
+PADDING=0
+
+yabai -m config                        \
+    window_origin_display default      \
+    window_placement      second_child \
+    split_type            auto         \
+    auto_balance          on           \
+    top_padding           $PADDING     \
+    bottom_padding        $PADDING     \
+    left_padding          $PADDING     \
+    right_padding         $PADDING     \
+    window_gap            $PADDING     \
+    layout                bsp
+
+# yabai -m rule --add app="^System Preferences$" manage=off
