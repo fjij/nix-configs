@@ -1,18 +1,19 @@
 import = [
   # "~/.config/alacritty/themes/moonlight_ii_vscode.toml"
-  "~/.config/alacritty/themes/inferno.toml"
+  # "~/.config/alacritty/themes/inferno.toml"
   # "~/.config/alacritty/themes/aura.toml"
   # "~/.config/alacritty/themes/ubuntu.toml"
   # "~/.config/alacritty/themes/marine_dark.toml"
   # "~/.config/alacritty/themes/baitong.toml"
-  # "~/.config/alacritty/themes/night_owl.toml"
+  "~/.config/alacritty/themes/night_owl.toml"
 ]
 
 [font]
 size = 20
 
 [font.normal]
-family = "Codelia Nerd Font"
+family = "ComicCodeLigatures Nerd Font"
+# family = "Codelia Nerd Font"
 
 [font.offset]
 x = -1
