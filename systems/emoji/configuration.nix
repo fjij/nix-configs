@@ -50,6 +50,14 @@
     home = "/home/willh";
   };
 
+  users.users.admin = {
+    isNormalUser = true;
+    description = "Admin";
+    extraGroups = ["networkmanager" "wheel"];
+    shell = pkgs.bash;
+    home = "/home/admin";
+  };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
