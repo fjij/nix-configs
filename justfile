@@ -16,15 +16,20 @@ fmt:
     just --unstable --fmt
 
 # Rebuild using the local repo flake
-deploy:
+deploy host='':
     #!/usr/bin/env bash
-    if uname -s | grep Darwin > /dev/null; then
-      nix run \
-        --extra-experimental-features nix-command \
-        --extra-experimental-features flakes \
-        nix-darwin -- switch --flake '.?submodules=1'
+    if [ -z "{{ host }}" ]; then
+      if uname -s | grep Darwin > /dev/null; then
+        nix run \
+          --extra-experimental-features nix-command \
+          --extra-experimental-features flakes \
+          nix-darwin -- switch --flake '.?submodules=1'
+      else
+        sudo nixos-rebuild switch --flake '.?submodules=1'
+      fi
     else
-      sudo nixos-rebuild switch --flake '.?submodules=1'
+      nix-shell -p nixos-rebuild --run \
+        'nixos-rebuild switch --fast --flake ".#{{ host }}" --use-remote-sudo --target-host "admin@{{ host }}" --build-host "admin@{{ host }}"'
     fi
 
 # Sops
