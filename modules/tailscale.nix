@@ -13,8 +13,6 @@
     enable = true;
     openFirewall = true;
     authKeyFile = config.sops.secrets.tailscale-authkey.path;
-    # extraUpFlags = [
-    # "--advertise-routes=10.0.0.0/8"
-    # ];
+    extraUpFlags = ["--ssh"];
   };
 }
