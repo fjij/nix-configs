@@ -52,13 +52,13 @@
       specialArgs = {inherit inputs;};
       modules = [
         ./nixos/systems/emoji
-        ./nixos/users/willh.nix
-        ./nixos/users/admin.nix
-        ./nixos/modules/openssh.nix
-        ./nixos/modules/nvidia.nix
-        ./nixos/modules/sops.nix
-        ./nixos/modules/tailscale.nix
-        ./nixos/modules/minecraft.nix
+        ./nixos/users/willh
+        ./nixos/users/admin
+        ./nixos/modules/openssh
+        ./nixos/modules/nvidia
+        ./nixos/modules/sops
+        ./nixos/modules/tailscale
+        ./nixos/modules/minecraft
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
@@ -75,9 +75,9 @@
       specialArgs = {inherit inputs;};
       modules = [
         ./darwin/systems/wills-macbook-air
-        ./darwin/modules/tailscale.nix
-        ./darwin/modules/homebrew.nix
-        ./darwin/users/will.nix
+        ./darwin/modules/tailscale
+        ./darwin/modules/homebrew
+        ./darwin/users/will
         home-manager.darwinModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
