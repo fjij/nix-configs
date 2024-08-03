@@ -32,7 +32,7 @@ inputs: fjij: {
         inherit fjij;
       };
       modules = [
-        fjij.nixos.misc.iso
+        fjij.nixos.misc.vdi
         (fjij.nixos.base {hostName = "droplet";})
         fjij.nixos.users.admin
         fjij.nixos.services.openssh

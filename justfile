@@ -82,6 +82,14 @@ build-iso configuration='' builder='':
       nix build '.#nixosConfigurations.{{ configuration }}.config.system.build.isoImage'
     fi
 
-# Convert an produced ISO to a VDI file
-convert-iso iso='' vdi='':
-    nix-shell -p virtualbox --run "VBoxManage convertfromraw {{ iso }} {{ vdi }}"
+# Build a VDI for the given configuration, optionally using a builder
+build-vdi configuration='' builder='':
+    #!/usr/bin/env bash
+    if [ -z "{{ builder }}" ]; then
+      # todo the builder config is a little hardcoded
+      nix build '.#nixosConfigurations.{{ configuration }}.config.system.build.vdiImage' \
+        --builders 'ssh://admin@{{ builder }} x86_64-linux - 8 8 kvm' \
+        --max-jobs 0
+    else
+      nix build '.#nixosConfigurations.{{ configuration }}.config.system.build.vdiImage'
+    fi
