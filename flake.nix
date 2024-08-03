@@ -63,7 +63,10 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.willh = import ./home/home.nix;
+          home-manager.users.willh.imports = [
+            ./home-manager
+            ./home-manager/modules/tools
+          ];
         }
       ];
     };
@@ -80,8 +83,9 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.will.imports = [
-            ./home/home.nix
-            ./home/home-ui.nix
+            ./home-manager
+            ./home-manager/modules/ui
+            ./home-manager/modules/tools
           ];
         }
       ];

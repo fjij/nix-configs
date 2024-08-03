@@ -3,11 +3,7 @@
   pkgs,
   ...
 }: {
-  # home.username = "will";
-  # home.homeDirectory = "/Users/will";
-
   home.packages = with pkgs; [
-    # tools
     ripgrep
     neovim
     git
@@ -19,8 +15,6 @@
     just
     age
     sops
-    _1password
-    # glitter
     bat
     gum
     gh
@@ -28,7 +22,6 @@
     zoxide
     fzf
     stylua
-    # gamer
     nethack
   ];
 
@@ -38,30 +31,25 @@
     userEmail = "30779570+fjij@users.noreply.github.com";
   };
 
-  # Classic dotfiles
   home.file = {
-    ".tmux.conf".source = ./tmux/tmux.conf;
-    ".gitconfig".source = ./git/gitconfig;
-    ".gitignore".source = ./git/gitignore;
-    ".ssh/rc".source = ./ssh/rc;
+    ".tmux.conf".source = ../../dotfiles/tmux/tmux.conf;
+    ".gitconfig".source = ../../dotfiles/git/gitconfig;
+    ".gitignore".source = ../../dotfiles/git/gitignore;
+    ".ssh/rc".source = ../../dotfiles/ssh/rc;
     "scripts" = {
-      source = ./scripts;
+      source = ../../dotfiles/scripts;
       recursive = true;
     };
   };
 
   xdg.configFile = {
     nvim = {
-      source = ./nvim;
+      source = ../../dotfiles/nvim;
       recursive = true;
     };
     fish = {
-      source = ./fish;
+      source = ../../dotfiles/fish;
       recursive = true;
     };
   };
-
-  home.stateVersion = "24.05";
-
-  programs.home-manager.enable = true;
 }

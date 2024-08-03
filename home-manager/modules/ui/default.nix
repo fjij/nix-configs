@@ -3,14 +3,16 @@
   pkgs,
   ...
 }: {
-  # Dotfiles for UI-based programs specifically
+  home.packages = with pkgs; [
+    _1password
+  ];
   xdg.configFile = {
     alacritty = {
-      source = ./alacritty;
+      source = ../../dotfiles/alacritty;
       recursive = true;
     };
     yabai = {
-      source = ./yabai;
+      source = ../../dotfiles/yabai;
       recursive = true;
     };
   };
