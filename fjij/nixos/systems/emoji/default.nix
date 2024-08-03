@@ -3,12 +3,14 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {
   config,
+  fjij,
   pkgs,
   ...
 }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    fjij.nixos.modules.nvidia
   ];
 
   # Bootloader.

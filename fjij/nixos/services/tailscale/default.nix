@@ -1,8 +1,13 @@
 {
   config,
+  fjij,
   pkgs,
   ...
 }: {
+  imports = [
+    fjij.nixos.modules.sops
+  ];
+
   sops.secrets.tailscale-authkey = {};
 
   # make the tailscale command usable to users

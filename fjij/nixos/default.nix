@@ -1,4 +1,6 @@
 inputs: fjij: {
+  modules = import ./modules;
+  services = import ./services;
   users = import ./users;
 
   configurations = let
@@ -14,11 +16,9 @@ inputs: fjij: {
         ./systems/emoji
         fjij.nixos.users.admin
         fjij.nixos.users.willh
-        ./modules/openssh
-        ./modules/nvidia
-        ./modules/sops
-        ./modules/tailscale
-        ./modules/minecraft
+        fjij.nixos.services.openssh
+        fjij.nixos.services.tailscale
+        fjij.nixos.services.minecraft
       ];
     };
   };
