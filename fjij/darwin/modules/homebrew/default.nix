@@ -1,4 +1,4 @@
-{
+{user}: {
   config,
   inputs,
   ...
@@ -10,7 +10,7 @@
   nix-homebrew = {
     enable = true;
     enableRosetta = true;
-    user = "will";
+    inherit user;
     mutableTaps = false;
     taps = {
       "homebrew/homebrew-bundle" = inputs.homebrew-bundle;

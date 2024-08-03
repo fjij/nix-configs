@@ -1,0 +1,3 @@
+{
+  homebrew = import ./homebrew;
+}

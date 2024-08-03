@@ -1,4 +1,6 @@
 inputs: fjij: {
+  modules = import ./modules;
+  services = import ./services;
   users = import ./users;
 
   configurations = let
@@ -11,8 +13,7 @@ inputs: fjij: {
       };
       modules = [
         ./systems/wills-macbook-air
-        ./modules/tailscale
-        ./modules/homebrew
+        fjij.darwin.services.tailscale
         fjij.darwin.users.will
       ];
     };
