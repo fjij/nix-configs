@@ -34,7 +34,7 @@ deploy host='':
 
 # Sops
 
-secrets-file := './nixos/modules/sops/secrets/secrets.yaml'
+secrets-file := 'fjij/nixos/modules/sops/secrets/secrets.yaml'
 op-secret := 'op://secrets/age-willh/private-key'
 age-key-file := '~/keys.txt'
 configure-sops-key := ('
