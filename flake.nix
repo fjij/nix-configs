@@ -51,7 +51,10 @@
       system = "x86_64-linux";
       specialArgs = {inherit inputs;};
       modules = [
-        ./systems/emoji/configuration.nix
+        ./systems/emoji
+        ./users/willh.nix
+        ./users/admin.nix
+        ./modules/openssh.nix
         ./modules/nvidia.nix
         ./modules/sops.nix
         ./modules/tailscale.nix
@@ -68,9 +71,10 @@
     darwinConfigurations."Wills-MacBook-Air" = nix-darwin.lib.darwinSystem {
       specialArgs = {inherit inputs;};
       modules = [
-        ./systems/mac/configuration.nix
-        ./modules/tailscale-mac.nix
-        ./modules/homebrew.nix
+        ./darwin/systems/wills-macbook-air
+        ./darwin/modules/tailscale.nix
+        ./darwin/modules/homebrew.nix
+        ./darwin/users/will.nix
         home-manager.darwinModules.home-manager
         {
           home-manager.useGlobalPkgs = true;

@@ -31,36 +31,6 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
-  # Configure keymap in X11
-  services.xserver = {
-    xkb.layout = "us";
-    xkb.variant = "";
-  };
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.willh = {
-    isNormalUser = true;
-    description = "Will Harris";
-    extraGroups = ["networkmanager" "wheel"];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEuZghgOTkdblxNA+cg8JQnQumgyxGiOoTouB7vT5XIW"
-    ];
-    packages = with pkgs; [];
-    shell = pkgs.fish;
-    home = "/home/willh";
-  };
-
-  users.users.admin = {
-    isNormalUser = true;
-    description = "Admin";
-    extraGroups = ["networkmanager" "wheel"];
-    shell = pkgs.bash;
-    home = "/home/admin";
-  };
-
-  # Make it so admin users don't need to enter password to sudo
-  security.sudo.wheelNeedsPassword = false;
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -78,37 +48,8 @@
   # Use vim as default editor
   environment.variables.EDITOR = "vim";
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # https://nixos.wiki/wiki/Command_Shell
-  programs.fish.enable = true;
-
   # Command not found is broken with flakes: https://github.com/NixOS/nixpkgs/issues/171054
   programs.command-not-found.enable = false;
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  services.openssh = {
-    enable = true;
-    settings = {
-      PermitRootLogin = "no";
-      PasswordAuthentication = false;
-    };
-    openFirewall = true; # Should theoretically auto-open port 22
-  };
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
