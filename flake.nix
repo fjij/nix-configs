@@ -29,42 +29,14 @@
     koekeishiya-formulae.flake = false;
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    nix-darwin,
-    ...
-  } @ inputs: let
-    fjij = {
-      nixos = import ./nixos;
-      home-manager = import ./home-manager inputs;
+  outputs = {self, ...} @ inputs: let
+    fjij = rec {
+      nixos = import ./nixos inputs fjij;
+      darwin = import ./darwin inputs fjij;
+      home-manager = import ./home-manager inputs fjij;
     };
   in {
-    # Here, "emoji" is the system's hostname
-    nixosConfigurations = fjij.nixos.getConfigurations {
-      inputs = inputs;
-      extraModules = [
-        fjij.home-manager.nixosModule
-        (fjij.home-manager.mkHome {
-          user = "willh";
-          profile = fjij.home-manager.profiles.terminal;
-        })
-      ];
-    };
-
-    darwinConfigurations."Wills-MacBook-Air" = nix-darwin.lib.darwinSystem {
-      specialArgs = {inherit inputs;};
-      modules = [
-        ./darwin/systems/wills-macbook-air
-        ./darwin/modules/tailscale
-        ./darwin/modules/homebrew
-        ./darwin/users/will
-        fjij.home-manager.darwinModule
-        (fjij.home-manager.mkHome {
-          user = "will";
-          profile = fjij.home-manager.profiles.mac;
-        })
-      ];
-    };
+    nixosConfigurations = fjij.nixos.configurations;
+    darwinConfigurations = fjij.darwin.configurations;
   };
 }

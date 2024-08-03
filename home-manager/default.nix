@@ -1,4 +1,4 @@
-inputs: {
+inputs: fjij: {
   profiles = {
     mac = (import ./profiles/mac).profile;
     terminal = (import ./profiles/terminal).profile;
