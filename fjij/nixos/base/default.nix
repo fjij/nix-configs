@@ -16,6 +16,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.wireless.enable = false;
 
   time.timeZone = "America/Toronto";
   i18n.defaultLocale = "en_US.UTF-8";
@@ -30,6 +31,10 @@
     vim
     lshw
   ];
+
+  # Add wheel to trusted users so they can build
+  # https://github.com/NixOS/nix/issues/2789
+  nix.settings.trusted-users = ["root" "@wheel"];
 
   # Use vim as default editor
   environment.variables.EDITOR = "vim";

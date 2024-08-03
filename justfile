@@ -69,3 +69,19 @@ host-ssh-pubkey := '/etc/ssh/ssh_host_ed25519_key.pub'
 # Display the age pubkey of the local machine
 get-local-pubkey:
     nix-shell -p ssh-to-age --run 'cat {{ host-ssh-pubkey }} | ssh-to-age'
+
+# Build an ISO for the given configuration, optionally using a builder
+build-iso configuration='' builder='':
+    #!/usr/bin/env bash
+    if [ -z "{{ builder }}" ]; then
+      # todo the builder config is a little hardcoded
+      nix build '.#nixosConfigurations.{{ configuration }}.config.system.build.isoImage' \
+        --builders 'ssh://admin@{{ builder }} x86_64-linux - 8 8 kvm' \
+        --max-jobs 0
+    else
+      nix build '.#nixosConfigurations.{{ configuration }}.config.system.build.isoImage'
+    fi
+
+# Convert an produced ISO to a VDI file
+convert-iso iso='' vdi='':
+    nix-shell -p virtualbox --run "VBoxManage convertfromraw {{ iso }} {{ vdi }}"
