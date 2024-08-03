@@ -35,20 +35,15 @@
     home-manager,
     nix-darwin,
     ...
-  } @ inputs: {
+  } @ inputs: let
+    fjij = {
+      nixos = import ./nixos;
+    };
+  in {
     # Here, "emoji" is the system's hostname
-    nixosConfigurations.emoji = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = {inherit inputs;};
-      modules = [
-        ./nixos/systems/emoji
-        ./nixos/users/willh
-        ./nixos/users/admin
-        ./nixos/modules/openssh
-        ./nixos/modules/nvidia
-        ./nixos/modules/sops
-        ./nixos/modules/tailscale
-        ./nixos/modules/minecraft
+    nixosConfigurations = fjij.nixos.getConfigurations {
+      inputs = inputs;
+      extraModules = [
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
