@@ -1,0 +1,3 @@
+{
+  emoji = import ./emoji;
+}

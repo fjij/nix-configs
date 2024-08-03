@@ -1,4 +1,5 @@
 inputs: fjij: {
+  base = import ./base;
   modules = import ./modules;
   services = import ./services;
   users = import ./users;
@@ -12,7 +13,7 @@ inputs: fjij: {
         inherit fjij;
       };
       modules = [
-        ./systems/wills-macbook-air
+        (fjij.darwin.base {})
         fjij.darwin.services.tailscale
         fjij.darwin.users.will
       ];

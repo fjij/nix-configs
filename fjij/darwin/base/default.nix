@@ -1,15 +1,17 @@
-{
+{hostPlatform ? "aarch64-darwin"}: {
   config,
   pkgs,
   ...
-}: {
+}: let
+  loginWindowText = "Back to, back to, back to, back to you";
+in {
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = [
     pkgs.vim
   ];
 
-  nixpkgs.hostPlatform = "aarch64-darwin";
+  nixpkgs.hostPlatform = hostPlatform;
   # for 1password CLI
   nixpkgs.config.allowUnfree = true;
 
@@ -38,7 +40,7 @@
     startup.chime = false;
 
     defaults = {
-      loginwindow.LoginwindowText = "Back to, back to, back to, back to you";
+      loginwindow.LoginwindowText = loginWindowText;
 
       finder = {
         AppleShowAllExtensions = true;

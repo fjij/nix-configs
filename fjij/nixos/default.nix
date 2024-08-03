@@ -1,4 +1,6 @@
 inputs: fjij: {
+  base = import ./base;
+  hardware = import ./hardware;
   modules = import ./modules;
   services = import ./services;
   users = import ./users;
@@ -13,7 +15,8 @@ inputs: fjij: {
         inherit fjij;
       };
       modules = [
-        ./systems/emoji
+        (fjij.nixos.base {hostName = "emoji";})
+        fjij.nixos.hardware.emoji
         fjij.nixos.users.admin
         fjij.nixos.users.willh
         fjij.nixos.services.openssh

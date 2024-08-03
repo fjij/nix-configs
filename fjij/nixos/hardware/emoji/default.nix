@@ -3,6 +3,7 @@
 # to /etc/nixos/configuration.nix instead.
 {
   config,
+  fjij,
   lib,
   pkgs,
   modulesPath,
@@ -10,6 +11,7 @@
 }: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
+    fjij.nixos.modules.nvidia
   ];
 
   boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod"];
