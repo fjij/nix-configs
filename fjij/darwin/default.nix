@@ -1,19 +1,19 @@
 inputs: fjij: {
+  users = import ./users;
+
   configurations = let
     nix-darwin = inputs.nix-darwin;
   in {
     "Wills-MacBook-Air" = nix-darwin.lib.darwinSystem {
-      specialArgs = {inherit inputs;};
+      specialArgs = {
+        inherit inputs;
+        inherit fjij;
+      };
       modules = [
         ./systems/wills-macbook-air
         ./modules/tailscale
         ./modules/homebrew
-        ./users/will
-        fjij.home-manager.darwinModule
-        (fjij.home-manager.mkHome {
-          user = "will";
-          profile = fjij.home-manager.profiles.mac;
-        })
+        fjij.darwin.users.will
       ];
     };
   };

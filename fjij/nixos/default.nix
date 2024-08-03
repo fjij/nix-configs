@@ -1,25 +1,24 @@
 inputs: fjij: {
-  # Returns an attrset of nixosConfigurations
+  users = import ./users;
+
   configurations = let
     nixpkgs = inputs.nixpkgs;
   in {
     emoji = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      specialArgs = {inherit inputs;};
+      specialArgs = {
+        inherit inputs;
+        inherit fjij;
+      };
       modules = [
         ./systems/emoji
-        ./users/willh
-        ./users/admin
+        fjij.nixos.users.admin
+        fjij.nixos.users.willh
         ./modules/openssh
         ./modules/nvidia
         ./modules/sops
         ./modules/tailscale
         ./modules/minecraft
-        fjij.home-manager.nixosModule
-        (fjij.home-manager.mkHome {
-          user = "willh";
-          profile = fjij.home-manager.profiles.terminal;
-        })
       ];
     };
   };

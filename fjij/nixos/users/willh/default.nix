@@ -1,4 +1,16 @@
-{pkgs, ...}: {
+{
+  fjij,
+  pkgs,
+  ...
+}: {
+  imports = [
+    fjij.home-manager.nixosModule
+    (fjij.home-manager.mkHome {
+      user = "willh";
+      profile = fjij.home-manager.profiles.terminal;
+    })
+  ];
+
   users.users.willh = {
     isNormalUser = true;
     description = "Will Harris";
