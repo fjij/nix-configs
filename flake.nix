@@ -51,14 +51,14 @@
       system = "x86_64-linux";
       specialArgs = {inherit inputs;};
       modules = [
-        ./systems/emoji
-        ./users/willh.nix
-        ./users/admin.nix
-        ./modules/openssh.nix
-        ./modules/nvidia.nix
-        ./modules/sops.nix
-        ./modules/tailscale.nix
-        ./modules/minecraft.nix
+        ./nixos/systems/emoji
+        ./nixos/users/willh.nix
+        ./nixos/users/admin.nix
+        ./nixos/modules/openssh.nix
+        ./nixos/modules/nvidia.nix
+        ./nixos/modules/sops.nix
+        ./nixos/modules/tailscale.nix
+        ./nixos/modules/minecraft.nix
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
