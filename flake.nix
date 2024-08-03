@@ -32,27 +32,23 @@
   outputs = {
     self,
     nixpkgs,
-    home-manager,
     nix-darwin,
     ...
   } @ inputs: let
     fjij = {
       nixos = import ./nixos;
+      home-manager = import ./home-manager inputs;
     };
   in {
     # Here, "emoji" is the system's hostname
     nixosConfigurations = fjij.nixos.getConfigurations {
       inputs = inputs;
       extraModules = [
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.willh.imports = [
-            ./home-manager
-            ./home-manager/modules/tools
-          ];
-        }
+        fjij.home-manager.nixosModule
+        (fjij.home-manager.mkHome {
+          user = "willh";
+          profile = fjij.home-manager.profiles.terminal;
+        })
       ];
     };
 
@@ -63,16 +59,11 @@
         ./darwin/modules/tailscale
         ./darwin/modules/homebrew
         ./darwin/users/will
-        home-manager.darwinModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.will.imports = [
-            ./home-manager
-            ./home-manager/modules/ui
-            ./home-manager/modules/tools
-          ];
-        }
+        fjij.home-manager.darwinModule
+        (fjij.home-manager.mkHome {
+          user = "will";
+          profile = fjij.home-manager.profiles.mac;
+        })
       ];
     };
   };

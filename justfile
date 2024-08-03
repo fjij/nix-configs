@@ -23,7 +23,7 @@ deploy host='':
         nix run \
           --extra-experimental-features nix-command \
           --extra-experimental-features flakes \
-          nix-darwin -- switch --flake '.?submodules=1'
+          nix-darwin -- switch --flake '.?submodules=1' --show-trace
       else
         sudo nixos-rebuild switch --flake '.?submodules=1'
       fi
