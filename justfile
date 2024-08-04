@@ -15,14 +15,30 @@ fmt:
     nix-shell -p alejandra --run 'alejandra .'
     just --unstable --fmt
 
+admin-ssh-dir := '/var/lib/secrets/'
+admin-ssh-file := admin-ssh-dir + 'nixos_admin_id_ed25519'
 server-key-dir := '/var/lib/sops-nix/'
 server-key-file := server-key-dir + 'server-key.txt'
+
+# Save admin keys from 1password to filesystem
+save-admin-keys:
+    #!/usr/bin/env bash
+    sudo mkdir -p {{ admin-ssh-dir }}
+    op read 'op://secrets/nixos-admin-ssh/private key' \
+      | sudo tee {{ admin-ssh-file }} > /dev/null
+    sudo chmod 600 {{ admin-ssh-file }}
+    sudo mkdir -p {{ server-key-dir }}
+    op read 'op://secrets/nixos-server-key/private-key' \
+      | sudo tee {{ server-key-file }} > /dev/null
+
+remote-temp-key := '~/server-key.txt'
 
 # Distribute keys to a remote machine
 distribute-keys ip:
     #!/usr/bin/env bash
-    ssh 'admin@{{ ip }}' 'sudo mkdir -p {{ server-key-dir }}'
-    sudo rsync --rsync-path="sudo rsync" {{ server-key-file }} 'admin@{{ ip }}:{{ server-key-file }}'
+    ssh -i '{{ admin-ssh-file }}' 'admin@{{ ip }}' 'sudo mkdir -p {{ server-key-dir }}'
+    sudo scp -i '{{ admin-ssh-file }}' '{{ server-key-file }}' 'admin@{{ ip }}:{{ remote-temp-key }}'
+    ssh -i '{{ admin-ssh-file }}' 'admin@{{ ip }}' 'sudo mv {{ remote-temp-key }} {{ server-key-file }}'
 
 # Deploy a Darwin configuration locally
 deploy-darwin:
@@ -51,7 +67,7 @@ deploy config='' ip='':
 secrets-file := 'fjij/nixos/modules/sops/secrets/secrets.yaml'
 configure-sops-key := ('
 if command -v op; then
-    export SOPS_AGE_KEY="$(op read op://secrets/age-admin/private-key)"
+    export SOPS_AGE_KEY="$(op read op://secrets/nixos-admin-age/private-key)"
 fi
 ')
 
