@@ -25,18 +25,19 @@ inputs: fjij: {
         fjij.nixos.services.minecraft
       ];
     };
-    droplet = nixpkgs.lib.nixosSystem {
+
+    # Base system to build an image for
+    base-system = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = {
         inherit inputs;
         inherit fjij;
       };
       modules = [
-        fjij.nixos.misc.vdi
-        (fjij.nixos.base {hostName = "droplet";})
+        (fjij.nixos.base {hostName = "base-system";})
         fjij.nixos.users.admin
         fjij.nixos.services.openssh
-        fjij.nixos.services.tailscale
+        fjij.nixos.misc.vdi
       ];
     };
   };

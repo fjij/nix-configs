@@ -15,6 +15,14 @@ fmt:
     nix-shell -p alejandra --run 'alejandra .'
     just --unstable --fmt
 
+keyDir := '/var/lib/sops-nix/'
+keyFile := keyDir + 'server-key.txt'
+
+distribute-server-key host='':
+    #!/usr/bin/env bash
+    ssh 'admin@{{ host }}' 'sudo mkdir -p {{ keyDir }}'
+    sudo rsync --rsync-path="sudo rsync" {{ keyFile }} 'admin@{{ host }}:{{ keyFile }}'
+
 # Rebuild using the local repo flake
 deploy host='':
     #!/usr/bin/env bash
@@ -35,14 +43,9 @@ deploy host='':
 # Sops
 
 secrets-file := 'fjij/nixos/modules/sops/secrets/secrets.yaml'
-op-secret := 'op://secrets/age-willh/private-key'
-age-key-file := '~/keys.txt'
 configure-sops-key := ('
 if command -v op; then
-    export SOPS_AGE_KEY=$(op read ' + op-secret + ')
-fi
-if [ -f ' + age-key-file + ' ]; then
-    export SOPS_AGE_KEY_FILE=' + age-key-file + '
+    export SOPS_AGE_KEY="$(op read op://secrets/age-admin/private-key)"
 fi
 ')
 
@@ -63,12 +66,6 @@ secrets-sync:
     #!/usr/bin/env bash
     {{ configure-sops-key }}
     nix-shell -p sops --run 'sops updatekeys {{ secrets-file }}'
-
-host-ssh-pubkey := '/etc/ssh/ssh_host_ed25519_key.pub'
-
-# Display the age pubkey of the local machine
-get-local-pubkey:
-    nix-shell -p ssh-to-age --run 'cat {{ host-ssh-pubkey }} | ssh-to-age'
 
 # Build an ISO for the given configuration, optionally using a builder
 build-iso configuration='' builder='':
