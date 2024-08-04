@@ -23,10 +23,10 @@ server-key-file := server-key-dir + 'server-key.txt'
 # Save admin keys from 1password to filesystem
 save-admin-keys:
     #!/usr/bin/env bash
+    umask 066
     sudo mkdir -p {{ admin-ssh-dir }}
     op read 'op://secrets/nixos-admin-ssh/private key' \
       | sudo tee {{ admin-ssh-file }} > /dev/null
-    sudo chmod 600 {{ admin-ssh-file }}
     sudo mkdir -p {{ server-key-dir }}
     op read 'op://secrets/nixos-server-key/private-key' \
       | sudo tee {{ server-key-file }} > /dev/null
