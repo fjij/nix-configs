@@ -80,20 +80,21 @@ builder-opts := 'x86_64-linux - 8 8'
 build-iso builderIp='':
     #!/usr/bin/env bash
     if [ -z "{{ builderIp }}" ]; then
+      nix build '.#nixosConfigurations.{{ image-config }}.config.system.build.isoImage'
+    else
       nix build '.#nixosConfigurations.{{ image-config }}.config.system.build.isoImage' \
         --builders 'ssh://admin@{{ builderIp }} {{ builder-opts }}' \
         --max-jobs 0
-    else
-      nix build '.#nixosConfigurations.{{ image-config }}.config.system.build.isoImage'
     fi
 
 # Build a VDI file
 build-vdi builderIp='':
     #!/usr/bin/env bash
+    # Upload to DigitalOcean: https://cloud.digitalocean.com/images/custom_images
     if [ -z "{{ builderIp }}" ]; then
+      nix build '.#nixosConfigurations.{{ image-config }}.config.system.build.vdiImage'
+    else
       nix build '.#nixosConfigurations.{{ image-config }}.config.system.build.vdiImage' \
         --builders 'ssh://admin@{{ builderIp }} {{ builder-opts }}' \
         --max-jobs 0
-    else
-      nix build '.#nixosConfigurations.{{ image-config }}.config.system.build.vdiImage'
     fi
