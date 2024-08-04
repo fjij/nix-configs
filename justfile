@@ -89,16 +89,15 @@ secrets-sync:
     {{ configure-sops-key }}
     nix-shell -p sops --run 'sops updatekeys {{ secrets-file }}'
 
-image-config := 'base-system'
 builder-opts := 'x86_64-linux - 8 8'
 
 # Build an ISO file
 build-iso builderIp='':
     #!/usr/bin/env bash
     if [ -z "{{ builderIp }}" ]; then
-      nix build '.#nixosConfigurations.{{ image-config }}.config.system.build.isoImage'
+      nix build '.#nixosConfigurations.iso.config.system.build.isoImage'
     else
-      nix build '.#nixosConfigurations.{{ image-config }}.config.system.build.isoImage' \
+      nix build '.#nixosConfigurations.iso.config.system.build.isoImage' \
         --builders 'ssh://admin@{{ builderIp }} {{ builder-opts }}' \
         --max-jobs 0
     fi
@@ -108,9 +107,9 @@ build-vdi builderIp='':
     #!/usr/bin/env bash
     # Upload to DigitalOcean: https://cloud.digitalocean.com/images/custom_images
     if [ -z "{{ builderIp }}" ]; then
-      nix build '.#nixosConfigurations.{{ image-config }}.config.system.build.vdiImage'
+      nix build '.#nixosConfigurations.iso.config.system.build.vdiImage'
     else
-      nix build '.#nixosConfigurations.{{ image-config }}.config.system.build.vdiImage' \
+      nix build '.#nixosConfigurations.iso.config.system.build.vdiImage' \
         --builders 'ssh://admin@{{ builderIp }} {{ builder-opts }}' \
         --max-jobs 0
     fi

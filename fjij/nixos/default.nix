@@ -27,14 +27,14 @@ inputs: fjij: {
     };
 
     # Base system to build an image for
-    base-system = nixpkgs.lib.nixosSystem {
+    iso = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = {
         inherit inputs;
         inherit fjij;
       };
       modules = [
-        (fjij.nixos.base {hostName = "base-system";})
+        (fjij.nixos.base {hostName = "iso";})
         fjij.nixos.users.admin
         fjij.nixos.services.openssh
         fjij.nixos.misc.vdi
