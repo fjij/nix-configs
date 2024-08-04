@@ -4,8 +4,10 @@
     description = "Admin";
     extraGroups = ["networkmanager" "wheel"];
     openssh.authorizedKeys.keys = [
+      # Personal key
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEuZghgOTkdblxNA+cg8JQnQumgyxGiOoTouB7vT5XIW"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGYmBfCYUXfCwBbux6bI3MnR4KpHv3rXulRmGjNeQQzM" # /nix/persist/id_ed25519.pub
+      # nixos-admin
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGYmBfCYUXfCwBbux6bI3MnR4KpHv3rXulRmGjNeQQzM"
     ];
     shell = pkgs.bash;
     home = "/home/admin";
