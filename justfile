@@ -18,8 +18,8 @@ fmt:
 server-key-dir := '/var/lib/sops-nix/'
 server-key-file := server-key-dir + 'server-key.txt'
 
-# Copy the server key to a remote `ip`
-distribute-server-key ip:
+# Distribute keys to a remote machine
+distribute-keys ip:
     #!/usr/bin/env bash
     ssh 'admin@{{ ip }}' 'sudo mkdir -p {{ server-key-dir }}'
     sudo rsync --rsync-path="sudo rsync" {{ server-key-file }} 'admin@{{ ip }}:{{ server-key-file }}'
@@ -32,17 +32,17 @@ deploy-darwin:
       --extra-experimental-features flakes \
       nix-darwin -- switch --show-trace --flake . 
 
-# Deploy the configuration for `hostName`, optionally at a remote `ip`
-deploy hostName='' ip='':
+# Deploy a configuration, optionally to a remote machine
+deploy config='' ip='':
     #!/usr/bin/env bash
-    if [ -z "{{ hostName }}" ]; then
+    if [ -z "{{ config }}" ]; then
       sudo nixos-rebuild switch --flake .
     else
       if [ -z "{{ ip }}" ]; then
-        sudo nixos-rebuild switch --flake '.#{{ hostName }}'
+        sudo nixos-rebuild switch --flake '.#{{ config }}'
       else
         nix-shell -p nixos-rebuild --run \
-          'nixos-rebuild switch --fast --flake ".#{{ hostName }}" --use-remote-sudo --target-host "admin@{{ ip }}" --build-host "admin@{{ ip }}"'
+          'nixos-rebuild switch --fast --flake ".#{{ config }}" --use-remote-sudo --target-host "admin@{{ ip }}" --build-host "admin@{{ ip }}"'
       fi
     fi
 
