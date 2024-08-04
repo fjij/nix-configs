@@ -1,8 +1,8 @@
-# Show the list of commands
+# Display this list
 help:
     just --list
 
-# Setup git hooks
+# Setup git hooks for linting
 init-hooks:
     #!/usr/bin/env bash
     if [ -d ./.git/hooks/ ]; then
@@ -10,34 +10,40 @@ init-hooks:
     fi
     ln -s $PWD/git-hooks .git/hooks
 
-# Code formatting
+# Format nix files and the justfile
 fmt:
     nix-shell -p alejandra --run 'alejandra .'
     just --unstable --fmt
 
-keyDir := '/var/lib/sops-nix/'
-keyFile := keyDir + 'server-key.txt'
+server-key-dir := '/var/lib/sops-nix/'
+server-key-file := server-key-dir + 'server-key.txt'
 
-distribute-server-key host='':
+# Copy the server key to a remote `ip`
+distribute-server-key ip:
     #!/usr/bin/env bash
-    ssh 'admin@{{ host }}' 'sudo mkdir -p {{ keyDir }}'
-    sudo rsync --rsync-path="sudo rsync" {{ keyFile }} 'admin@{{ host }}:{{ keyFile }}'
+    ssh 'admin@{{ ip }}' 'sudo mkdir -p {{ server-key-dir }}'
+    sudo rsync --rsync-path="sudo rsync" {{ server-key-file }} 'admin@{{ ip }}:{{ server-key-file }}'
 
-# Rebuild using the local repo flake
-deploy host='':
+# Deploy a Darwin configuration locally
+deploy-darwin:
     #!/usr/bin/env bash
-    if [ -z "{{ host }}" ]; then
-      if uname -s | grep Darwin > /dev/null; then
-        nix run \
-          --extra-experimental-features nix-command \
-          --extra-experimental-features flakes \
-          nix-darwin -- switch --flake '.?submodules=1' --show-trace
-      else
-        sudo nixos-rebuild switch --flake '.?submodules=1'
-      fi
+    nix run \
+      --extra-experimental-features nix-command \
+      --extra-experimental-features flakes \
+      nix-darwin -- switch --show-trace --flake . 
+
+# Deploy the configuration for `hostName`, optionally at a remote `ip`
+deploy hostName='' ip='':
+    #!/usr/bin/env bash
+    if [ -z "{{ hostName }}" ]; then
+      sudo nixos-rebuild switch --flake .
     else
-      nix-shell -p nixos-rebuild --run \
-        'nixos-rebuild switch --fast --flake ".#{{ host }}" --use-remote-sudo --target-host "admin@{{ host }}" --build-host "admin@{{ host }}"'
+      if [ -z "{{ ip }}" ]; then
+        sudo nixos-rebuild switch --flake '.#{{ hostName }}'
+      else
+        nix-shell -p nixos-rebuild --run \
+          'nixos-rebuild switch --fast --flake ".#{{ hostName }}" --use-remote-sudo --target-host "admin@{{ ip }}" --build-host "admin@{{ ip }}"'
+      fi
     fi
 
 # Sops
@@ -55,38 +61,39 @@ secrets-edit:
     {{ configure-sops-key }}
     nix-shell -p sops --run 'sops {{ secrets-file }}'
 
-# Rotate the data encryption key and re-encrypt the secrets file
+# Rotate data encryption key and re-encrypt secrets file
 secrets-rotate:
     #!/usr/bin/env bash
     {{ configure-sops-key }}
     nix-shell -p sops --run 'sops --rotate --in-place {{ secrets-file }}'
 
-# Re-encrypt the secrets file with the current key set (.sops.yaml)
+# Re-encrypt the secrets file with keys group in `.sops.yaml`
 secrets-sync:
     #!/usr/bin/env bash
     {{ configure-sops-key }}
     nix-shell -p sops --run 'sops updatekeys {{ secrets-file }}'
 
-# Build an ISO for the given configuration, optionally using a builder
-build-iso configuration='' builder='':
+image-config := 'base-system'
+builder-opts := 'x86_64-linux - 8 8'
+
+# Build an ISO file
+build-iso builderIp='':
     #!/usr/bin/env bash
-    if [ -z "{{ builder }}" ]; then
-      # todo the builder config is a little hardcoded
-      nix build '.#nixosConfigurations.{{ configuration }}.config.system.build.isoImage' \
-        --builders 'ssh://admin@{{ builder }} x86_64-linux - 8 8 kvm' \
+    if [ -z "{{ builderIp }}" ]; then
+      nix build '.#nixosConfigurations.{{ image-config }}.config.system.build.isoImage' \
+        --builders 'ssh://admin@{{ builderIp }} {{ builder-opts }}' \
         --max-jobs 0
     else
-      nix build '.#nixosConfigurations.{{ configuration }}.config.system.build.isoImage'
+      nix build '.#nixosConfigurations.{{ image-config }}.config.system.build.isoImage'
     fi
 
-# Build a VDI for the given configuration, optionally using a builder
-build-vdi configuration='' builder='':
+# Build a VDI file
+build-vdi builderIp='':
     #!/usr/bin/env bash
-    if [ -z "{{ builder }}" ]; then
-      # todo the builder config is a little hardcoded
-      nix build '.#nixosConfigurations.{{ configuration }}.config.system.build.vdiImage' \
-        --builders 'ssh://admin@{{ builder }} x86_64-linux - 8 8 kvm' \
+    if [ -z "{{ builderIp }}" ]; then
+      nix build '.#nixosConfigurations.{{ image-config }}.config.system.build.vdiImage' \
+        --builders 'ssh://admin@{{ builderIp }} {{ builder-opts }}' \
         --max-jobs 0
     else
-      nix build '.#nixosConfigurations.{{ configuration }}.config.system.build.vdiImage'
+      nix build '.#nixosConfigurations.{{ image-config }}.config.system.build.vdiImage'
     fi
