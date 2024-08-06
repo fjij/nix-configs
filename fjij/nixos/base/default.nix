@@ -1,18 +1,22 @@
 {
-  hostName,
+  hostName ? "nixos",
   hostPlatform ? "x86_64-linux",
+  useBootLoader ? true,
 }: {
   config,
   fjij,
   pkgs,
+  lib,
   ...
 }: {
   networking.hostName = hostName;
   nixpkgs.hostPlatform = hostPlatform;
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Bootloader
+  boot.loader = lib.mkIf useBootLoader {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -21,11 +25,17 @@
   time.timeZone = "America/Toronto";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  # TODO garbage collector
-
   nixpkgs.config.allowUnfree = true;
-  nix.settings.experimental-features = ["nix-command" "flakes"];
 
+  nix.settings.auto-optimise-store = true;
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 1w";
+  };
+
+  nix.settings.experimental-features = ["nix-command" "flakes"];
   environment.systemPackages = with pkgs; [
     git # required to use flakes
     vim

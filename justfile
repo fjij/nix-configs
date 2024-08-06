@@ -46,7 +46,7 @@ deploy-darwin:
     nix run \
       --extra-experimental-features nix-command \
       --extra-experimental-features flakes \
-      nix-darwin -- switch --show-trace --flake . 
+      nix-darwin -- switch --show-trace --flake .
 
 # Deploy a configuration, optionally to a remote machine
 deploy config='' ip='':
@@ -89,27 +89,11 @@ secrets-sync:
     {{ configure-sops-key }}
     nix-shell -p sops --run 'sops updatekeys {{ secrets-file }}'
 
-builder-opts := 'x86_64-linux - 8 8'
+default-builders := 'ssh://admin@emoji x86_64-linux - 8 8 kvm'
+digital-ocean-config := 'digital-ocean-image'
 
-# Build an ISO file
-build-iso builderIp='':
-    #!/usr/bin/env bash
-    if [ -z "{{ builderIp }}" ]; then
-      nix build '.#nixosConfigurations.iso.config.system.build.isoImage'
-    else
-      nix build '.#nixosConfigurations.iso.config.system.build.isoImage' \
-        --builders 'ssh://admin@{{ builderIp }} {{ builder-opts }}' \
-        --max-jobs 0
-    fi
-
-# Build a VDI file
-build-vdi builderIp='':
-    #!/usr/bin/env bash
-    # Upload to DigitalOcean: https://cloud.digitalocean.com/images/custom_images
-    if [ -z "{{ builderIp }}" ]; then
-      nix build '.#nixosConfigurations.iso.config.system.build.vdiImage'
-    else
-      nix build '.#nixosConfigurations.iso.config.system.build.vdiImage' \
-        --builders 'ssh://admin@{{ builderIp }} {{ builder-opts }}' \
-        --max-jobs 0
-    fi
+# Build a DigitalOcean image
+build-digital-ocean builders=default-builders:
+    nix build \
+      --builders '{{ builders }}' \
+      '.#nixosConfigurations.{{ digital-ocean-config }}.config.system.build.digitalOceanImage'

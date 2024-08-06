@@ -8,13 +8,14 @@ inputs: fjij: {
 
   configurations = let
     nixpkgs = inputs.nixpkgs;
+    specialArgs = {
+      inherit inputs;
+      inherit fjij;
+    };
   in {
     emoji = nixpkgs.lib.nixosSystem {
+      inherit specialArgs;
       system = "x86_64-linux";
-      specialArgs = {
-        inherit inputs;
-        inherit fjij;
-      };
       modules = [
         (fjij.nixos.base {hostName = "emoji";})
         fjij.nixos.hardware.emoji
@@ -26,18 +27,30 @@ inputs: fjij: {
       ];
     };
 
-    # Base system to build an image for
-    iso = nixpkgs.lib.nixosSystem {
+    # Digital Ocean Base Image
+    # Build Target: '.#nixosConfigurations.digital-ocean-image.config.system.build.digitalOceanImage'
+    digital-ocean-image = nixpkgs.lib.nixosSystem {
+      inherit specialArgs;
       system = "x86_64-linux";
-      specialArgs = {
-        inherit inputs;
-        inherit fjij;
-      };
       modules = [
-        (fjij.nixos.base {hostName = "iso";})
+        fjij.nixos.misc.digital-ocean-image
+        (fjij.nixos.base {useBootLoader = false;})
         fjij.nixos.users.admin
         fjij.nixos.services.openssh
-        fjij.nixos.misc.vdi
+      ];
+    };
+
+    gateway = nixpkgs.lib.nixosSystem {
+      inherit specialArgs;
+      system = "x86_64-linux";
+      modules = [
+        fjij.nixos.misc.digital-ocean-config
+        (fjij.nixos.base {
+          hostName = "gateway";
+          useBootLoader = false;
+        })
+        fjij.nixos.users.admin
+        fjij.nixos.services.openssh
       ];
     };
   };
