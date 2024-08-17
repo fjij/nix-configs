@@ -26,4 +26,8 @@ return {
     "NoahTheDuke/vim-just",
     ft = "just",
   },
+  {
+    "elixir-editors/vim-elixir",
+    ft = "elixir",
+  },
 }
