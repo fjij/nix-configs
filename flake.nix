@@ -36,5 +36,6 @@
   in {
     nixosConfigurations = fjij.nixos.configurations;
     darwinConfigurations = fjij.darwin.configurations;
+    homeConfigurations = fjij.home-manager.aliens;
   };
 }
