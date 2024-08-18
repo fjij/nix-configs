@@ -4,6 +4,7 @@
   ...
 }: {
   home.packages = with pkgs; [
+    fish
     ripgrep
     neovim
     git

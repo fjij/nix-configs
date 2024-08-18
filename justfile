@@ -101,3 +101,8 @@ build-digital-ocean builders=default-builders:
 # Deploy a standalone (alien) home-manager config locally
 deploy-alien name:
     nix run home-manager/release-24.05 -- switch --flake '.#{{ name }}'
+
+# Change the current user's shell (alien)
+alien-set-shell:
+    echo $(which fish) | sudo tee -a /etc/shells
+    sudo chsh -s $(which fish) $(whoami)
