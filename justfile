@@ -98,6 +98,10 @@ build-digital-ocean builders=default-builders:
       --builders '{{ builders }}' \
       '.#nixosConfigurations.{{ digital-ocean-config }}.config.system.build.digitalOceanImage'
 
+# Install Nix on a non-Nix OS
+install-nix:
+    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+
 # Deploy a standalone (alien) home-manager config locally
 deploy-alien name:
     nix run home-manager/release-24.05 -- switch --flake '.#{{ name }}'
