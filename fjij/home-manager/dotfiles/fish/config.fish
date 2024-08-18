@@ -68,8 +68,8 @@ end
 abbr ISSUE --position=anywhere -f current_issue
 
 # Local config
-if test -e ~/.config/fish/local_config.fish
-    source ~/.config/fish/local_config.fish
+if test -e ~/local_config.fish
+    source ~/local_config.fish
 end
 
 # WSL config

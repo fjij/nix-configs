@@ -47,5 +47,11 @@ inputs: fjij: {
     #   profile = profiles.mac;
     #   system = "aarch64-darwin";
     # };
+    "work" = mkAlien {
+      username = "wharris";
+      homeDirectory = "/home/wharris";
+      profile = profiles.terminal;
+      system = "x86_64-linux";
+    };
   };
 }
