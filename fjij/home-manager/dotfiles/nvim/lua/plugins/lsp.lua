@@ -124,6 +124,14 @@ return {
         root_dir = lspconfig.util.root_pattern("package.json"),
         single_file_support = false,
       })
+
+      lspconfig.pyright.setup({
+        settings = {
+          python = {
+            pythonPath = vim.fn.exepath("python"),
+          },
+        },
+      })
     end,
   },
 }
