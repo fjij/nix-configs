@@ -34,8 +34,6 @@
 
   home.file = {
     ".tmux.conf".source = ../../dotfiles/tmux/tmux.conf;
-    ".gitconfig".source = ../../dotfiles/git/gitconfig;
-    ".gitignore".source = ../../dotfiles/git/gitignore;
     ".ssh/rc".source = ../../dotfiles/ssh/rc;
     "scripts" = {
       source = ../../dotfiles/scripts;
@@ -50,6 +48,10 @@
     };
     fish = {
       source = ../../dotfiles/fish;
+      recursive = true;
+    };
+    git = {
+      source = ../../dotfiles/git;
       recursive = true;
     };
   };
