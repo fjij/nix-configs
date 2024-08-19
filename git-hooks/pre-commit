@@ -2,5 +2,5 @@
 
 set -euxo pipefail
 
-nix-shell -p alejandra --run 'alejandra --check .'
-nix-shell -p just --run 'just --unstable --fmt --check'
+nix run 'nixpkgs#alejandra' -- --check .
+nix run 'nixpkgs#just' -- --unstable --fmt --check

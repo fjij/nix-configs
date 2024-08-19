@@ -12,7 +12,7 @@ init-hooks:
 
 # Format nix files and the justfile
 fmt:
-    nix-shell -p alejandra --run 'alejandra .'
+    nix run 'nixpkgs#alejandra' -- --check .
     just --unstable --fmt
 
 admin-ssh-dir := '/var/lib/secrets/'
@@ -57,8 +57,8 @@ deploy config='' ip='':
       if [ -z "{{ ip }}" ]; then
         sudo nixos-rebuild switch --flake '.#{{ config }}'
       else
-        nix-shell -p nixos-rebuild --run \
-          'nixos-rebuild switch --fast --flake ".#{{ config }}" --use-remote-sudo --target-host "admin@{{ ip }}" --build-host "admin@{{ ip }}"'
+        nix run 'nixpkgs#nixos-rebuild' -- \
+          switch --fast --flake '.#{{ config }}' --use-remote-sudo --target-host 'admin@{{ ip }}' --build-host 'admin@{{ ip }}'
       fi
     fi
 
@@ -75,19 +75,19 @@ fi
 secrets-edit:
     #!/usr/bin/env bash
     {{ configure-sops-key }}
-    nix-shell -p sops --run 'sops {{ secrets-file }}'
+    nix run 'nixpkgs#sops' -- '{{ secrets-file }}'
 
 # Rotate data encryption key and re-encrypt secrets file
 secrets-rotate:
     #!/usr/bin/env bash
     {{ configure-sops-key }}
-    nix-shell -p sops --run 'sops --rotate --in-place {{ secrets-file }}'
+    nix run 'nixpkgs#sops' -- --rotate --in-place '{{ secrets-file }}'
 
 # Re-encrypt the secrets file with keys group in `.sops.yaml`
 secrets-sync:
     #!/usr/bin/env bash
     {{ configure-sops-key }}
-    nix-shell -p sops --run 'sops updatekeys {{ secrets-file }}'
+    nix run 'nixpkgs#sops' -- updatekeys '{{ secrets-file }}'
 
 default-builders := 'ssh://admin@emoji x86_64-linux - 8 8 kvm'
 digital-ocean-config := 'digital-ocean-image'
