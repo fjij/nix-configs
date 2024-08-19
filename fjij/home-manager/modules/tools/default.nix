@@ -33,7 +33,6 @@
   };
 
   home.file = {
-    ".tmux.conf".source = ../../dotfiles/tmux/tmux.conf;
     ".ssh/rc".source = ../../dotfiles/ssh/rc;
     "scripts" = {
       source = ../../dotfiles/scripts;
@@ -52,6 +51,10 @@
     };
     git = {
       source = ../../dotfiles/git;
+      recursive = true;
+    };
+    tmux = {
+      source = ../../dotfiles/tmux;
       recursive = true;
     };
   };
