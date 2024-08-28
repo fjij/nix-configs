@@ -37,7 +37,7 @@ augroup("spacing", {})
 
 autocmd("FileType", {
   group = "spacing",
-  pattern = { "python", "c", "cpp", "rust", "sql", "solidity", "fish", "bash" },
+  pattern = { "python", "c", "cpp", "rust", "sql", "solidity", "fish", "bash", "just" },
   callback = use_spaces(4),
 })
 
