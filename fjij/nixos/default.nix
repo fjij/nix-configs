@@ -11,10 +11,6 @@ inputs: fjij: {
     specialArgs = {
       inherit inputs;
       inherit fjij;
-      pkgs-unstable = import inputs.nixpkgs-unstable {
-        system = "x86_64-linux";
-        config.allowUnfree = true;
-      };
     };
   in {
     emoji = nixpkgs.lib.nixosSystem {
