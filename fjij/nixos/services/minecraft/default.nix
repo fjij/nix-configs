@@ -9,13 +9,15 @@
     eula = true;
     declarative = true;
 
+    # Don't need this since we are using a reverse proxy
+    # openFirewall = true;
+
     serverProperties = {
       server-port = 25565;
-      gamemode = "survival";
+      gamemode = "creative";
+      force-gamemode = true;
       motd = "My cool minecraft server!";
-      max-players = 5;
-      # enable-rcon = true;
-      # "rcon.password" = "hunter2";
+      max-players = 10;
     };
 
     # I only have to define this section because the current server is out of date
@@ -45,7 +47,4 @@
       remotePort = 25565;
     }
   ];
-
-  # Don't need this if using tailscale
-  # networking.firewall.allowedTCPPorts = [ 25565 ];
 }
