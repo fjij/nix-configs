@@ -52,6 +52,7 @@ inputs: fjij: {
         })
         fjij.nixos.users.admin
         fjij.nixos.services.openssh
+        fjij.nixos.services.tailscale
       ];
     };
   };
