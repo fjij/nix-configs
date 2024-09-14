@@ -25,6 +25,14 @@ inputs: fjij: {
         fjij.nixos.services.tailscale
         fjij.nixos.services.minecraft
         fjij.nixos.services.ollama
+        {
+          services.frp = {
+            enable = true;
+            role = "client";
+            settings.serverAddr = "gateway";
+            settings.serverPort = 7000;
+          };
+        }
       ];
     };
 
@@ -53,6 +61,14 @@ inputs: fjij: {
         fjij.nixos.users.admin
         fjij.nixos.services.openssh
         fjij.nixos.services.tailscale
+        {
+          services.frp = {
+            enable = true;
+            role = "server";
+            settings.bindPort = 7000;
+          };
+          networking.firewall.allowedTCPPorts = [25565];
+        }
       ];
     };
   };

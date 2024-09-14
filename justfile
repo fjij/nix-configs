@@ -12,7 +12,7 @@ init-hooks:
 
 # Format nix files and the justfile
 fmt:
-    nix run 'nixpkgs#alejandra' -- --check .
+    nix run 'nixpkgs#alejandra' -- .
     just --unstable --fmt
 
 admin-ssh-dir := '/var/lib/secrets/'
