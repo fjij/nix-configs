@@ -16,7 +16,8 @@
       "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
       "homebrew/homebrew-cask" = inputs.homebrew-cask;
       "homebrew/homebrew-core" = inputs.homebrew-core;
-      "koekeishiya/formulae" = inputs.koekeishiya-formulae;
+      # this is broken rn, idk why
+      # "koekeishiya/formulae" = inputs.koekeishiya-formulae;
     };
   };
 
