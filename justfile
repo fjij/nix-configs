@@ -58,7 +58,7 @@ deploy config='' ip='':
         sudo nixos-rebuild switch --flake '.#{{ config }}'
       else
         nix run 'nixpkgs#nixos-rebuild' -- \
-          switch --fast --flake '.#{{ config }}' --use-remote-sudo --target-host 'admin@{{ ip }}' --build-host 'admin@{{ ip }}'
+          switch --fast --flake '.#{{ config }}' --use-remote-sudo --show-trace --target-host 'admin@{{ ip }}' --build-host 'admin@{{ ip }}'
       fi
     fi
 

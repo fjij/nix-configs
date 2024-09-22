@@ -58,6 +58,20 @@ inputs: fjij: {
               localPort = 7777;
               remotePort = 7777;
             }
+            {
+              name = "satisfactory-udp-beacon";
+              type = "udp";
+              localIP = "127.0.0.1";
+              localPort = 15000;
+              remotePort = 15000;
+            }
+            {
+              name = "satisfactory-udp-query";
+              type = "udp";
+              localIP = "127.0.0.1";
+              localPort = 15777;
+              remotePort = 15777;
+            }
           ];
         }
       ];
@@ -95,7 +109,7 @@ inputs: fjij: {
             settings.bindPort = 7000;
           };
           networking.firewall.allowedTCPPorts = [7777 25565];
-          networking.firewall.allowedUDPPorts = [7777];
+          networking.firewall.allowedUDPPorts = [7777 15000 15777];
         }
       ];
     };
