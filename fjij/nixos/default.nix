@@ -36,6 +36,29 @@ inputs: fjij: {
             settings.serverAddr = "gateway";
             settings.serverPort = 7000;
           };
+          services.frp.settings.proxies = [
+            {
+              name = "minecraft";
+              type = "tcp";
+              localIP = "127.0.0.1";
+              localPort = 25565;
+              remotePort = 25565;
+            }
+            {
+              name = "satisfactory-tcp";
+              type = "tcp";
+              localIP = "127.0.0.1";
+              localPort = 7777;
+              remotePort = 7777;
+            }
+            {
+              name = "satisfactory-udp";
+              type = "udp";
+              localIP = "127.0.0.1";
+              localPort = 7777;
+              remotePort = 7777;
+            }
+          ];
         }
       ];
     };
@@ -71,7 +94,8 @@ inputs: fjij: {
             role = "server";
             settings.bindPort = 7000;
           };
-          networking.firewall.allowedTCPPorts = [25565];
+          networking.firewall.allowedTCPPorts = [7777 25565];
+          networking.firewall.allowedUDPPorts = [7777];
         }
       ];
     };

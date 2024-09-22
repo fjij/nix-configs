@@ -37,14 +37,4 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-
-  services.frp.settings.proxies = [
-    {
-      name = "minecraft";
-      type = "tcp";
-      localIP = "127.0.0.1";
-      localPort = 25565;
-      remotePort = 25565;
-    }
-  ];
 }
