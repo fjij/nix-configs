@@ -1,14 +1,17 @@
 # Source: https://github.com/matejc/helper_scripts/blob/master/nixes/satisfactory.nix
-{config, pkgs, lib, ...}:
-let
-  cfg = config.services.satisfactory;
-in
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+  cfg = config.services.satisfactory;
+in {
   options.services.satisfactory = {
     enable = lib.mkEnableOption "Enable Satisfactory Dedicated Server";
 
     beta = lib.mkOption {
-      type = lib.types.enum [ "public" "experimental" ];
+      type = lib.types.enum ["public" "experimental"];
       default = "public";
       description = "Beta channel to follow";
     };
@@ -56,8 +59,8 @@ in
 
     networking = {
       firewall = {
-        allowedUDPPorts = [ 7777 ];
-        allowedTCPPorts = [ 7777 ];
+        allowedUDPPorts = [7777];
+        allowedTCPPorts = [7777];
       };
     };
 
@@ -66,7 +69,7 @@ in
       installDir = "${dataDir}/SatisfactoryDedicatedServer";
       binary = "${installDir}/Engine/Binaries/Linux/FactoryServer-Linux-Shipping";
     in {
-      wantedBy = [ "multi-user.target" ];
+      wantedBy = ["multi-user.target"];
       preStart = ''
         ${pkgs.steamcmd}/bin/steamcmd \
           +force_install_dir ${installDir} \
@@ -80,8 +83,16 @@ in
         ln -sfv ${dataDir}/.steam/steam/linux64 /var/lib/satisfactory/.steam/sdk64
         mkdir -p ${installDir}/FactoryGame/Saved/Config/LinuxServer
         ${pkgs.crudini}/bin/crudini --set ${installDir}/FactoryGame/Saved/Config/LinuxServer/Game.ini '/Script/Engine.GameSession' MaxPlayers ${toString cfg.maxPlayers}
-        ${pkgs.crudini}/bin/crudini --set ${installDir}/FactoryGame/Saved/Config/LinuxServer/ServerSettings.ini '/Script/FactoryGame.FGServerSubsystem' mAutoPause ${if cfg.autoPause then "True" else "False"}
-        ${pkgs.crudini}/bin/crudini --set ${installDir}/FactoryGame/Saved/Config/LinuxServer/ServerSettings.ini '/Script/FactoryGame.FGServerSubsystem' mAutoSaveOnDisconnect ${if cfg.autoSaveOnDisconnect then "True" else "False"}
+        ${pkgs.crudini}/bin/crudini --set ${installDir}/FactoryGame/Saved/Config/LinuxServer/ServerSettings.ini '/Script/FactoryGame.FGServerSubsystem' mAutoPause ${
+          if cfg.autoPause
+          then "True"
+          else "False"
+        }
+        ${pkgs.crudini}/bin/crudini --set ${installDir}/FactoryGame/Saved/Config/LinuxServer/ServerSettings.ini '/Script/FactoryGame.FGServerSubsystem' mAutoSaveOnDisconnect ${
+          if cfg.autoSaveOnDisconnect
+          then "True"
+          else "False"
+        }
       '';
       script = ''
         ${binary} FactoryGame -multihome=${cfg.address}
@@ -93,7 +104,7 @@ in
         WorkingDirectory = "${dataDir}";
       };
       environment = {
-        LD_LIBRARY_PATH="SatisfactoryDedicatedServer/linux64:SatisfactoryDedicatedServer/Engine/Binaries/Linux:SatisfactoryDedicatedServer/Engine/Binaries/ThirdParty/PhysX3/Linux/x86_64-unknown-linux-gnu";
+        LD_LIBRARY_PATH = "SatisfactoryDedicatedServer/linux64:SatisfactoryDedicatedServer/Engine/Binaries/Linux:SatisfactoryDedicatedServer/Engine/Binaries/ThirdParty/PhysX3/Linux/x86_64-unknown-linux-gnu";
       };
     };
   };
