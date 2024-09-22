@@ -24,6 +24,10 @@ inputs: fjij: {
         fjij.nixos.services.openssh
         fjij.nixos.services.tailscale
         fjij.nixos.services.minecraft
+        fjij.nixos.modules.satisfactory
+        {
+          services.satisfactory.enable = true;
+        }
         fjij.nixos.services.ollama
         {
           services.frp = {
