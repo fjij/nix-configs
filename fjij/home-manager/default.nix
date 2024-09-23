@@ -1,7 +1,7 @@
 inputs: fjij: {
   profiles = {
-    mac = (import ./profiles/mac).profile;
-    terminal = (import ./profiles/terminal).profile;
+    mac = (import ./profiles/mac.nix).profile;
+    terminal = (import ./profiles/terminal.nix).profile;
   };
 
   nixosModule = inputs.home-manager.nixosModules.home-manager;
@@ -30,7 +30,7 @@ inputs: fjij: {
       modules =
         profile
         ++ [
-          (import ./modules/alien {
+          (import ./modules/alien.nix {
             inherit username;
             inherit homeDirectory;
           })

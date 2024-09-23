@@ -33,28 +33,28 @@
   };
 
   home.file = {
-    ".ssh/rc".source = ../../dotfiles/ssh/rc;
+    ".ssh/rc".source = ../dotfiles/ssh/rc;
     "scripts" = {
-      source = ../../dotfiles/scripts;
+      source = ../dotfiles/scripts;
       recursive = true;
     };
   };
 
   xdg.configFile = {
     nvim = {
-      source = ../../dotfiles/nvim;
+      source = ../dotfiles/nvim;
       recursive = true;
     };
     fish = {
-      source = ../../dotfiles/fish;
+      source = ../dotfiles/fish;
       recursive = true;
     };
     git = {
-      source = ../../dotfiles/git;
+      source = ../dotfiles/git;
       recursive = true;
     };
     tmux = {
-      source = ../../dotfiles/tmux;
+      source = ../dotfiles/tmux;
       recursive = true;
     };
   };

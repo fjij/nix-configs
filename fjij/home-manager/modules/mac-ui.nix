@@ -8,11 +8,11 @@
   ];
   xdg.configFile = {
     alacritty = {
-      source = ../../dotfiles/alacritty;
+      source = ../dotfiles/alacritty;
       recursive = true;
     };
     yabai = {
-      source = ../../dotfiles/yabai;
+      source = ../dotfiles/yabai;
       recursive = true;
     };
   };
