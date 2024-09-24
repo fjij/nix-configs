@@ -5,7 +5,6 @@
   config,
   fjij,
   lib,
-  pkgs,
   modulesPath,
   ...
 }: {
@@ -13,6 +12,8 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     fjij.nixos.modules.nvidia
   ];
+
+  fjij.nvidia.enable = true;
 
   boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod"];
   boot.initrd.kernelModules = [];
