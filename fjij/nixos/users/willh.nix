@@ -1,15 +1,9 @@
 {
-  fjij,
+  inputs,
   pkgs,
   ...
 }: {
-  imports = [
-    fjij.home-manager.nixosModule
-    (fjij.home-manager.mkHome {
-      user = "willh";
-      profile = fjij.home-manager.profiles.terminal;
-    })
-  ];
+  imports = [inputs.home-manager.nixosModules.home-manager];
 
   users.users.willh = {
     isNormalUser = true;
@@ -21,6 +15,14 @@
     # packages = with pkgs; [];
     shell = pkgs.fish;
     home = "/home/willh";
+  };
+
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.willh = {
+      imports = [../../home-manager/configs/terminal.nix];
+    };
   };
 
   # Need to enable this here to allow it as a shell

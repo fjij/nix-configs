@@ -1,4 +1,5 @@
 {
+  inputs,
   fjij,
   pkgs,
   ...
@@ -6,11 +7,7 @@
   user = "will";
 in {
   imports = [
-    fjij.home-manager.darwinModule
-    (fjij.home-manager.mkHome {
-      inherit user;
-      profile = fjij.home-manager.profiles.mac;
-    })
+    inputs.home-manager.darwinModules.home-manager
     (fjij.darwin.modules.homebrew {inherit user;})
   ];
 
@@ -22,6 +19,14 @@ in {
     shell = pkgs.fish;
     # dscl . -read /Users/will UniqueID
     uid = 501;
+  };
+
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.will = {
+      imports = [../../../home-manager/configs/mac.nix];
+    };
   };
 
   programs.fish.enable = true;
