@@ -11,5 +11,6 @@
     ./openssh.nix
     ./satisfactory.nix
     ./tailscale.nix
+    ./willh-user.nix
   ];
 }

@@ -1,6 +1,5 @@
 {
   imports = [
-    ../users/willh.nix
     ../hardware/emoji.nix
     ../modules
   ];
@@ -11,6 +10,7 @@
       hostName = "emoji";
     };
     admin-user.enable = true;
+    willh-user.enable = true;
     minecraft.enable = true;
     openssh.enable = true;
     tailscale.enable = true;
