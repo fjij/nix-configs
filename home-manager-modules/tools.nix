@@ -9,12 +9,12 @@ in {
   options.fjij.tools.enable = lib.mkEnableOption "Terminal Tools";
 
   config = lib.mkIf cfg.enable {
+    fjij.git.enable = true;
+
     home.packages = with pkgs; [
       fish
       ripgrep
       neovim
-      git
-      git-lfs
       tmux
       jq
       rsync
@@ -32,12 +32,6 @@ in {
       nethack
     ];
 
-    programs.git = {
-      enable = true;
-      userName = "fjij";
-      userEmail = "30779570+fjij@users.noreply.github.com";
-    };
-
     home.file = {
       ".ssh/rc".source = ../dotfiles/ssh/rc;
       "scripts" = {
@@ -53,10 +47,6 @@ in {
       };
       fish = {
         source = ../dotfiles/fish;
-        recursive = true;
-      };
-      git = {
-        source = ../dotfiles/git;
         recursive = true;
       };
       tmux = {
