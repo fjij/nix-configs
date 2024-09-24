@@ -1,7 +1,7 @@
 {
   imports = [
-    ../hardware/digital-ocean-config.nix
-    ../modules
+    ../nixos-hardware/digital-ocean-config.nix
+    ../nixos-modules
   ];
 
   fjij = {

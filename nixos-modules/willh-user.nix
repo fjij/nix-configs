@@ -29,7 +29,7 @@ in {
       useGlobalPkgs = true;
       useUserPackages = true;
       users."${user}" = {
-        imports = [../../home-manager/configs/terminal.nix];
+        imports = [../home-manager-configs/terminal.nix];
       };
     };
 

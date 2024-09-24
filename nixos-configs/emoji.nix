@@ -1,7 +1,7 @@
 {
   imports = [
-    ../hardware/emoji.nix
-    ../modules
+    ../nixos-hardware/emoji.nix
+    ../nixos-modules
   ];
   services.satisfactory.enable = true;
   fjij = {

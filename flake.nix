@@ -29,11 +29,49 @@
     koekeishiya-formulae.flake = false;
   };
 
-  outputs = {self, ...} @ inputs: let
-    fjij = import ./fjij inputs;
+  outputs = {
+    self,
+    nixpkgs,
+    nix-darwin,
+    home-manager,
+    ...
+  } @ inputs: let
+    specialArgs = {inherit inputs;};
   in {
-    nixosConfigurations = fjij.nixos.configurations;
-    darwinConfigurations = fjij.darwin.configurations;
-    homeConfigurations = fjij.home-manager.aliens;
+    nixosConfigurations = {
+      "emoji" = nixpkgs.lib.nixosSystem {
+        inherit specialArgs;
+        system = "x86_64-linux";
+        modules = [./nixos-configs/emoji.nix];
+      };
+
+      # Digital Ocean Base Image
+      # Build Target: '.#nixosConfigurations.digital-ocean-image.config.system.build.digitalOceanImage'
+      "digital-ocean-image" = nixpkgs.lib.nixosSystem {
+        inherit specialArgs;
+        system = "x86_64-linux";
+        modules = [./nixos-configs/digital-ocean-image.nix];
+      };
+
+      "gateway" = nixpkgs.lib.nixosSystem {
+        inherit specialArgs;
+        system = "x86_64-linux";
+        modules = [./nixos-configs/gateway.nix];
+      };
+    };
+
+    darwinConfigurations = {
+      "Wills-MacBook-Air" = nix-darwin.lib.darwinSystem {
+        inherit specialArgs;
+        modules = [./darwin-configs/wills-macbook-air.nix];
+      };
+    };
+
+    homeConfigurations = {
+      "work" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+        modules = [./home-manager-configs/work.nix];
+      };
+    };
   };
 }

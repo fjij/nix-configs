@@ -1,6 +1,5 @@
 {
-  imports = [../modules];
-  fjij.mac-gui.enable = true;
+  imports = [../home-manager-modules];
   fjij.tools.enable = true;
   fjij.base.enable = true;
 }

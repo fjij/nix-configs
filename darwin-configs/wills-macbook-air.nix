@@ -1,5 +1,5 @@
 {
-  imports = [../modules];
+  imports = [../darwin-modules];
   services.tailscale.enable = true;
   fjij.darwin = {
     base.enable = true;

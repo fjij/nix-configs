@@ -1,7 +1,7 @@
 {
   imports = [
-    ../hardware/digital-ocean-image.nix
-    ../modules
+    ../nixos-hardware/digital-ocean-image.nix
+    ../nixos-modules
   ];
 
   fjij = {
