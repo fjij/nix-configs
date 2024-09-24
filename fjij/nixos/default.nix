@@ -2,8 +2,6 @@ inputs: fjij: {
   base = import ./base;
   hardware = import ./hardware;
   misc = import ./misc;
-  modules = import ./modules;
-  services = import ./services;
   users = import ./users;
 
   configurations = let
@@ -21,14 +19,16 @@ inputs: fjij: {
         fjij.nixos.hardware.emoji
         fjij.nixos.users.admin
         fjij.nixos.users.willh
-        fjij.nixos.services.openssh
-        fjij.nixos.services.tailscale
-        fjij.nixos.services.minecraft
-        fjij.nixos.modules.satisfactory
         {
+          imports = [./modules];
           services.satisfactory.enable = true;
+          fjij = {
+            minecraft.enable = true;
+            openssh.enable = true;
+            tailscale.enable = true;
+            ollama.enable = true;
+          };
         }
-        fjij.nixos.services.ollama
         {
           services.frp = {
             enable = true;
@@ -83,10 +83,13 @@ inputs: fjij: {
       inherit specialArgs;
       system = "x86_64-linux";
       modules = [
+        {
+          imports = [./modules];
+          fjij.openssh.enable = true;
+        }
         fjij.nixos.misc.digital-ocean-image
         (fjij.nixos.base {useBootLoader = false;})
         fjij.nixos.users.admin
-        fjij.nixos.services.openssh
       ];
     };
 
@@ -94,14 +97,17 @@ inputs: fjij: {
       inherit specialArgs;
       system = "x86_64-linux";
       modules = [
+        {
+          imports = [./modules];
+          fjij.openssh.enable = true;
+          fjij.tailscale.enable = true;
+        }
         fjij.nixos.misc.digital-ocean-config
         (fjij.nixos.base {
           hostName = "gateway";
           useBootLoader = false;
         })
         fjij.nixos.users.admin
-        fjij.nixos.services.openssh
-        fjij.nixos.services.tailscale
         {
           services.frp = {
             enable = true;

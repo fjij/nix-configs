@@ -10,7 +10,7 @@
 }: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
-    fjij.nixos.modules.nvidia
+    ./../../modules/nvidia.nix
   ];
 
   fjij.nvidia.enable = true;

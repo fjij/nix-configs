@@ -1,5 +1,11 @@
 {
-  nvidia = import ./nvidia.nix;
-  sops = import ./sops;
-  satisfactory = import ./satisfactory.nix;
+  imports = [
+    ./sops
+    ./minecraft.nix
+    ./nvidia.nix
+    ./ollama.nix
+    ./openssh.nix
+    ./satisfactory.nix
+    ./tailscale.nix
+  ];
 }

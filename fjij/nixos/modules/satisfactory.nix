@@ -8,7 +8,7 @@
   cfg = config.services.satisfactory;
 in {
   options.services.satisfactory = {
-    enable = lib.mkEnableOption "Enable Satisfactory Dedicated Server";
+    enable = lib.mkEnableOption "Satisfactory Server";
 
     beta = lib.mkOption {
       type = lib.types.enum ["public" "experimental"];

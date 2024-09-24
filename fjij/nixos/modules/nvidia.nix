@@ -5,7 +5,7 @@
 }: let
   cfg = config.fjij.nvidia;
 in {
-  options.fjij.nvidia.enable = lib.mkEnableOption "Enable Nvidia GPU";
+  options.fjij.nvidia.enable = lib.mkEnableOption "Nvidia GPU";
 
   config = lib.mkIf cfg.enable {
     # Enable graphics
