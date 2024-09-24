@@ -1,5 +1,4 @@
 inputs: fjij: {
-  base = import ./base;
   hardware = import ./hardware;
   users = import ./users;
 
@@ -14,7 +13,6 @@ inputs: fjij: {
       inherit specialArgs;
       system = "x86_64-linux";
       modules = [
-        (fjij.nixos.base {hostName = "emoji";})
         fjij.nixos.hardware.emoji
         fjij.nixos.users.admin
         fjij.nixos.users.willh
@@ -22,6 +20,10 @@ inputs: fjij: {
           imports = [./modules];
           services.satisfactory.enable = true;
           fjij = {
+            base-system = {
+              enable = true;
+              hostName = "emoji";
+            };
             minecraft.enable = true;
             openssh.enable = true;
             tailscale.enable = true;
@@ -88,8 +90,11 @@ inputs: fjij: {
             ./modules
           ];
           fjij.openssh.enable = true;
+          fjij.base-system = {
+            enable = true;
+            useBootLoader = false;
+          };
         }
-        (fjij.nixos.base {useBootLoader = false;})
         fjij.nixos.users.admin
       ];
     };
@@ -105,11 +110,12 @@ inputs: fjij: {
           ];
           fjij.openssh.enable = true;
           fjij.tailscale.enable = true;
+          fjij.base-system = {
+            enable = true;
+            hostName = "gateway";
+            useBootLoader = false;
+          };
         }
-        (fjij.nixos.base {
-          hostName = "gateway";
-          useBootLoader = false;
-        })
         fjij.nixos.users.admin
         {
           services.frp = {
