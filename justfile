@@ -64,7 +64,7 @@ deploy config='' ip='':
 
 # Sops
 
-secrets-file := 'fjij/nixos/modules/sops/secrets/secrets.yaml'
+secrets-file := 'secrets/secrets.yaml'
 configure-sops-key := ('
 if command -v op; then
     export SOPS_AGE_KEY="$(op read op://secrets/nixos-admin-age/private-key)"
