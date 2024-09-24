@@ -1,6 +1,6 @@
-# nixos-config
+# nix-configs
 
-My NixOS config!
+My configs ... but in Nix!
 
 ## Repo Usage
 
