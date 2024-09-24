@@ -1,3 +1,0 @@
-{
-  emoji = import ./emoji;
-}

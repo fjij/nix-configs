@@ -13,11 +13,13 @@ inputs: fjij: {
       inherit specialArgs;
       system = "x86_64-linux";
       modules = [
-        fjij.nixos.hardware.emoji
         fjij.nixos.users.admin
         fjij.nixos.users.willh
         {
-          imports = [./modules];
+          imports = [
+            ./hardware/emoji.nix
+            ./modules
+          ];
           services.satisfactory.enable = true;
           fjij = {
             base-system = {
@@ -86,7 +88,7 @@ inputs: fjij: {
       modules = [
         {
           imports = [
-            ./configs/digital-ocean-image.nix
+            ./hardware/digital-ocean-image.nix
             ./modules
           ];
           fjij.openssh.enable = true;
@@ -105,7 +107,7 @@ inputs: fjij: {
       modules = [
         {
           imports = [
-            ./configs/digital-ocean-config.nix
+            ./hardware/digital-ocean-config.nix
             ./modules
           ];
           fjij.openssh.enable = true;

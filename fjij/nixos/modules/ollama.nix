@@ -8,6 +8,8 @@ in {
   options.fjij.ollama.enable = lib.mkEnableOption "Ollama";
 
   config = lib.mkIf cfg.enable {
+    fjij.nvidia.enable = true;
+
     services.ollama = {
       enable = true;
       acceleration = "cuda";
