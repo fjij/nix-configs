@@ -1,6 +1,7 @@
 {
   imports = [
     ./sops
+    ./admin-user.nix
     ./base-system.nix
     ./frpc.nix
     ./frps.nix

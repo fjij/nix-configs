@@ -1,6 +1,5 @@
 {
   imports = [
-    ../users/admin.nix
     ../hardware/digital-ocean-config.nix
     ../modules
   ];
@@ -11,6 +10,7 @@
       hostName = "gateway";
       useBootLoader = false;
     };
+    admin-user.enable = true;
     openssh.enable = true;
     tailscale.enable = true;
     frps.enable = true;
