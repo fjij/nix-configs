@@ -6,8 +6,6 @@
 }: let
   cfg = config.fjij.tailscale;
 in {
-  imports = [./sops];
-
   options.fjij.tailscale.enable = lib.mkEnableOption "Tailscale";
 
   config = lib.mkIf cfg.enable {

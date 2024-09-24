@@ -1,6 +1,5 @@
 {
   imports = [
-    ./sops
     ./admin-user.nix
     ./base-system.nix
     ./frpc.nix
@@ -11,6 +10,7 @@
     ./openssh.nix
     ./satisfactory.nix
     ./satisfactory-fjij.nix
+    ./sops.nix
     ./tailscale.nix
     ./willh-user.nix
   ];
