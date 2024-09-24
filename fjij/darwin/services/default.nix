@@ -1,3 +1,0 @@
-{
-  tailscale = import ./tailscale;
-}
