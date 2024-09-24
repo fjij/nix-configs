@@ -19,10 +19,7 @@ in {
       enable = true;
       userName = "fjij";
       userEmail = "30779570+fjij@users.noreply.github.com";
-      aliases.sla = ''
-        log --graph --all \
-          --pretty=format:'%C(yellow)%h%C(reset) %an [%C(green)%ar%C(reset)] %s'
-      '';
+      aliases.sla = "log --graph --all --pretty=format:'%C(yellow)%h%C(reset) %an [%C(green)%ar%C(reset)] %s'";
       ignores = [".vim/" ".envrc" ".env" ".DS_Store"];
       extraConfig = {
         core.editor = "nvim";
