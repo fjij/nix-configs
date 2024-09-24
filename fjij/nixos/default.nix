@@ -30,52 +30,8 @@ inputs: fjij: {
             openssh.enable = true;
             tailscale.enable = true;
             ollama.enable = true;
+            frpc.enable = true;
           };
-        }
-        {
-          services.frp = {
-            enable = true;
-            role = "client";
-            settings.serverAddr = "gateway";
-            settings.serverPort = 7000;
-          };
-          services.frp.settings.proxies = [
-            {
-              name = "minecraft";
-              type = "tcp";
-              localIP = "127.0.0.1";
-              localPort = 25565;
-              remotePort = 25565;
-            }
-            {
-              name = "satisfactory-tcp";
-              type = "tcp";
-              localIP = "127.0.0.1";
-              localPort = 7777;
-              remotePort = 7777;
-            }
-            {
-              name = "satisfactory-udp";
-              type = "udp";
-              localIP = "127.0.0.1";
-              localPort = 7777;
-              remotePort = 7777;
-            }
-            {
-              name = "satisfactory-udp-beacon";
-              type = "udp";
-              localIP = "127.0.0.1";
-              localPort = 15000;
-              remotePort = 15000;
-            }
-            {
-              name = "satisfactory-udp-query";
-              type = "udp";
-              localIP = "127.0.0.1";
-              localPort = 15777;
-              remotePort = 15777;
-            }
-          ];
         }
       ];
     };
@@ -110,24 +66,18 @@ inputs: fjij: {
             ./hardware/digital-ocean-config.nix
             ./modules
           ];
-          fjij.openssh.enable = true;
-          fjij.tailscale.enable = true;
-          fjij.base-system = {
-            enable = true;
-            hostName = "gateway";
-            useBootLoader = false;
+          fjij = {
+            base-system = {
+              enable = true;
+              hostName = "gateway";
+              useBootLoader = false;
+            };
+            openssh.enable = true;
+            tailscale.enable = true;
+            frps.enable = true;
           };
         }
         fjij.nixos.users.admin
-        {
-          services.frp = {
-            enable = true;
-            role = "server";
-            settings.bindPort = 7000;
-          };
-          networking.firewall.allowedTCPPorts = [7777 25565];
-          networking.firewall.allowedUDPPorts = [7777 15000 15777];
-        }
       ];
     };
   };
