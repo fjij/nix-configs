@@ -6,7 +6,21 @@
 }: let
   cfg = config.fjij.minecraft;
 in {
-  options.fjij.minecraft.enable = lib.mkEnableOption "Minecraft Server";
+  options.fjij.minecraft = {
+    enable = lib.mkEnableOption "Minecraft Server";
+
+    frpcProxy = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Whether to proxy traffic through FRPC.";
+    };
+
+    port = lib.mkOption {
+      type = lib.types.port;
+      default = 25565;
+      description = "TCP port to host game on.";
+    };
+  };
 
   config = lib.mkIf cfg.enable {
     # Howto: https://tailscale.com/blog/nixos-minecraft
@@ -19,7 +33,7 @@ in {
       # openFirewall = true;
 
       serverProperties = {
-        server-port = 25565;
+        server-port = cfg.port;
         gamemode = "creative";
         force-gamemode = true;
         motd = "My cool minecraft server!";
@@ -43,5 +57,17 @@ in {
     };
 
     nixpkgs.config.allowUnfree = true;
+
+    fjij.frpc.enable = lib.mkIf cfg.frpcProxy true;
+
+    services.frp.settings.proxies = lib.mkIf cfg.frpcProxy [
+      {
+        name = "minecraft";
+        type = "tcp";
+        localIP = "127.0.0.1";
+        localPort = cfg.port;
+        remotePort = cfg.port;
+      }
+    ];
   };
 }

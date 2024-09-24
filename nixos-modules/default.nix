@@ -10,6 +10,7 @@
     ./ollama.nix
     ./openssh.nix
     ./satisfactory.nix
+    ./satisfactory-fjij.nix
     ./tailscale.nix
     ./willh-user.nix
   ];

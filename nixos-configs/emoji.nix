@@ -3,7 +3,6 @@
     ../nixos-hardware/emoji.nix
     ../nixos-modules
   ];
-  services.satisfactory.enable = true;
   fjij = {
     base-system = {
       enable = true;
@@ -11,7 +10,14 @@
     };
     admin-user.enable = true;
     willh-user.enable = true;
-    minecraft.enable = true;
+    minecraft = {
+      enable = true;
+      frpcProxy = true;
+    };
+    satisfactory = {
+      enable = true;
+      frpcProxy = true;
+    };
     openssh.enable = true;
     tailscale.enable = true;
     ollama.enable = true;
