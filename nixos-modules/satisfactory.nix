@@ -1,4 +1,7 @@
-# Source: https://github.com/matejc/helper_scripts/blob/master/nixes/satisfactory.nix
+# Original source:
+# https://github.com/matejc/helper_scripts/blob/fc6e92183135c21054314c4c65065e84daa25055/nixes/satisfactory.nix
+# License:
+# https://github.com/matejc/helper_scripts/blob/fc6e92183135c21054314c4c65065e84daa25055/LICENSE
 {
   config,
   pkgs,
