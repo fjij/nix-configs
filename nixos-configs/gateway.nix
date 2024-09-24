@@ -13,6 +13,9 @@
     admin-user.enable = true;
     openssh.enable = true;
     tailscale.enable = true;
-    frps.enable = true;
+    frps = {
+      enable = true;
+      openFirewall = true;
+    };
   };
 }

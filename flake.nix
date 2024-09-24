@@ -36,7 +36,10 @@
     home-manager,
     ...
   } @ inputs: let
-    specialArgs = {inherit inputs;};
+    specialArgs = {
+      inherit inputs;
+      outputs = self;
+    };
   in {
     nixosConfigurations = {
       "emoji" = nixpkgs.lib.nixosSystem {
