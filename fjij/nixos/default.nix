@@ -1,7 +1,6 @@
 inputs: fjij: {
   base = import ./base;
   hardware = import ./hardware;
-  misc = import ./misc;
   users = import ./users;
 
   configurations = let
@@ -84,10 +83,12 @@ inputs: fjij: {
       system = "x86_64-linux";
       modules = [
         {
-          imports = [./modules];
+          imports = [
+            ./configs/digital-ocean-image.nix
+            ./modules
+          ];
           fjij.openssh.enable = true;
         }
-        fjij.nixos.misc.digital-ocean-image
         (fjij.nixos.base {useBootLoader = false;})
         fjij.nixos.users.admin
       ];
@@ -98,11 +99,13 @@ inputs: fjij: {
       system = "x86_64-linux";
       modules = [
         {
-          imports = [./modules];
+          imports = [
+            ./configs/digital-ocean-config.nix
+            ./modules
+          ];
           fjij.openssh.enable = true;
           fjij.tailscale.enable = true;
         }
-        fjij.nixos.misc.digital-ocean-config
         (fjij.nixos.base {
           hostName = "gateway";
           useBootLoader = false;
