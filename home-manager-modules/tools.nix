@@ -10,12 +10,12 @@ in {
 
   config = lib.mkIf cfg.enable {
     fjij.git.enable = true;
+    fjij.tmux.enable = true;
 
     home.packages = with pkgs; [
       fish
       ripgrep
       neovim
-      tmux
       jq
       rsync
       gnupg
@@ -47,10 +47,6 @@ in {
       };
       fish = {
         source = ../dotfiles/fish;
-        recursive = true;
-      };
-      tmux = {
-        source = ../dotfiles/tmux;
         recursive = true;
       };
     };
