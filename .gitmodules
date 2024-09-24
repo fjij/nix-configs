@@ -1,3 +1,0 @@
-[submodule "home-manager/configs"]
-	path = home-manager/configs
-	url = git@github.com:fjij/configs.git
