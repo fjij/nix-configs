@@ -18,7 +18,7 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEuZghgOTkdblxNA+cg8JQnQumgyxGiOoTouB7vT5XIW"
     ];
-    packages = with pkgs; [];
+    # packages = with pkgs; [];
     shell = pkgs.fish;
     home = "/home/willh";
   };
