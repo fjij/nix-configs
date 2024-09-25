@@ -50,7 +50,6 @@ in {
       ];
       taps = builtins.attrNames config.nix-homebrew.taps;
       casks = [
-        "alacritty"
         "unnaturalscrollwheels"
         "meetingbar"
         # "1password/tap/1password-cli"

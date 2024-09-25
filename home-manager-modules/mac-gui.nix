@@ -12,15 +12,13 @@ in {
     home.packages = with pkgs; [
       _1password
     ];
-    xdg.configFile = {
-      alacritty = {
-        source = ../dotfiles/alacritty;
-        recursive = true;
-      };
-      yabai = {
-        source = ../dotfiles/yabai;
-        recursive = true;
-      };
+
+    fjij.alacritty.enable = true;
+    fjij.alacritty.macApp = true;
+
+    xdg.configFile.yabai = {
+      source = ../dotfiles/yabai;
+      recursive = true;
     };
   };
 }
