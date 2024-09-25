@@ -10,6 +10,8 @@ in {
   options.fjij.${cfgName}.enable = lib.mkEnableOption cfgName;
 
   config = lib.mkIf cfg.enable {
+    # Note to self - don't use programs.tmux, since it adds stupid un-removable
+    # options to conf file
     home.packages = with pkgs; [
       tmux
     ];
