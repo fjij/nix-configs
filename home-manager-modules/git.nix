@@ -19,6 +19,7 @@ in {
       enable = true;
       userName = "fjij";
       userEmail = "30779570+fjij@users.noreply.github.com";
+      lfs.enable = true;
       aliases.sla = "log --graph --all --pretty=format:'%C(yellow)%h%C(reset) %an [%C(green)%ar%C(reset)] %s'";
       ignores = [".vim/" ".envrc" ".env" ".DS_Store"];
       extraConfig = {
@@ -32,12 +33,6 @@ in {
         pager.branch = false;
         init.defaultBranch = "main";
         "add.interactive".useBuiltin = false;
-        filter.lfs = {
-          clean = "git-lfs clean -- %f";
-          smudge = "git-lfs smudge -- %f";
-          process = "git-lfs filter-process";
-          required = true;
-        };
         url."ssh://git@github.com/".insteadOf = "https://github.com/";
       };
     };
