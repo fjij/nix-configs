@@ -20,17 +20,19 @@ in {
       rsync
       gnupg
       just
-      age
-      sops
       bat
       gum
       gh
       tldr
       zoxide
       fzf
-      stylua
       nethack
     ];
+
+    programs.direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
 
     home.file = {
       ".ssh/rc".source = ../dotfiles/ssh/rc;

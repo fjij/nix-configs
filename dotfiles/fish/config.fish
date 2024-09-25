@@ -87,3 +87,8 @@ if type -q zoxide
     zoxide init fish | source
     abbr cd z
 end
+
+# direnv
+if type -q direnv
+    direnv hook fish | source
+end
