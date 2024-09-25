@@ -12,7 +12,7 @@ init-hooks:
 
 # Format nix files and the justfile
 fmt:
-    nix run 'nixpkgs#alejandra' -- .
+    alejandra .
     just --unstable --fmt
 
 admin-ssh-dir := '/var/lib/secrets/'
@@ -75,19 +75,19 @@ fi
 secrets-edit:
     #!/usr/bin/env bash
     {{ configure-sops-key }}
-    nix run 'nixpkgs#sops' -- '{{ secrets-file }}'
+    sops '{{ secrets-file }}'
 
 # Rotate data encryption key and re-encrypt secrets file
 secrets-rotate:
     #!/usr/bin/env bash
     {{ configure-sops-key }}
-    nix run 'nixpkgs#sops' -- --rotate --in-place '{{ secrets-file }}'
+    sops --rotate --in-place '{{ secrets-file }}'
 
 # Re-encrypt the secrets file with keys group in `.sops.yaml`
 secrets-sync:
     #!/usr/bin/env bash
     {{ configure-sops-key }}
-    nix run 'nixpkgs#sops' -- updatekeys '{{ secrets-file }}'
+    sops updatekeys '{{ secrets-file }}'
 
 default-builders := 'ssh://admin@emoji x86_64-linux - 8 8 kvm'
 digital-ocean-config := 'digital-ocean-image'

@@ -34,6 +34,7 @@
     nixpkgs,
     nix-darwin,
     home-manager,
+    flake-utils,
     ...
   } @ inputs: let
     specialArgs = {
@@ -76,5 +77,17 @@
         modules = [./home-manager-configs/work.nix];
       };
     };
+
+    devShells = let
+      forAllSystems = nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-darwin"];
+    in
+      forAllSystems (system: {
+        default = let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+          pkgs.mkShell {
+            packages = with pkgs; [alejandra just sops];
+          };
+      });
   };
 }

@@ -14,3 +14,12 @@ documentation.
   `just build-vdi`
 2. Distribute keys using `just distribute-keys <ip>`
 3. Deploy a configuration using `just deploy <config> <ip>`
+
+## Development
+
+To automatically activate the development environment in this directory, use
+direnv:
+
+```sh
+direnv allow .
+```
