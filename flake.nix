@@ -41,6 +41,7 @@
       inherit inputs;
       outputs = self;
     };
+    forAllSystems = nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-darwin"];
   in {
     nixosConfigurations = {
       "emoji" = nixpkgs.lib.nixosSystem {
@@ -78,16 +79,33 @@
       };
     };
 
-    devShells = let
-      forAllSystems = nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-darwin"];
-    in
-      forAllSystems (system: {
-        default = let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in
-          pkgs.mkShell {
-            packages = with pkgs; [alejandra just sops];
-          };
-      });
+    devShells = forAllSystems (system: {
+      default = let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+        pkgs.mkShell {
+          packages = with pkgs; [alejandra just sops];
+        };
+    });
+
+    checks = forAllSystems (system: {
+      nix-formatter = let
+        pkgs = import nixpkgs {inherit system;};
+      in
+        # runCommandLocal => don't use the cache
+        pkgs.runCommandLocal "nix-formatter-check" {src = ./.;} ''
+          ${pkgs.alejandra}/bin/alejandra --check "$src"
+          touch "$out"
+        '';
+      just-formatter = let
+        pkgs = import nixpkgs {inherit system;};
+      in
+        # runCommandLocal => don't use the cache
+        pkgs.runCommandLocal "just-formatter-check" {src = ./.;} ''
+          cd "$src"
+          ${pkgs.just}/bin/just --unstable --fmt --check
+          touch "$out"
+        '';
+    });
   };
 }
