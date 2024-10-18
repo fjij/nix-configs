@@ -34,7 +34,7 @@ in {
 
       serverProperties = {
         server-port = cfg.port;
-        gamemode = "creative";
+        gamemode = "survival";
         force-gamemode = true;
         motd = "My cool minecraft server!";
         max-players = 10;
