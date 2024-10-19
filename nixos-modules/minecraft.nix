@@ -38,6 +38,8 @@ in {
         force-gamemode = true;
         motd = "My cool minecraft server!";
         max-players = 10;
+        enable-rcon = true;
+        "rcon.password" = "hunter2";
       };
 
       # I only have to define this section because the current server is out of date
