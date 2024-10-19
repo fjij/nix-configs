@@ -32,6 +32,10 @@ in {
       # Don't need this since we are using a reverse proxy
       # openFirewall = true;
 
+      # Default:
+      # dataDir = "/var/lib/minecraft";
+      dataDir = "/var/lib/minecraft/oct2024-world-2";
+
       serverProperties = {
         server-port = cfg.port;
         gamemode = "survival";
