@@ -2,7 +2,8 @@ if status --is-interactive
   fish_add_path ~/scripts
 end
 set -gx CLICOLOR 1
-set -gx MANPAGER 'sh -c \'col -bx | bat -l man -p\''
+set -gx MANROFFOPT '-c'
+set -gx MANPAGER 'sh -c \'col -bx | bat -pl man\''
 set -gx LANG en_US.UTF-8
 set -gx LC_ALL en_US.UTF-8
 set -gx LC_CTYPE en_US.UTF-8
