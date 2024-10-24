@@ -27,6 +27,7 @@ in {
       zoxide
       fzf
       nethack
+      nodejs_20
     ];
 
     programs.direnv = {
