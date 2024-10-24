@@ -17,4 +17,10 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("plugins")
+require("lazy").setup({
+  spec = {
+    { import = "plugins" },
+  },
+  lockfile = vim.fn.stdpath("config") .. "/lazy-lock.json",
+  -- lockfile = os.getenv("HOME") .. "/nix-configs/dotfiles/nvim/lazy-lock.json",
+})
