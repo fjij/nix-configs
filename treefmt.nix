@@ -1,5 +1,12 @@
 { pkgs, ... }:
 {
   projectRootFile = "flake.nix";
-  programs.nixfmt-rfc-style.enable = true;
+  programs.nixfmt.enable = true;
+  programs.stylua = {
+    enable = true;
+    settings = {
+      indent_type = "Spaces";
+      indent_width = 2;
+    };
+  };
 }
