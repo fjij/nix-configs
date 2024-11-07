@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-set -euxo pipefail
-
-alejandra --check .
-just --unstable --fmt --check

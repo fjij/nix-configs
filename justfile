@@ -2,18 +2,9 @@
 help:
     just --list
 
-# Setup git hooks for linting
-init-hooks:
-    #!/usr/bin/env bash
-    if [ -d ./.git/hooks/ ]; then
-      mv .git/hooks .git/hooks.bak
-    fi
-    ln -s $PWD/git-hooks .git/hooks
-
-# Format nix files and the justfile
+# Formatter
 fmt:
-    alejandra .
-    just --unstable --fmt
+    nix fmt
 
 admin-ssh-dir := '/var/lib/secrets/'
 admin-ssh-file := admin-ssh-dir + 'nixos_admin_id_ed25519'

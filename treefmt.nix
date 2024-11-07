@@ -9,4 +9,5 @@
       indent_width = 2;
     };
   };
+  programs.just.enable = true;
 }
