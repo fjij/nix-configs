@@ -2,9 +2,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.fjij.nvidia;
-in {
+in
+{
   options.fjij.nvidia.enable = lib.mkEnableOption "Nvidia GPU";
 
   config = lib.mkIf cfg.enable {
@@ -12,7 +14,7 @@ in {
     hardware.graphics.enable = true;
 
     # Load nvidia driver for Xorg and Wayland
-    services.xserver.videoDrivers = ["nvidia"];
+    services.xserver.videoDrivers = [ "nvidia" ];
 
     hardware.nvidia = {
       # Modesetting is required.

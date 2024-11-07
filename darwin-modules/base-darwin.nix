@@ -3,10 +3,12 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.fjij.darwin.base;
   loginWindowText = "Back to, back to, back to, back to you";
-in {
+in
+{
   options.fjij.darwin.base.enable = lib.mkEnableOption "Base Darwin";
 
   config = lib.mkIf cfg.enable {

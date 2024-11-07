@@ -2,10 +2,12 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   serviceCfg = config.services.satisfactory;
   cfg = config.fjij.satisfactory;
-in {
+in
+{
   options.fjij.satisfactory = {
     enable = lib.mkEnableOption "Satisfactory Server";
 

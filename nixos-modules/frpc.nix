@@ -2,9 +2,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.fjij.frpc;
-in {
+in
+{
   options.fjij.frpc.enable = lib.mkEnableOption "FRP Client";
 
   config = lib.mkIf cfg.enable {

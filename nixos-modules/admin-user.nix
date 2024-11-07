@@ -3,16 +3,21 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.fjij.admin-user;
-in {
+in
+{
   options.fjij.admin-user.enable = lib.mkEnableOption "Admin User";
 
   config = lib.mkIf cfg.enable {
     users.users.admin = {
       isNormalUser = true;
       description = "Admin";
-      extraGroups = ["networkmanager" "wheel"];
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+      ];
       openssh.authorizedKeys.keys = [
         # Personal key
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEuZghgOTkdblxNA+cg8JQnQumgyxGiOoTouB7vT5XIW"

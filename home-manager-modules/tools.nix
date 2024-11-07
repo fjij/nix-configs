@@ -3,9 +3,11 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.fjij.tools;
-in {
+in
+{
   options.fjij.tools.enable = lib.mkEnableOption "Terminal Tools";
 
   config = lib.mkIf cfg.enable {

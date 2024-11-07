@@ -3,10 +3,12 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   cfgName = "tmux";
   cfg = config.fjij.${cfgName};
-in {
+in
+{
   options.fjij.${cfgName}.enable = lib.mkEnableOption cfgName;
 
   config = lib.mkIf cfg.enable {

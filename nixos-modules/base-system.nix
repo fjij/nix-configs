@@ -3,9 +3,11 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.fjij.base-system;
-in {
+in
+{
   options.fjij.base-system = {
     enable = lib.mkEnableOption "Base System";
 
@@ -55,7 +57,10 @@ in {
       options = "--delete-older-than 1w";
     };
 
-    nix.settings.experimental-features = ["nix-command" "flakes"];
+    nix.settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     environment.systemPackages = with pkgs; [
       git # required to use flakes
       vim
@@ -64,7 +69,10 @@ in {
 
     # Add wheel to trusted users so they can build
     # https://github.com/NixOS/nix/issues/2789
-    nix.settings.trusted-users = ["root" "@wheel"];
+    nix.settings.trusted-users = [
+      "root"
+      "@wheel"
+    ];
 
     # Use vim as default editor
     environment.variables.EDITOR = "vim";

@@ -3,10 +3,12 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   cfgName = "git";
   cfg = config.fjij.${cfgName};
-in {
+in
+{
   options.fjij.${cfgName}.enable = lib.mkEnableOption cfgName;
 
   config = lib.mkIf cfg.enable {
@@ -21,7 +23,12 @@ in {
       userEmail = "30779570+fjij@users.noreply.github.com";
       lfs.enable = true;
       aliases.sla = "log --graph --all --pretty=format:'%C(yellow)%h%C(reset) %an [%C(green)%ar%C(reset)] %s'";
-      ignores = [".vim/" ".envrc" ".env" ".DS_Store"];
+      ignores = [
+        ".vim/"
+        ".envrc"
+        ".env"
+        ".DS_Store"
+      ];
       extraConfig = {
         core.editor = "nvim";
         core.excludesfile = "~/.gitignore";

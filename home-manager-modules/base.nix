@@ -2,9 +2,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.fjij.base;
-in {
+in
+{
   options.fjij.base.enable = lib.mkEnableOption "Base Home Manager Options";
 
   config = lib.mkIf cfg.enable {

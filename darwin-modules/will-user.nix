@@ -4,10 +4,12 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.fjij.darwin.will-user;
   user = "will";
-in {
+in
+{
   imports = [
     inputs.home-manager.darwinModules.home-manager
   ];
@@ -22,7 +24,7 @@ in {
 
     # List of users managed by nix-darwin
     # https://github.com/LnL7/nix-darwin/issues/811
-    users.knownUsers = [user];
+    users.knownUsers = [ user ];
     users.users."${user}" = {
       home = "/Users/${user}";
       shell = pkgs.fish;
@@ -34,7 +36,7 @@ in {
       useGlobalPkgs = true;
       useUserPackages = true;
       users."${user}" = {
-        imports = [../home-manager-configs/mac.nix];
+        imports = [ ../home-manager-configs/mac.nix ];
       };
     };
 

@@ -2,9 +2,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.fjij.ollama;
-in {
+in
+{
   options.fjij.ollama.enable = lib.mkEnableOption "Ollama";
 
   config = lib.mkIf cfg.enable {

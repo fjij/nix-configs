@@ -2,9 +2,11 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.fjij.openssh;
-in {
+in
+{
   options.fjij.openssh.enable = lib.mkEnableOption "OpenSSH";
 
   config = lib.mkIf cfg.enable {

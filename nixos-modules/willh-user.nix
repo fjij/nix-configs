@@ -4,11 +4,13 @@
   inputs,
   pkgs,
   ...
-}: let
+}:
+let
   user = "willh";
   cfg = config.fjij."${user}-user";
-in {
-  imports = [inputs.home-manager.nixosModules.home-manager];
+in
+{
+  imports = [ inputs.home-manager.nixosModules.home-manager ];
 
   options.fjij."${user}-user".enable = lib.mkEnableOption "${user} user account";
 
@@ -16,7 +18,10 @@ in {
     users.users."${user}" = {
       isNormalUser = true;
       description = "User account for ${user}";
-      extraGroups = ["networkmanager" "wheel"];
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+      ];
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEuZghgOTkdblxNA+cg8JQnQumgyxGiOoTouB7vT5XIW"
       ];
@@ -29,7 +34,7 @@ in {
       useGlobalPkgs = true;
       useUserPackages = true;
       users."${user}" = {
-        imports = [../home-manager-configs/terminal.nix];
+        imports = [ ../home-manager-configs/terminal.nix ];
       };
     };
 

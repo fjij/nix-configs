@@ -3,11 +3,15 @@
   lib,
   outputs,
   ...
-}: let
+}:
+let
   cfg = config.fjij.frps;
-  nameFilter = name: let
-    frp = outputs.nixosConfigurations."${name}".config.services.frp;
-  in (frp.enable == true && frp.role == "client" && frp.settings.serverAddr == cfg.serverAddr);
+  nameFilter =
+    name:
+    let
+      frp = outputs.nixosConfigurations."${name}".config.services.frp;
+    in
+    (frp.enable == true && frp.role == "client" && frp.settings.serverAddr == cfg.serverAddr);
   systemNames = builtins.filter nameFilter (builtins.attrNames outputs.nixosConfigurations);
   systems = builtins.map (name: outputs.nixosConfigurations."${name}") systemNames;
   tcpRules = system: builtins.filter (p: p.type == "tcp") system.config.services.frp.settings.proxies;
@@ -16,7 +20,8 @@
   allUdpRules = builtins.concatLists (builtins.map udpRules systems);
   allTcpPorts = builtins.map (p: p.remotePort) allTcpRules;
   allUdpPorts = builtins.map (p: p.remotePort) allUdpRules;
-in {
+in
+{
   options.fjij.frps.enable = lib.mkEnableOption "FRP Server";
 
   options.fjij.frps.serverAddr = lib.mkOption {

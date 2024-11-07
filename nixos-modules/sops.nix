@@ -3,10 +3,12 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.fjij.sops;
-in {
-  imports = [inputs.sops-nix.nixosModules.sops];
+in
+{
+  imports = [ inputs.sops-nix.nixosModules.sops ];
 
   options.fjij.sops.enable = lib.mkEnableOption "Sops";
 

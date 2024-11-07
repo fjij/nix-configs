@@ -3,9 +3,11 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.fjij.mac-gui;
-in {
+in
+{
   options.fjij.mac-gui.enable = lib.mkEnableOption "Mac GUI Tools";
 
   config = lib.mkIf cfg.enable {

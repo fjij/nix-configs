@@ -1,5 +1,5 @@
 {
-  imports = [../home-manager-modules];
+  imports = [ ../home-manager-modules ];
   home = {
     username = "wharris";
     homeDirectory = "/home/wharris";

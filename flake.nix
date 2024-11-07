@@ -16,6 +16,9 @@
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     nix-homebrew.inputs.nixpkgs.follows = "nixpkgs";
 
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
+
     homebrew-bundle.url = "github:homebrew/homebrew-bundle";
     homebrew-bundle.flake = false;
 
@@ -29,83 +32,75 @@
     koekeishiya-formulae.flake = false;
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    nix-darwin,
-    home-manager,
-    flake-utils,
-    ...
-  } @ inputs: let
-    specialArgs = {
-      inherit inputs;
-      outputs = self;
-    };
-    forAllSystems = nixpkgs.lib.genAttrs ["x86_64-linux" "aarch64-darwin"];
-  in {
-    nixosConfigurations = {
-      "emoji" = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        system = "x86_64-linux";
-        modules = [./nixos-configs/emoji.nix];
+  outputs =
+    {
+      self,
+      systems,
+      nixpkgs,
+      nix-darwin,
+      home-manager,
+      treefmt-nix,
+      ...
+    }@inputs:
+    let
+      specialArgs = {
+        inherit inputs;
+        outputs = self;
       };
-
-      # Digital Ocean Base Image
-      # Build Target: '.#nixosConfigurations.digital-ocean-image.config.system.build.digitalOceanImage'
-      "digital-ocean-image" = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        system = "x86_64-linux";
-        modules = [./nixos-configs/digital-ocean-image.nix];
-      };
-
-      "gateway" = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        system = "x86_64-linux";
-        modules = [./nixos-configs/gateway.nix];
-      };
-    };
-
-    darwinConfigurations = {
-      "Wills-MacBook-Air" = nix-darwin.lib.darwinSystem {
-        inherit specialArgs;
-        modules = [./darwin-configs/wills-macbook-air.nix];
-      };
-    };
-
-    homeConfigurations = {
-      "work" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages."x86_64-linux";
-        modules = [./home-manager-configs/work.nix];
-      };
-    };
-
-    devShells = forAllSystems (system: {
-      default = let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in
-        pkgs.mkShell {
-          packages = with pkgs; [alejandra just sops];
+      eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
+      treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
+    in
+    {
+      nixosConfigurations = {
+        "emoji" = nixpkgs.lib.nixosSystem {
+          inherit specialArgs;
+          system = "x86_64-linux";
+          modules = [ ./nixos-configs/emoji.nix ];
         };
-    });
 
-    checks = forAllSystems (system: {
-      nix-formatter = let
-        pkgs = import nixpkgs {inherit system;};
-      in
-        # runCommandLocal => don't use the cache
-        pkgs.runCommandLocal "nix-formatter-check" {src = ./.;} ''
-          ${pkgs.alejandra}/bin/alejandra --check "$src"
-          touch "$out"
-        '';
-      just-formatter = let
-        pkgs = import nixpkgs {inherit system;};
-      in
-        # runCommandLocal => don't use the cache
-        pkgs.runCommandLocal "just-formatter-check" {src = ./.;} ''
-          cd "$src"
-          ${pkgs.just}/bin/just --unstable --fmt --check
-          touch "$out"
-        '';
-    });
-  };
+        # Digital Ocean Base Image
+        # Build Target: '.#nixosConfigurations.digital-ocean-image.config.system.build.digitalOceanImage'
+        "digital-ocean-image" = nixpkgs.lib.nixosSystem {
+          inherit specialArgs;
+          system = "x86_64-linux";
+          modules = [ ./nixos-configs/digital-ocean-image.nix ];
+        };
+
+        "gateway" = nixpkgs.lib.nixosSystem {
+          inherit specialArgs;
+          system = "x86_64-linux";
+          modules = [ ./nixos-configs/gateway.nix ];
+        };
+      };
+
+      darwinConfigurations = {
+        "Wills-MacBook-Air" = nix-darwin.lib.darwinSystem {
+          inherit specialArgs;
+          modules = [ ./darwin-configs/wills-macbook-air.nix ];
+        };
+      };
+
+      homeConfigurations = {
+        "work" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          modules = [ ./home-manager-configs/work.nix ];
+        };
+      };
+
+      devShells = eachSystem (pkgs: {
+        default = pkgs.mkShell {
+          packages = with pkgs; [
+            alejandra
+            just
+            sops
+          ];
+        };
+      });
+
+      formatter = eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
+      # for `nix flake check`
+      checks = eachSystem (pkgs: {
+        formatting = treefmtEval.${pkgs.system}.config.build.check self;
+      });
+    };
 }

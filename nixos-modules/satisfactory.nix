@@ -7,14 +7,19 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   cfg = config.services.satisfactory;
-in {
+in
+{
   options.services.satisfactory = {
     enable = lib.mkEnableOption "Satisfactory Server";
 
     beta = lib.mkOption {
-      type = lib.types.enum ["public" "experimental"];
+      type = lib.types.enum [
+        "public"
+        "experimental"
+      ];
       default = "public";
       description = "Beta channel to follow";
     };
@@ -80,62 +85,67 @@ in {
       isSystemUser = true;
       group = "satisfactory";
     };
-    users.groups.satisfactory = {};
+    users.groups.satisfactory = { };
 
     nixpkgs.config.allowUnfree = true;
 
     networking.firewall = lib.mkIf cfg.openFirewall {
-      allowedUDPPorts = [cfg.port cfg.beaconPort cfg.queryPort];
-      allowedTCPPorts = [cfg.port];
+      allowedUDPPorts = [
+        cfg.port
+        cfg.beaconPort
+        cfg.queryPort
+      ];
+      allowedTCPPorts = [ cfg.port ];
     };
 
-    systemd.services.satisfactory = let
-      satisfactoryAppId = 1690800;
-      dataDir = "/var/lib/satisfactory";
-      installDir = "${dataDir}/SatisfactoryDedicatedServer";
-      binary = "${installDir}/Engine/Binaries/Linux/FactoryServer-Linux-Shipping";
-      configDir = "${installDir}/FactoryGame/Saved/Config/LinuxServer";
-      setConfigValue = iniFile: section: key: value: "${pkgs.crudini}/bin/crudini --set '${configDir}/${iniFile}' '${section}' '${key}' '${value}'";
-    in {
-      wantedBy = ["multi-user.target"];
-      preStart = ''
-        ${pkgs.steamcmd}/bin/steamcmd \
-          +force_install_dir ${installDir} \
-          +login anonymous \
-          +app_update ${toString satisfactoryAppId} \
-          -beta ${cfg.beta} \
-          ${cfg.extraSteamCmdArgs} \
-          validate \
-          +quit
-        ${pkgs.patchelf}/bin/patchelf --set-interpreter ${pkgs.glibc}/lib/ld-linux-x86-64.so.2 ${binary}
-        ln -sfv ${dataDir}/.steam/steam/linux64 /var/lib/satisfactory/.steam/sdk64
-        mkdir -p ${configDir}
-        ${setConfigValue "Game.ini" "/Script/Engine.GameSession" "MaxPlayers" (toString cfg.maxPlayers)}
-        ${setConfigValue "ServerSettings.ini" "/Script/FactoryGame.FGServerSubsystem" "mAutoPause" (
-          if cfg.autoPause
-          then "True"
-          else "False"
-        )}
-        ${setConfigValue "ServerSettings.ini" "/Script/FactoryGame.FGServerSubsystem" "mAutoSaveOnDisconnect" (
-          if cfg.autoSaveOnDisconnect
-          then "True"
-          else "False"
-        )}
-      '';
-      script = ''
-        ${binary} FactoryGame -Port=${toString cfg.port} \
-          -ServerQueryPort=${toString cfg.queryPort} -BeaconPort=${toString cfg.beaconPort} \
-          -multihome=${cfg.address}
-      '';
-      serviceConfig = {
-        Restart = "always";
-        User = "satisfactory";
-        Group = "satisfactory";
-        WorkingDirectory = "${dataDir}";
+    systemd.services.satisfactory =
+      let
+        satisfactoryAppId = 1690800;
+        dataDir = "/var/lib/satisfactory";
+        installDir = "${dataDir}/SatisfactoryDedicatedServer";
+        binary = "${installDir}/Engine/Binaries/Linux/FactoryServer-Linux-Shipping";
+        configDir = "${installDir}/FactoryGame/Saved/Config/LinuxServer";
+        setConfigValue =
+          iniFile: section: key: value:
+          "${pkgs.crudini}/bin/crudini --set '${configDir}/${iniFile}' '${section}' '${key}' '${value}'";
+      in
+      {
+        wantedBy = [ "multi-user.target" ];
+        preStart = ''
+          ${pkgs.steamcmd}/bin/steamcmd \
+            +force_install_dir ${installDir} \
+            +login anonymous \
+            +app_update ${toString satisfactoryAppId} \
+            -beta ${cfg.beta} \
+            ${cfg.extraSteamCmdArgs} \
+            validate \
+            +quit
+          ${pkgs.patchelf}/bin/patchelf --set-interpreter ${pkgs.glibc}/lib/ld-linux-x86-64.so.2 ${binary}
+          ln -sfv ${dataDir}/.steam/steam/linux64 /var/lib/satisfactory/.steam/sdk64
+          mkdir -p ${configDir}
+          ${setConfigValue "Game.ini" "/Script/Engine.GameSession" "MaxPlayers" (toString cfg.maxPlayers)}
+          ${setConfigValue "ServerSettings.ini" "/Script/FactoryGame.FGServerSubsystem" "mAutoPause" (
+            if cfg.autoPause then "True" else "False"
+          )}
+          ${setConfigValue "ServerSettings.ini" "/Script/FactoryGame.FGServerSubsystem"
+            "mAutoSaveOnDisconnect"
+            (if cfg.autoSaveOnDisconnect then "True" else "False")
+          }
+        '';
+        script = ''
+          ${binary} FactoryGame -Port=${toString cfg.port} \
+            -ServerQueryPort=${toString cfg.queryPort} -BeaconPort=${toString cfg.beaconPort} \
+            -multihome=${cfg.address}
+        '';
+        serviceConfig = {
+          Restart = "always";
+          User = "satisfactory";
+          Group = "satisfactory";
+          WorkingDirectory = "${dataDir}";
+        };
+        environment = {
+          LD_LIBRARY_PATH = "SatisfactoryDedicatedServer/linux64:SatisfactoryDedicatedServer/Engine/Binaries/Linux:SatisfactoryDedicatedServer/Engine/Binaries/ThirdParty/PhysX3/Linux/x86_64-unknown-linux-gnu";
+        };
       };
-      environment = {
-        LD_LIBRARY_PATH = "SatisfactoryDedicatedServer/linux64:SatisfactoryDedicatedServer/Engine/Binaries/Linux:SatisfactoryDedicatedServer/Engine/Binaries/ThirdParty/PhysX3/Linux/x86_64-unknown-linux-gnu";
-      };
-    };
   };
 }
