@@ -103,5 +103,13 @@
       checks = eachSystem (pkgs: {
         formatting = treefmtEval.${pkgs.system}.config.build.check self;
       });
+
+      # scripts
+      packages = eachSystem (pkgs: {
+        # `writeShellScriptBin` includes bash shebang
+        default = pkgs.writeShellScriptBin "just-help" ''
+          ${pkgs.just}/bin/just help
+        '';
+      });
     };
 }
