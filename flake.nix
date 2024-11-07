@@ -106,10 +106,14 @@
 
       # scripts
       packages = eachSystem (pkgs: {
-        # `writeShellScriptBin` includes bash shebang
-        default = pkgs.writeShellScriptBin "just-help" ''
-          ${pkgs.just}/bin/just help
-        '';
+        # https://ryantm.github.io/nixpkgs/builders/trivial-builders/#trivial-builder-writeShellApplication
+        default = pkgs.writeShellApplication {
+          name = "just-help";
+          runtimeInputs = with pkgs; [ just ];
+          text = ''
+            just help
+          '';
+        };
       });
     };
 }
