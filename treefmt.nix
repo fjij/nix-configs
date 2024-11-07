@@ -10,4 +10,5 @@
     };
   };
   programs.just.enable = true;
+  programs.fish_indent.enable = true;
 }
