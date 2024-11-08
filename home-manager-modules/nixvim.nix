@@ -206,7 +206,10 @@ in
             installRustc = true;
           };
           nixd.enable = true;
-          basedpyright.enable = true;
+          basedpyright = {
+            enable = true;
+            settings.python.pythonPath = helpers.mkRaw "vim.fn.exepath(\"python\")";
+          };
         };
         keymaps.lspBuf = {
           "K" = "hover";
