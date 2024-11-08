@@ -20,7 +20,9 @@ if test -e /home/linuxbrew/.linuxbrew/bin/brew
 end
 
 # Editor
-set -gx EDITOR $(which nvim)
+if type -q nvim
+    set -gx EDITOR $(which nvim)
+end
 
 # 1Password CLI
 if type -q op; and test -e ~/.config/op/plugins.sh
