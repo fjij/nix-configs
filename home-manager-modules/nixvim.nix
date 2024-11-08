@@ -279,6 +279,15 @@ in
             hash = "sha256-4ifqqrx293+jPCnxA+nqOj7Whr2FkM+iuQ8ycxs55X0=";
           };
         })
+        (pkgs.vimUtils.buildVimPlugin {
+          name = "deadcolumn.nvim";
+          src = pkgs.fetchFromGitHub {
+            owner = "Bekaboo";
+            repo = "deadcolumn.nvim";
+            rev = "897c905aef1a268ce4cc507d5cce048ed808fa7a";
+            hash = "sha256-cb4Cufldhk0Fv6mlOw1kcd0A85xu+i2U393G64iPkfc=";
+          };
+        })
       ];
       plugins.nvim-surround.enable = true;
       plugins.repeat.enable = true;
