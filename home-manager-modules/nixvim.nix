@@ -83,6 +83,12 @@ in
         foldexpr = "v:lua.vim.treesitter.foldexpr()";
       };
 
+      # Only show LSP messages for current line
+      diagnostics = {
+        virtual_lines.only_current_line = true;
+        virtual_text = false;
+      };
+
       globals.mapleader = " ";
 
       keymaps =
@@ -193,6 +199,7 @@ in
           "<F3>" = "format";
           "<F4>" = "code_action";
         };
+        keymaps.diagnostic."gl" = "open_float";
       };
 
       # Completions
