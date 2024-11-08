@@ -3,6 +3,7 @@
   lib,
   inputs,
   pkgs,
+  extraSpecialArgs,
   ...
 }:
 let
@@ -33,6 +34,7 @@ in
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
+      inherit extraSpecialArgs;
       users."${user}" = {
         imports = [ ../home-manager-configs/terminal.nix ];
       };

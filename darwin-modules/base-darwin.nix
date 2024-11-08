@@ -12,6 +12,7 @@ in
   options.fjij.darwin.base.enable = lib.mkEnableOption "Base Darwin";
 
   config = lib.mkIf cfg.enable {
+    system.stateVersion = 4;
     # List packages installed in system profile. To search by name, run:
     # $ nix-env -qaP | grep wget
     environment.systemPackages = [

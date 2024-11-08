@@ -6,5 +6,6 @@
     ./mac-gui.nix
     ./tmux.nix
     ./tools.nix
+    ./nixvim.nix
   ];
 }

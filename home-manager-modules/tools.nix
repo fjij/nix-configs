@@ -17,7 +17,6 @@ in
     home.packages = with pkgs; [
       fish
       ripgrep
-      neovim
       jq
       rsync
       gnupg
@@ -46,10 +45,6 @@ in
     };
 
     xdg.configFile = {
-      nvim = {
-        source = ../dotfiles/nvim;
-        recursive = true;
-      };
       fish = {
         source = ../dotfiles/fish;
         recursive = true;

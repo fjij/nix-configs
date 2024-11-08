@@ -12,7 +12,7 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
-      _1password
+      _1password-cli
     ];
 
     fjij.alacritty.enable = true;
