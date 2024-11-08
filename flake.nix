@@ -19,6 +19,9 @@
     treefmt-nix.url = "github:numtide/treefmt-nix";
     treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
 
+    nixvim.url = "github:nix-community/nixvim";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs";
+
     homebrew-bundle.url = "github:homebrew/homebrew-bundle";
     homebrew-bundle.flake = false;
 
@@ -43,8 +46,13 @@
       ...
     }@inputs:
     let
+      extraSpecialArgs = {
+        inherit inputs;
+        outputs = self;
+      };
       specialArgs = {
         inherit inputs;
+        inherit extraSpecialArgs;
         outputs = self;
       };
       eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
@@ -82,6 +90,7 @@
 
       homeConfigurations = {
         "work" = home-manager.lib.homeManagerConfiguration {
+          inherit extraSpecialArgs;
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           modules = [ ./home-manager-configs/work.nix ];
         };
