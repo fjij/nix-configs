@@ -85,78 +85,83 @@ in
 
       globals.mapleader = " ";
 
-      keymaps = let
-        mkKeymap = mode: key: action: {
-          inherit mode;
-          inherit key;
-          inherit action;
-        };
-        mkNormalMap = mkKeymap "n";
-      in [
-        # Windows
-        (mkNormalMap "<leader>h" ":wincmd h<CR>")
-        (mkNormalMap "<leader>j" ":wincmd j<CR>")
-        (mkNormalMap "<leader>k" ":wincmd k<CR>")
-        (mkNormalMap "<leader>l" ":wincmd l<CR>")
-        (mkNormalMap "<leader>q" ":q<CR>")
+      keymaps =
+        let
+          mkKeymap = mode: key: action: {
+            inherit mode;
+            inherit key;
+            inherit action;
+          };
+          mkNormalMap = mkKeymap "n";
+        in
+        [
+          # Windows
+          (mkNormalMap "<leader>h" ":wincmd h<CR>")
+          (mkNormalMap "<leader>j" ":wincmd j<CR>")
+          (mkNormalMap "<leader>k" ":wincmd k<CR>")
+          (mkNormalMap "<leader>l" ":wincmd l<CR>")
+          (mkNormalMap "<leader>q" ":q<CR>")
 
-        # Tabpages
-        (mkNormalMap "<leader><S-tab>" ":tabprevious<CR>")
-        (mkNormalMap "<leader><tab>" ":tabnext<CR>")
-        (mkNormalMap "<leader>t" ":tabnew<CR>")
+          # Tabpages
+          (mkNormalMap "<leader><S-tab>" ":tabprevious<CR>")
+          (mkNormalMap "<leader><tab>" ":tabnext<CR>")
+          (mkNormalMap "<leader>t" ":tabnew<CR>")
 
-        # Misc
-        (mkNormalMap "Q" "gq")
+          # Misc
+          (mkNormalMap "Q" "gq")
 
-        # Plugins
-        (mkNormalMap "<leader>pv" ":Neotree<CR>")
-      ];
+          # Plugins
+          (mkNormalMap "<leader>pv" ":Neotree<CR>")
+        ];
 
-
-    autoCmd = let
-      mkFunction = body: helpers.mkRaw ''
-        function()
-          ${body}
-        end
-      '';
-      useSpaces = ft: n: {
-        event = "FileType";
-        pattern = [ ft ];
-        callback = mkFunction ''
-          vim.opt.tabstop = ${toString n}
-          vim.opt.softtabstop = ${toString n}
-          vim.opt.shiftwidth = ${toString n}
-        '';
-      };
-      useTabs = ft: n: {
-        event = "FileType";
-        pattern = [ ft ];
-        callback = mkFunction ''
-          vim.opt.autoindent = true
-          vim.opt.expandtab = false
-          vim.opt.tabstop = ${toString n}
-          vim.opt.shiftwidth = ${toString n}
-        '';
-      };
-      in [
-        (useSpaces "python" 4)
-        (useSpaces "c" 4)
-        (useSpaces "cpp" 4)
-        (useSpaces "rust" 4)
-        (useSpaces "sql" 4)
-        (useSpaces "solidity" 4)
-        (useSpaces "fish" 4)
-        (useSpaces "bash" 4)
-        (useSpaces "just" 4)
-        (useSpaces "javascript" 2)
-        (useSpaces "typescript" 2)
-        (useSpaces "markdown" 2)
-        (useSpaces "lua" 2)
-        (useSpaces "json" 2)
-        (useSpaces "yaml" 2)
-        (useTabs "go" 4)
-        (useTabs "make" 4)
-      ];
+      autoCmd =
+        let
+          mkFunction =
+            body:
+            helpers.mkRaw ''
+              function()
+                ${body}
+              end
+            '';
+          useSpaces = ft: n: {
+            event = "FileType";
+            pattern = [ ft ];
+            callback = mkFunction ''
+              vim.opt.tabstop = ${toString n}
+              vim.opt.softtabstop = ${toString n}
+              vim.opt.shiftwidth = ${toString n}
+            '';
+          };
+          useTabs = ft: n: {
+            event = "FileType";
+            pattern = [ ft ];
+            callback = mkFunction ''
+              vim.opt.autoindent = true
+              vim.opt.expandtab = false
+              vim.opt.tabstop = ${toString n}
+              vim.opt.shiftwidth = ${toString n}
+            '';
+          };
+        in
+        [
+          (useSpaces "python" 4)
+          (useSpaces "c" 4)
+          (useSpaces "cpp" 4)
+          (useSpaces "rust" 4)
+          (useSpaces "sql" 4)
+          (useSpaces "solidity" 4)
+          (useSpaces "fish" 4)
+          (useSpaces "bash" 4)
+          (useSpaces "just" 4)
+          (useSpaces "javascript" 2)
+          (useSpaces "typescript" 2)
+          (useSpaces "markdown" 2)
+          (useSpaces "lua" 2)
+          (useSpaces "json" 2)
+          (useSpaces "yaml" 2)
+          (useTabs "go" 4)
+          (useTabs "make" 4)
+        ];
 
       # Treesitter
       plugins.treesitter.enable = true;
@@ -213,8 +218,12 @@ in
       plugins.telescope = {
         enable = true;
         keymaps = {
-          "<C-p>" = { action = "git_files"; };
-          "<leader>ps" = { action = "live_grep"; };
+          "<C-p>" = {
+            action = "git_files";
+          };
+          "<leader>ps" = {
+            action = "live_grep";
+          };
         };
         settings.mappings.i."<Esc>" = helpers.mkRaw "require('telescope.actions').close";
       };
@@ -228,15 +237,15 @@ in
       plugins.fugitive.enable = true;
       extraPlugins = [
         pkgs.vimPlugins.vim-rhubarb
-          (pkgs.vimUtils.buildVimPlugin {
-           name = "vim-qfedit";
-           src = pkgs.fetchFromGitHub {
-             owner = "itchyny";
-             repo = "vim-qfedit";
-             rev = "9840120de9e9d6866541f2bcf048ba26a9b16806";
-             hash = "sha256-4ifqqrx293+jPCnxA+nqOj7Whr2FkM+iuQ8ycxs55X0=";
-           };
-         })
+        (pkgs.vimUtils.buildVimPlugin {
+          name = "vim-qfedit";
+          src = pkgs.fetchFromGitHub {
+            owner = "itchyny";
+            repo = "vim-qfedit";
+            rev = "9840120de9e9d6866541f2bcf048ba26a9b16806";
+            hash = "sha256-4ifqqrx293+jPCnxA+nqOj7Whr2FkM+iuQ8ycxs55X0=";
+          };
+        })
       ];
       plugins.nvim-surround.enable = true;
       plugins.repeat.enable = true;
