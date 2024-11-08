@@ -175,6 +175,19 @@ in
           (useSpaces "yaml" 2)
           (useTabs "go" 4)
           (useTabs "make" 4)
+
+          # Writing mode
+          {
+            event = "FileType";
+            pattern = [
+              "markdown"
+              "text"
+            ];
+            callback = mkFunction ''
+              vim.opt_local.textwidth = 80
+              vim.opt_local.spell = true
+            '';
+          }
         ];
 
       # Treesitter
@@ -224,6 +237,11 @@ in
           # "<CR>" = "cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Replace, select = true})";
           "<Down>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
           "<Up>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
+        };
+        filetype = {
+          # Writing mode
+          markdown.sources = [ { name = "path"; } ];
+          text.sources = [ { name = "path"; } ];
         };
       };
 
