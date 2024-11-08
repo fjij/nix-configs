@@ -81,7 +81,15 @@ in
         foldlevelstart = 99; # start with all folds open
         foldmethod = "expr";
         foldexpr = "v:lua.vim.treesitter.foldexpr()";
+        foldtext = "v:lua.my_fold_text()";
       };
+      extraConfigLua = ''
+        function _G.my_fold_text()
+          local a = vim.fn.getline(vim.v.foldstart)
+          local b = vim.fn.getline(vim.v.foldend):gsub("^%s*(.-)%s*$", "%1")
+          return a .. " ... " .. b
+        end
+      '';
 
       # Only show LSP messages for current line
       diagnostics = {
