@@ -265,6 +265,31 @@ in
       plugins.lualine.enable = true;
       plugins.oil.enable = true;
       plugins.copilot-vim.enable = true;
+      plugins.zen-mode = {
+        enable = true;
+        settings.window = {
+          backdrop = 0.8;
+          width = 100;
+          height = 0.8;
+          options = {
+            signcolumn = "no";
+            number = false;
+            relativenumber = false;
+            cursorline = false;
+            cursorcolumn = false;
+          };
+        };
+        settings.plugins = {
+          options = {
+            enabled = true;
+            ruler = false;
+            showcmd = false;
+            laststatus = 0;
+          };
+          tmux.enabled = true;
+          gitsigns.enabled = true;
+        };
+      };
 
       # Core Plugins
       plugins.fugitive.enable = true;
