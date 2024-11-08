@@ -291,31 +291,50 @@ in
         };
       };
 
-      # Core Plugins
       plugins.fugitive.enable = true;
-      extraPlugins = [
-        pkgs.vimPlugins.vim-rhubarb
-        (pkgs.vimUtils.buildVimPlugin {
-          name = "vim-qfedit";
-          src = pkgs.fetchFromGitHub {
-            owner = "itchyny";
-            repo = "vim-qfedit";
-            rev = "9840120de9e9d6866541f2bcf048ba26a9b16806";
-            hash = "sha256-4ifqqrx293+jPCnxA+nqOj7Whr2FkM+iuQ8ycxs55X0=";
-          };
-        })
-        (pkgs.vimUtils.buildVimPlugin {
-          name = "deadcolumn.nvim";
-          src = pkgs.fetchFromGitHub {
-            owner = "Bekaboo";
-            repo = "deadcolumn.nvim";
-            rev = "897c905aef1a268ce4cc507d5cce048ed808fa7a";
-            hash = "sha256-cb4Cufldhk0Fv6mlOw1kcd0A85xu+i2U393G64iPkfc=";
-          };
-        })
-      ];
       plugins.nvim-surround.enable = true;
       plugins.repeat.enable = true;
+      extraPlugins =
+        (with pkgs.vimPlugins; [
+          vim-rhubarb
+          vim-terraform
+          vim-hcl
+          vim-just
+          vim-elixir
+          vim-svelte
+          vim-fish
+        ])
+        ++ (with pkgs.vimUtils; [
+          (buildVimPlugin {
+            name = "vim-qfedit";
+            src = pkgs.fetchFromGitHub {
+              owner = "itchyny";
+              repo = "vim-qfedit";
+              rev = "9840120de9e9d6866541f2bcf048ba26a9b16806";
+              hash = "sha256-4ifqqrx293+jPCnxA+nqOj7Whr2FkM+iuQ8ycxs55X0=";
+            };
+          })
+          (buildVimPlugin {
+            name = "deadcolumn.nvim";
+            src = pkgs.fetchFromGitHub {
+              owner = "Bekaboo";
+              repo = "deadcolumn.nvim";
+              rev = "897c905aef1a268ce4cc507d5cce048ed808fa7a";
+              hash = "sha256-cb4Cufldhk0Fv6mlOw1kcd0A85xu+i2U393G64iPkfc=";
+            };
+          })
+          (buildVimPlugin {
+            name = "pgsql.vim";
+            src = pkgs.fetchFromGitHub {
+              owner = "lifepillar";
+              repo = "pgsql.vim";
+              rev = "736c9899163a7f4e212c1675d8a1fe42570a027a";
+              hash = "sha256-XMv3cU73X5TtAfCHexlIWWcMcHoiJcGMCsw1ZuWV6Xw=";
+            };
+          })
+        ]);
+      # Use pgsql hilighting for all sql files
+      globals.sql_type_default = "pgsql";
     };
   };
 }
