@@ -237,9 +237,10 @@ in
           { name = "buffer"; }
         ];
         settings.mapping = {
-          # "<CR>" = "cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Replace, select = true})";
           "<Down>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
           "<Up>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
+          # Need this to confirm auto import
+          "<CR>" = "cmp.mapping.confirm({behavior = cmp.ConfirmBehavior.Replace, select = true})";
         };
         filetype = {
           # Writing mode
