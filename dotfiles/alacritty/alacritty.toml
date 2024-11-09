@@ -1,3 +1,13 @@
+[font]
+size = 20
+
+[font.normal]
+family = "ComicCodeLigatures Nerd Font"
+
+[font.offset]
+x = -1
+y = 0
+
 [general]
 import = [
   # "~/.config/alacritty/themes/moonlight_ii_vscode.toml"
@@ -8,17 +18,6 @@ import = [
   # "~/.config/alacritty/themes/baitong.toml"
   "~/.config/alacritty/themes/night_owl.toml"
 ]
-
-[font]
-size = 20
-
-[font.normal]
-family = "ComicCodeLigatures Nerd Font"
-# family = "Codelia Nerd Font"
-
-[font.offset]
-x = -1
-y = 0
 
 [window]
 dynamic_padding = true
