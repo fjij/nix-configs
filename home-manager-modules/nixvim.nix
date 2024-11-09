@@ -69,7 +69,8 @@ in
         # Misc
         termguicolors = true;
 
-        # Tabline - https://neovim.io/doc/user/options.html#'showtabline'
+        # Tabline
+        # https://neovim.io/doc/user/options.html#%27showtabline%27
         showtabline = 1;
 
         # Splits
@@ -130,30 +131,27 @@ in
 
       autoCmd =
         let
-          mkFunction =
-            body:
-            helpers.mkRaw ''
-              function()
-                ${body}
-              end
-            '';
           useSpaces = ft: n: {
             event = "FileType";
             pattern = [ ft ];
-            callback = mkFunction ''
-              vim.opt.tabstop = ${toString n}
-              vim.opt.softtabstop = ${toString n}
-              vim.opt.shiftwidth = ${toString n}
+            callback = helpers.mkRaw ''
+              function()
+                vim.opt.tabstop = ${toString n}
+                vim.opt.softtabstop = ${toString n}
+                vim.opt.shiftwidth = ${toString n}
+              end
             '';
           };
           useTabs = ft: n: {
             event = "FileType";
             pattern = [ ft ];
-            callback = mkFunction ''
-              vim.opt.autoindent = true
-              vim.opt.expandtab = false
-              vim.opt.tabstop = ${toString n}
-              vim.opt.shiftwidth = ${toString n}
+            callback = helpers.mkRaw ''
+              function()
+                vim.opt.autoindent = true
+                vim.opt.expandtab = false
+                vim.opt.tabstop = ${toString n}
+                vim.opt.shiftwidth = ${toString n}
+              end
             '';
           };
         in
@@ -183,15 +181,25 @@ in
               "markdown"
               "text"
             ];
-            callback = mkFunction ''
-              vim.opt_local.textwidth = 80
-              vim.opt_local.spell = true
+            callback = helpers.mkRaw ''
+              function()
+                vim.opt_local.textwidth = 80
+                vim.opt_local.spell = true
+              end
             '';
           }
         ];
 
       # Treesitter
-      plugins.treesitter.enable = true;
+      plugins.treesitter = {
+        enable = true;
+        settings.highlight.enable = true;
+        settings.indent.enable = true;
+        nixvimInjections = true;
+      };
+
+      # Otter - Embedded LSP
+      plugins.otter.enable = true;
 
       # LSP
       # https://nix-community.github.io/nixvim/plugins/lsp/index.html
