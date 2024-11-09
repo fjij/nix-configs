@@ -194,7 +194,6 @@ in
       plugins.treesitter = {
         enable = true;
         settings.highlight.enable = true;
-        settings.indent.enable = true;
         nixvimInjections = true;
       };
 
