@@ -18,6 +18,8 @@ in
   options.fjij.${cfgName}.enable = lib.mkEnableOption cfgName;
 
   config = lib.mkIf cfg.enable {
+    # Nixvim docs
+    # https://nix-community.github.io/nixvim/index.html
     programs.nixvim = {
       enable = true;
 
@@ -257,6 +259,7 @@ in
       };
 
       # Editor Plugins
+      # TODO enable folke todo plugin
       plugins.web-devicons.enable = true;
       plugins.neo-tree.enable = true;
       plugins.telescope = {
@@ -269,7 +272,7 @@ in
             action = "live_grep";
           };
         };
-        settings.mappings.i."<Esc>" = helpers.mkRaw "require('telescope.actions').close";
+        settings.defaults.mappings.i."<esc>" = helpers.mkRaw "require('telescope.actions').close";
       };
       plugins.gitsigns.enable = true;
       plugins.gitsigns.settings.linehl = true;
