@@ -124,5 +124,8 @@
           '';
         };
       });
+
+      # Templates
+      templates = import ./templates;
     };
 }
