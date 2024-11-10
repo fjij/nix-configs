@@ -1,6 +1,6 @@
 {
-  micromamba-jupyter = {
-    path = ./templates/micromamba-jupyterlab;
+  micromamba-jupyterlab = {
+    path = ./micromamba-jupyterlab;
     description = "Boilerplate for Micromamba + Jupyter Lab";
     welcomeText = ''
       You have created a Micromamba + Jupyter Lab project.
