@@ -21,7 +21,6 @@ in
 
     hostName = lib.mkOption {
       type = lib.types.str;
-      default = "${config.networking.hostName}:${toString cfg.port}";
       description = "Expected web server hostname";
     };
 
@@ -36,10 +35,23 @@ in
       default = pkgs.writeText "password" "cardbotnine";
       description = "Password file for admin account";
     };
+
+    openFirewall = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Whether to open the firewll port";
+    };
+
+    caddyReverseProxy = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Whether to enable a caddy reverse proxy";
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    networking.firewall.allowedTCPPorts = [ cfg.port ];
+    networking.firewall.allowedTCPPorts = lib.mkIf cfg.openFirewall [ cfg.port ];
+
     services.mediawiki = {
       enable = true;
       name = cfg.wikiName;
@@ -48,7 +60,7 @@ in
       httpd.virtualHost = {
         inherit (cfg) hostName;
         # This is a fake email, but it needs an email to work
-        adminAddr = "admin@localhost";
+        adminAddr = "admin@${cfg.hostName}";
         listen = [
           {
             ip = "0.0.0.0";
@@ -69,6 +81,14 @@ in
 
       # Enable visual editor
       extensions.VisualEditor = null;
+    };
+
+    # Caddy reverse proxy
+    fjij.caddy.enable = lib.mkIf cfg.caddyReverseProxy true;
+    services.caddy = lib.mkIf cfg.caddyReverseProxy {
+      virtualHosts."${cfg.hostName}".extraConfig = ''
+        reverse_proxy http://localhost:${toString cfg.port}
+      '';
     };
   };
 }

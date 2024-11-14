@@ -2,6 +2,7 @@
   imports = [
     ./admin-user.nix
     ./base-system.nix
+    ./caddy.nix
     ./frpc.nix
     ./frps.nix
     ./mediawiki.nix

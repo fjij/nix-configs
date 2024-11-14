@@ -20,8 +20,21 @@
     };
     openssh.enable = true;
     tailscale.enable = true;
-    ollama.enable = false; # Takes a long time to build from source
     frpc.enable = true;
-    mediawiki.enable = true;
+
+    mediawiki = {
+      enable = true;
+      hostName = "emoji.neon-atlas.ts.net";
+      caddyReverseProxy = true;
+    };
+
+    caddy = {
+      enable = true;
+      openFirewall = true;
+      tailscaleCerts = true;
+    };
+
+    # Disabled
+    ollama.enable = false; # Takes a long time to build from source
   };
 }
