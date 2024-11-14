@@ -54,7 +54,7 @@ in
         # Backups
         swapfile = false;
         backup = false;
-        # undodir = os.getenv("HOME") .. "/.vim/undodir";
+        undodir = helpers.mkRaw "os.getenv(\"HOME\") .. \"/.vim/undodir\"";
         undofile = true;
 
         # Sign column
