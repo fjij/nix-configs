@@ -22,5 +22,6 @@
     tailscale.enable = true;
     ollama.enable = false; # Takes a long time to build from source
     frpc.enable = true;
+    mediawiki.enable = true;
   };
 }

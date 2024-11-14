@@ -4,6 +4,7 @@
     ./base-system.nix
     ./frpc.nix
     ./frps.nix
+    ./mediawiki.nix
     ./minecraft.nix
     ./nvidia.nix
     ./ollama.nix
