@@ -20,6 +20,7 @@ in
       ssh -i '${adminSshFile}' "$TARGET" 'sudo mkdir -p ${serverKeyDir}'
       sudo scp -i '${adminSshFile}' '${serverKeyFile}' "$TARGET:${remoteTempKey}"
       ssh -i '${adminSshFile}' "$TARGET" 'sudo mv ${remoteTempKey} ${serverKeyFile}'
+      echo 'Copied the key successfully :)'
     '';
   };
 }
