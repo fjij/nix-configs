@@ -2,57 +2,6 @@
 help:
     just --list
 
-# Formatter
-fmt:
-    nix fmt
-
-admin-ssh-dir := '/var/lib/secrets/'
-admin-ssh-file := admin-ssh-dir + 'nixos_admin_id_ed25519'
-server-key-dir := '/var/lib/sops-nix/'
-server-key-file := server-key-dir + 'server-key.txt'
-
-# Save admin keys from 1password to filesystem
-save-admin-keys:
-    #!/usr/bin/env bash
-    umask 066
-    sudo mkdir -p {{ admin-ssh-dir }}
-    op read 'op://secrets/nixos-admin-ssh/private key' \
-      | sudo tee {{ admin-ssh-file }} > /dev/null
-    sudo mkdir -p {{ server-key-dir }}
-    op read 'op://secrets/nixos-server-key/private-key' \
-      | sudo tee {{ server-key-file }} > /dev/null
-
-remote-temp-key := '~/server-key.txt'
-
-# Distribute keys to a remote machine
-distribute-keys ip:
-    #!/usr/bin/env bash
-    ssh -i '{{ admin-ssh-file }}' 'admin@{{ ip }}' 'sudo mkdir -p {{ server-key-dir }}'
-    sudo scp -i '{{ admin-ssh-file }}' '{{ server-key-file }}' 'admin@{{ ip }}:{{ remote-temp-key }}'
-    ssh -i '{{ admin-ssh-file }}' 'admin@{{ ip }}' 'sudo mv {{ remote-temp-key }} {{ server-key-file }}'
-
-# Deploy a Darwin configuration locally
-deploy-darwin:
-    #!/usr/bin/env bash
-    nix run \
-      --extra-experimental-features nix-command \
-      --extra-experimental-features flakes \
-      nix-darwin -- switch --show-trace --flake .
-
-# Deploy a configuration, optionally to a remote machine
-deploy config='' ip='':
-    #!/usr/bin/env bash
-    if [ -z "{{ config }}" ]; then
-      sudo nixos-rebuild switch --flake .
-    else
-      if [ -z "{{ ip }}" ]; then
-        sudo nixos-rebuild switch --flake '.#{{ config }}'
-      else
-        nix run 'nixpkgs#nixos-rebuild' -- \
-          switch --fast --flake '.#{{ config }}' --use-remote-sudo --show-trace --target-host 'admin@{{ ip }}' --build-host 'admin@{{ ip }}'
-      fi
-    fi
-
 # Sops
 
 secrets-file := 'secrets/secrets.yaml'
@@ -88,14 +37,6 @@ build-digital-ocean builders=default-builders:
     nix build \
       --builders '{{ builders }}' \
       '.#nixosConfigurations.{{ digital-ocean-config }}.config.system.build.digitalOceanImage'
-
-# Install Nix on a non-Nix OS
-install-nix:
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
-
-# Deploy a standalone (alien) home-manager config locally
-deploy-alien name:
-    nix run home-manager/release-24.05 -- switch --flake '.#{{ name }}'
 
 # Change the current user's shell (alien)
 alien-set-shell:
