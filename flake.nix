@@ -57,6 +57,13 @@
       };
       eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
       treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
+      scripts = eachSystem (
+        pkgs:
+        import ./scripts {
+          inherit pkgs;
+          lib = pkgs.lib;
+        }
+      );
     in
     {
       nixosConfigurations = {
@@ -114,16 +121,7 @@
       });
 
       # scripts
-      packages = eachSystem (pkgs: {
-        # https://ryantm.github.io/nixpkgs/builders/trivial-builders/#trivial-builder-writeShellApplication
-        default = pkgs.writeShellApplication {
-          name = "just-help";
-          runtimeInputs = with pkgs; [ just ];
-          text = ''
-            just help
-          '';
-        };
-      });
+      packages = scripts;
 
       # Templates
       templates = import ./templates;
