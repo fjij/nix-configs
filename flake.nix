@@ -56,8 +56,19 @@
         outputs = self;
       };
       eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
+      eachSystemUnfree =
+        f:
+        nixpkgs.lib.genAttrs (import systems) (
+          system:
+          f (
+            import nixpkgs {
+              inherit system;
+              config.allowUnfree = true;
+            }
+          )
+        );
       treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
-      scripts = eachSystem (
+      scripts = eachSystemUnfree (
         pkgs:
         import ./scripts {
           inherit pkgs;
