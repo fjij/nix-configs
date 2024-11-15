@@ -215,7 +215,7 @@ in
             installRustc = true;
           };
           nixd.enable = true;
-          basedpyright = {
+          pyright = {
             enable = true;
             settings.python.pythonPath = helpers.mkRaw "vim.fn.exepath(\"python\")";
           };
