@@ -18,6 +18,7 @@
   # Change the current user's shell to fish
   # This is only needed in standalone home manager, not for NixOS or Nix-darwin
   homeManagerUseFish = pkgs.writeShellApplication {
+    name = "homeManagerUseFish";
     text = ''
       # Add fish to list of allowed shells
       echo $(which fish) | sudo tee -a /etc/shells
