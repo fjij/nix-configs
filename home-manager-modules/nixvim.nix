@@ -201,6 +201,7 @@ in
 
       # Otter - Embedded LSP
       plugins.otter.enable = true;
+      plugins.otter.autoActivate = false; # Need to manually start otter
 
       # LSP
       # https://nix-community.github.io/nixvim/plugins/lsp/index.html
@@ -219,6 +220,7 @@ in
             enable = true;
             settings.python.pythonPath = helpers.mkRaw "vim.fn.exepath(\"python\")";
           };
+          svelte.enable = true;
         };
         keymaps.lspBuf = {
           "K" = "hover";
