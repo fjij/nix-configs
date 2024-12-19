@@ -221,6 +221,7 @@ in
             settings.python.pythonPath = helpers.mkRaw "vim.fn.exepath(\"python\")";
           };
           svelte.enable = true;
+          gopls.enable = true;
         };
         keymaps.lspBuf = {
           "K" = "hover";
