@@ -268,7 +268,7 @@ in
         enable = true;
         keymaps = {
           "<C-p>" = {
-            action = "git_files";
+            action = "find_files";
           };
           "<leader>ps" = {
             action = "live_grep";
