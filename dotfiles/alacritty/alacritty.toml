@@ -17,6 +17,8 @@ y = 10
 [window]
 dynamic_padding = true
 dynamic_title = false
+padding.x = 48
+padding.y = 36
 
 [window.dimensions]
 columns = 88
