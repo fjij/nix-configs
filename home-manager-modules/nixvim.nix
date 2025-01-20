@@ -26,7 +26,8 @@ in
       # Nixvim has its own instance of nixpkgs
       nixpkgs.config.allowUnfree = true;
 
-      colorschemes.catppuccin.enable = true;
+      colorschemes.rose-pine.enable = true;
+      # colorschemes.catppuccin.enable = true;
 
       opts = {
         # Line Numbers
