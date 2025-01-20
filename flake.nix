@@ -112,6 +112,12 @@
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           modules = [ ./home-manager-configs/work.nix ];
         };
+
+        "work-laptop" = home-manager.lib.homeManagerConfiguration {
+          inherit extraSpecialArgs;
+          pkgs = nixpkgs.legacyPackages."aarch64-darwin";
+          modules = [ ./home-manager-configs/work-laptop.nix ];
+        };
       };
 
       devShells = eachSystem (pkgs: {
