@@ -13,12 +13,12 @@ import = [
 size = 20
 
 [font.normal]
-family = "ComicCodeLigatures Nerd Font"
-# family = "Codelia Nerd Font"
+# family = "ComicCodeLigatures Nerd Font"
+family = "Codelia Nerd Font"
 
 [font.offset]
-x = -1
-y = 0
+x = 0
+y = 10
 
 [window]
 dynamic_padding = true
