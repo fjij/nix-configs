@@ -26,6 +26,7 @@ in
     # Auto upgrade nix package and the daemon service.
     services.nix-daemon.enable = true;
     nix = {
+      optimise.automatic = true;
       package = pkgs.nix;
       gc = {
         automatic = true;
@@ -34,7 +35,6 @@ in
       };
       settings = {
         experimental-features = "nix-command flakes";
-        auto-optimise-store = true;
         trusted-users = [
           "root"
           "@admin"
