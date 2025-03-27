@@ -11,14 +11,16 @@ size = 20
 family = "Codelia Nerd Font"
 
 [font.offset]
-x = 0
-y = 10
+# x = 0
+x = -1
+# y = 10
+y = 0
 
 [window]
 dynamic_padding = true
 dynamic_title = false
-padding.x = 48
-padding.y = 36
+# padding.x = 48
+# padding.y = 36
 
 [window.dimensions]
 columns = 88
