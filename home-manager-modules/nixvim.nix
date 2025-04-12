@@ -215,6 +215,25 @@ in
         servers = {
           ts_ls.enable = true;
           lua_ls.enable = true;
+          luau_lsp =
+            let
+              robloxTypeDefinitions = builtins.fetchurl {
+                url = "https://raw.githubusercontent.com/JohnnyMorganz/luau-lsp/d8d7e56c370314b2ca402c3724cd2b7350238a07/scripts/globalTypes.d.luau";
+                sha256 = "0kryb0qc4mx3s4bkdwc1v6r0hrhb5anc3fx3znv9dqcacr3m46yz";
+              };
+            in
+            {
+              enable = true;
+              # Use externally installed LSP
+              # https://github.com/JohnnyMorganz/luau-lsp/releases
+              # TODO: build from source (https://github.com/JohnnyMorganz/luau-lsp?tab=readme-ov-file#build-from-source)
+              package = null;
+              cmd = [
+                "luau-lsp"
+                "lsp"
+                "--definitions=${robloxTypeDefinitions}"
+              ];
+            };
           rust_analyzer = {
             enable = true;
             installCargo = true;
