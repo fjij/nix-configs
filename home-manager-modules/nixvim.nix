@@ -101,8 +101,8 @@ in
 
       # Only show LSP messages for current line
       diagnostic.settings = {
-        virtual_lines.only_current_line = true;
-        virtual_text = false;
+        virtual_lines = false;
+        virtual_text.current_line = true;
       };
 
       globals.mapleader = " ";
