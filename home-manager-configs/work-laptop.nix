@@ -6,6 +6,7 @@
     homeDirectory = "/Users/wharris";
     packages = with pkgs; [
       postgresql_16 # psql
+      graphite-cli # graphite
     ];
   };
   nixpkgs.config.allowUnfree = true;
