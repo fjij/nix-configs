@@ -30,6 +30,9 @@ in
       nethack
       nodejs_20
       curl
+      fd # better find
+      eza # better ls
+      xh # http client
     ];
 
     programs.direnv = {
