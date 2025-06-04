@@ -29,6 +29,7 @@ in
       fzf
       nethack
       nodejs_20
+      curl
     ];
 
     programs.direnv = {
