@@ -6,4 +6,5 @@
     homebrew.enable = true;
     will-user.enable = true;
   };
+  nix.enable = false;
 }
