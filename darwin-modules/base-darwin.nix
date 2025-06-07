@@ -23,26 +23,9 @@ in
     # for 1password CLI
     nixpkgs.config.allowUnfree = true;
 
-    # Auto upgrade nix package and the daemon service.
-    services.nix-daemon.enable = true;
-    nix = {
-      package = pkgs.nix;
-      gc = {
-        automatic = true;
-        interval.Weekday = 0;
-        options = "--delete-older-than 1w";
-      };
-      settings = {
-        experimental-features = "nix-command flakes";
-        auto-optimise-store = true;
-        trusted-users = [
-          "root"
-          "@admin"
-        ];
-      };
-    };
-
-    security.pam.enableSudoTouchIdAuth = true;
+    # Let determinate manage nix
+    nix.enable = false;
+    security.pam.services.sudo_local.touchIdAuth = true;
 
     system = {
       startup.chime = false;

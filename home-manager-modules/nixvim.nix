@@ -23,7 +23,12 @@ in
     programs.nixvim = {
       enable = true;
 
-      colorschemes.catppuccin.enable = true;
+      # Nixvim has its own instance of nixpkgs
+      nixpkgs.config.allowUnfree = true;
+
+      colorschemes.rose-pine.enable = true;
+      colorschemes.rose-pine.settings.dark_variant = "moon";
+      # colorschemes.catppuccin.enable = true;
 
       opts = {
         # Line Numbers
@@ -95,9 +100,9 @@ in
       '';
 
       # Only show LSP messages for current line
-      diagnostics = {
-        virtual_lines.only_current_line = true;
-        virtual_text = false;
+      diagnostic.settings = {
+        virtual_lines = false;
+        virtual_text.current_line = true;
       };
 
       globals.mapleader = " ";
@@ -210,6 +215,25 @@ in
         servers = {
           ts_ls.enable = true;
           lua_ls.enable = true;
+          luau_lsp =
+            let
+              robloxTypeDefinitions = builtins.fetchurl {
+                url = "https://raw.githubusercontent.com/JohnnyMorganz/luau-lsp/d8d7e56c370314b2ca402c3724cd2b7350238a07/scripts/globalTypes.d.luau";
+                sha256 = "0kryb0qc4mx3s4bkdwc1v6r0hrhb5anc3fx3znv9dqcacr3m46yz";
+              };
+            in
+            {
+              enable = true;
+              # Use externally installed LSP
+              # https://github.com/JohnnyMorganz/luau-lsp/releases
+              # TODO: build from source (https://github.com/JohnnyMorganz/luau-lsp?tab=readme-ov-file#build-from-source)
+              package = null;
+              cmd = [
+                "luau-lsp"
+                "lsp"
+                "--definitions=${robloxTypeDefinitions}"
+              ];
+            };
           rust_analyzer = {
             enable = true;
             installCargo = true;
@@ -222,6 +246,7 @@ in
           };
           svelte.enable = true;
           gopls.enable = true;
+          terraformls.enable = true;
         };
         keymaps.lspBuf = {
           "K" = "hover";

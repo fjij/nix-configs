@@ -109,3 +109,25 @@ nix fmt
 ```sh
 nix eval .#packages.aarch64-darwin --apply builtins.attrNames
 ```
+
+## Manually Triggering Flake Update CI Task
+
+You can manually trigger the flake update CI task from the GitHub Actions interface. Follow these steps:
+
+1. Go to the repository on GitHub.
+2. Click on the "Actions" tab.
+3. In the left sidebar, find and click on the workflow named "Update flake.lock".
+4. Click on the "Run workflow" button.
+5. Confirm the action to manually trigger the workflow.
+
+## Manually Triggering CI Check
+
+You can manually trigger the CI check from the GitHub Actions interface. Follow these steps:
+
+1. Go to the repository on GitHub.
+2. Click on the "Actions" tab.
+3. In the left sidebar, find and click on the workflow named "CI".
+4. Click on the "Run workflow" button.
+5. Confirm the action to manually trigger the workflow.
+
+For more information on why actions don't trigger on auto-generated PRs, refer to [this discussion](https://github.com/orgs/community/discussions/55906).

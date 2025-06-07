@@ -96,3 +96,18 @@ if type -q direnv
     set -gx DIRENV_LOG_FORMAT ''
     direnv hook fish | source
 end
+
+# Fd
+if type -q fd
+    abbr find fd
+end
+
+# Eza
+if type -q eza
+    abbr ls eza
+end
+
+# Xh
+if type -q xh
+    abbr curl xh
+end

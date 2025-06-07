@@ -35,9 +35,9 @@
     name = "homeManagerUseFish";
     text = ''
       # Add fish to list of allowed shells
-      echo $(which fish) | sudo tee -a /etc/shells
+      which fish | sudo tee -a /etc/shells
       # Change shell to fish for current user
-      sudo chsh -s $(which fish) $(whoami)
+      sudo chsh -s "$(which fish)" "$(whoami)"
     '';
   };
 }

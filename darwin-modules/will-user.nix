@@ -23,6 +23,8 @@ in
       inherit user;
     };
 
+    system.primaryUser = user;
+
     # List of users managed by nix-darwin
     # https://github.com/LnL7/nix-darwin/issues/811
     users.knownUsers = [ user ];

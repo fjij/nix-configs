@@ -29,6 +29,9 @@ in
     };
 
     home.activation.patchAlacrittyMacosApp = lib.mkIf cfg.macApp (
+      # Troubleshooting: If Alacritty immediately closes, it might because SHELL
+      # is not set to the correct shell. This might take a `chsh` and a reboot
+      # to properly work.
       let
         appDir = "${config.home.homeDirectory}/Applications";
         localApp = "${appDir}/Alacritty.app";

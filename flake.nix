@@ -120,16 +120,13 @@
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           modules = [ ./home-manager-configs/work.nix ];
         };
-      };
 
-      devShells = eachSystem (pkgs: {
-        default = pkgs.mkShell {
-          packages = with pkgs; [
-            just
-            sops
-          ];
+        "work-laptop" = home-manager.lib.homeManagerConfiguration {
+          inherit extraSpecialArgs;
+          pkgs = nixpkgs.legacyPackages."aarch64-darwin";
+          modules = [ ./home-manager-configs/work-laptop.nix ];
         };
-      });
+      };
 
       # for `nix fmt`
       formatter = eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
