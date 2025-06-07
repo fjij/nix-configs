@@ -92,6 +92,14 @@
           modules = [ ./nixos-configs/digital-ocean-image.nix ];
         };
 
+        # Graphical Installer
+        # Build Target: '.#nixosConfigurations.graphical-installer.config.system.build.isoImage'
+        "graphical-installer" = nixpkgs.lib.nixosSystem {
+          inherit specialArgs;
+          system = "x86_64-linux";
+          modules = [ ./nixos-configs/graphical-installer.nix ];
+        };
+
         "gateway" = nixpkgs.lib.nixosSystem {
           inherit specialArgs;
           system = "x86_64-linux";
