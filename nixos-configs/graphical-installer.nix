@@ -1,4 +1,9 @@
-{ lib, modulesPath, pkgs, ... }:
+{
+  lib,
+  modulesPath,
+  pkgs,
+  ...
+}:
 {
   imports = [
     ../nixos-modules
@@ -15,7 +20,6 @@
     admin-user.enable = true;
     openssh.enable = true;
   };
-
 
   # Use the latest kernel so we have up-to-date wifi drivers
   boot.kernelPackages = pkgs.linuxPackages_latest;
