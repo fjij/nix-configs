@@ -13,6 +13,7 @@
       hostName = "ceelink";
     };
     wifi.enable = true;
+    wifi.netfixUser.enable = true;
     tailscale.enable = true;
     admin-user.enable = true;
     openssh.enable = true;
@@ -22,12 +23,4 @@
 
   # ZFS is broken on the latest kernel, so let's disable it
   boot.supportedFilesystems.zfs = lib.mkForce false;
-
-  users.users.network-debug-user = {
-    isNormalUser = true;
-    description = "User account for network debugging";
-    extraGroups = [ "networkmanager" ];
-    home = "/home/network-debug-user";
-    password = "password";
-  };
 }
