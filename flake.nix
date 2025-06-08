@@ -22,6 +22,9 @@
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
 
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
     homebrew-bundle.url = "github:homebrew/homebrew-bundle";
     homebrew-bundle.flake = false;
 
@@ -104,6 +107,12 @@
           inherit specialArgs;
           system = "x86_64-linux";
           modules = [ ./nixos-configs/gateway.nix ];
+        };
+
+        "beelink" = nixpkgs.lib.nixosSystem {
+          inherit specialArgs;
+          system = "aarch64-linux";
+          modules = [ ./nixos-configs/beelink.nix ];
         };
       };
 

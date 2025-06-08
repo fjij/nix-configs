@@ -14,6 +14,7 @@
     ./satisfactory-fjij.nix
     ./sops.nix
     ./tailscale.nix
+    ./wifi.nix
     ./willh-user.nix
   ];
 }

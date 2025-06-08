@@ -42,6 +42,7 @@ in
 
     # Enable networking
     networking.networkmanager.enable = true;
+    # Disables wpa_supplicant, however NetworkManager can still manage wireless connections
     networking.wireless.enable = false;
 
     time.timeZone = "America/Toronto";

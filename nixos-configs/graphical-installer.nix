@@ -19,6 +19,7 @@
     };
     admin-user.enable = true;
     openssh.enable = true;
+    openssh.permitRootLogin = true; # Required for remote installation
   };
 
   # Use the latest kernel so we have up-to-date wifi drivers
