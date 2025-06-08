@@ -1,0 +1,49 @@
+// This tailnet's ACLs are maintained in https://github.com/fjij/nix-configs
+{
+  "acls": [
+    {
+      "action": "accept",
+      "src":    ["autogroup:members"],
+      "dst":    ["autogroup:self:*"],
+    },
+    {
+      "action": "accept",
+      "src":    ["autogroup:members"],
+      "dst":    ["tag:worker:*"],
+    },
+    {
+      "action": "accept",
+      "src":    ["tag:worker"],
+      "dst":    ["tag:worker:*"],
+    },
+    {
+      "action": "accept",
+      "src":    ["tag:ci"],
+      "dst":    ["tag:worker:*"],
+    },
+  ],
+  "tagOwners": {
+    "tag:worker": ["autogroup:members"],
+    "tag:ci": ["autogroup:members"],
+  },
+  "ssh": [
+    {
+      "action": "check",
+      "src":    ["autogroup:members"],
+      "dst":    ["autogroup:self"],
+      "users":  ["autogroup:nonroot", "root"],
+    },
+    {
+      "action": "check",
+      "src":    ["autogroup:members"],
+      "dst":    ["tag:worker"],
+      "users":  ["autogroup:nonroot", "root"],
+    },
+    {
+      "action": "accept",
+      "src":    ["tag:ci"],
+      "dst":    ["tag:worker"],
+      "users":  ["root"],
+    },
+  ],
+}
