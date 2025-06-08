@@ -114,6 +114,12 @@
           system = "aarch64-linux";
           modules = [ ./nixos-configs/beelink.nix ];
         };
+
+        "ceelink" = nixpkgs.lib.nixosSystem {
+          inherit specialArgs;
+          system = "aarch64-linux";
+          modules = [ ./nixos-configs/ceelink.nix ];
+        };
       };
 
       darwinConfigurations = {
