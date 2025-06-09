@@ -43,7 +43,7 @@
 			"action": "accept",
 			"src":    ["tag:ci"],
 			"dst":    ["tag:worker"],
-			"users":  ["root"],
+			"users":  ["autogroup:nonroot", "root"],
 		},
 	],
 }
