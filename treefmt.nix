@@ -17,9 +17,5 @@
   # https://github.com/executablebooks/mdformat/blob/8c573e4913ebb10a0bd30ae95b3620bd846856d7/README.md?plain=1#L109
   settings.formatter.mdformat.options = [ "--number" ];
 
-  settings.formatter.hujsonfmt = {
-    command = "${pkgs.hujsonfmt}/bin/hujsonfmt";
-    options = [ "-w" ];
-    includes = [ "*.hujson" ];
-  };
+  programs.hujsonfmt.enable = true;
 }

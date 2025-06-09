@@ -16,7 +16,7 @@
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     nix-homebrew.inputs.nixpkgs.follows = "nixpkgs";
 
-    treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix.url = "github:fjij/treefmt-nix/96943be651fb9bc417a7b5c4b1e689ac6df63768";
     treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     nixvim.url = "github:nix-community/nixvim";
