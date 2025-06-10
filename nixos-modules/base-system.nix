@@ -20,48 +20,31 @@ in
     hostPlatform = lib.mkOption {
       type = lib.types.str;
       default = "x86_64-linux";
-      description = "The system platform.";
+      description = "The system platform. Only applies to non-container systems.";
     };
 
     useBootLoader = lib.mkOption {
       type = lib.types.bool;
       default = true;
-      description = "Whether to use systemd bootloader.";
+      description = "Whether to use systemd bootloader. Only applies to non-container systems.";
+    };
+
+    containerMode = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Whether to run in container mode. This will disable the bootloader and enable container-specific settings.";
     };
   };
 
   config = lib.mkIf cfg.enable {
+    # Common configuration for all systems
     networking.hostName = cfg.hostName;
-    nixpkgs.hostPlatform = cfg.hostPlatform;
-
-    # Bootloader
-    boot.loader = lib.mkIf cfg.useBootLoader {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-
-    # Enable networking
-    networking.networkmanager.enable = true;
-    # Disables wpa_supplicant, however NetworkManager can still manage wireless connections
-    networking.wireless.enable = false;
 
     time.timeZone = "America/Toronto";
     i18n.defaultLocale = "en_US.UTF-8";
 
     nixpkgs.config.allowUnfree = true;
 
-    nix.settings.auto-optimise-store = true;
-
-    nix.gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 1w";
-    };
-
-    nix.settings.experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
     environment.systemPackages = with pkgs; [
       git # required to use flakes
       vim
@@ -88,5 +71,36 @@ in
     # Before changing this value read the documentation for this option
     # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
     system.stateVersion = "24.05"; # Did you read the comment?
+
+    # Non-container specific configuration
+    nixpkgs.hostPlatform = lib.mkIf (!cfg.containerMode) cfg.hostPlatform;
+    # Bootloader
+    boot.loader = lib.mkIf (cfg.useBootLoader && !cfg.containerMode) {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+
+    # Enable networking
+    networking.networkmanager.enable = lib.mkIf (!cfg.containerMode) true;
+    # Disables wpa_supplicant, however NetworkManager can still manage wireless connections
+    networking.wireless.enable = lib.mkIf (!cfg.containerMode) false;
+
+    nix.settings.auto-optimise-store = lib.mkIf (!cfg.containerMode) true;
+
+    nix.gc = lib.mkIf (!cfg.containerMode) {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 1w";
+    };
+
+    nix.settings.experimental-features = lib.mkIf (!cfg.containerMode) [
+      "nix-command"
+      "flakes"
+    ];
+    # Container specific configuration
+    # Specifically used in private networking
+    networking.nameservers = lib.mkIf cfg.containerMode [ "8.8.8.8" ]; # Cloudflare DNS
+    networking.defaultGateway = lib.mkIf cfg.containerMode "192.168.100.10";
+    networking.useHostResolvConf = lib.mkIf cfg.containerMode false;
   };
 }

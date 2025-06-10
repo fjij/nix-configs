@@ -24,5 +24,9 @@ in
       authKeyFile = config.sops.secrets.tailscale-authkey.path;
       extraUpFlags = [ "--ssh" ];
     };
+
+    # container-specific configuration
+    systemd.services.tailscaled-autoconnect.serviceConfig.ExecCondition =
+      lib.mkIf config.boot.isContainer "/bin/sh -c 'ip link show eth0 >/dev/null 2>&1 && ip link show eth0 | grep -q UP'";
   };
 }

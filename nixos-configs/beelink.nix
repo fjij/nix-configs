@@ -1,4 +1,8 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  ...
+}:
 {
   imports = [
     ../disk-config.nix
@@ -23,4 +27,6 @@
 
   # ZFS is broken on the latest kernel, so let's disable it
   boot.supportedFilesystems.zfs = lib.mkForce false;
+
+  fjij.containers.minibee.config = import ./minibee.nix;
 }
