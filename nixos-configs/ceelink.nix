@@ -23,4 +23,6 @@
 
   # ZFS is broken on the latest kernel, so let's disable it
   boot.supportedFilesystems.zfs = lib.mkForce false;
+
+  fjij.containers.minicee.config = import ./minicee.nix;
 }
