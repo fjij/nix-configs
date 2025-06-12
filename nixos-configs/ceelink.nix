@@ -25,4 +25,5 @@
   boot.supportedFilesystems.zfs = lib.mkForce false;
 
   fjij.containers.minicee.config = import ./minicee.nix;
+  fjij.containers.personal.config = import ./personal.nix;
 }
