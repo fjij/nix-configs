@@ -26,8 +26,8 @@ in
     };
 
     # Container networking seems to depend on multi-user.target, which the one-shot service was blocking.
-    systemd.services.tailscaled-autoconnect.serviceConfig.Type = lib.mkIf config.boot.isContainer (
-      lib.mkForce "exec"
-    );
+    systemd.services.tailscaled-autoconnect.serviceConfig = lib.mkIf config.boot.isContainer {
+      Type = lib.mkForce "exec";
+    };
   };
 }
