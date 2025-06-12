@@ -25,8 +25,9 @@ in
       extraUpFlags = [ "--ssh" ];
     };
 
-    # container-specific configuration
-    systemd.services.tailscaled-autoconnect.serviceConfig.ExecCondition =
-      lib.mkIf config.boot.isContainer "/bin/sh -c 'ip link show eth0 >/dev/null 2>&1 && ip link show eth0 | grep -q UP'";
+    # Container networking seems to depend on multi-user.target, which the one-shot service was blocking.
+    systemd.services.tailscaled-autoconnect.serviceConfig.Type = lib.mkIf config.boot.isContainer (
+      lib.mkForce "exec"
+    );
   };
 }
