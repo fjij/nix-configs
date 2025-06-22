@@ -36,16 +36,14 @@ in
       description = "Game port the server uses. It uses both TCP and UDP.";
     };
 
-    beaconPort = lib.mkOption {
+    secondaryPort = lib.mkOption {
       type = lib.types.port;
-      default = 15000;
-      description = "UDP port that is the beacon port.";
-    };
-
-    queryPort = lib.mkOption {
-      type = lib.types.port;
-      default = 15777;
-      description = "UDP port used to establish a server connection.";
+      default = 8888;
+      description = ''
+        Secondary port the server uses. It uses TCP only. Note, changing this
+        option does not actually change the port. This default value is just
+        provided for reference.
+      '';
     };
 
     openFirewall = lib.mkOption {
@@ -90,12 +88,11 @@ in
     nixpkgs.config.allowUnfree = true;
 
     networking.firewall = lib.mkIf cfg.openFirewall {
-      allowedUDPPorts = [
+      allowedUDPPorts = [ cfg.port ];
+      allowedTCPPorts = [
         cfg.port
-        cfg.beaconPort
-        cfg.queryPort
+        cfg.secondaryPort
       ];
-      allowedTCPPorts = [ cfg.port ];
     };
 
     systemd.services.satisfactory =
@@ -134,7 +131,6 @@ in
         '';
         script = ''
           ${binary} FactoryGame -Port=${toString cfg.port} \
-            -ServerQueryPort=${toString cfg.queryPort} -BeaconPort=${toString cfg.beaconPort} \
             -multihome=${cfg.address}
         '';
         serviceConfig = {
