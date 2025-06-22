@@ -39,7 +39,11 @@ in
     secondaryPort = lib.mkOption {
       type = lib.types.port;
       default = 8888;
-      description = "Secondary port the server uses. It uses TCP only.";
+      description = ''
+        Secondary port the server uses. It uses TCP only. Note, changing this
+        option does not actually change the port. This default value is just
+        provided for reference.
+      '';
     };
 
     openFirewall = lib.mkOption {
@@ -127,7 +131,6 @@ in
         '';
         script = ''
           ${binary} FactoryGame -Port=${toString cfg.port} \
-            -ServerQueryPort=${toString cfg.queryPort} -BeaconPort=${toString cfg.beaconPort} \
             -multihome=${cfg.address}
         '';
         serviceConfig = {
