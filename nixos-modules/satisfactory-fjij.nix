@@ -39,18 +39,11 @@ in
         remotePort = serviceCfg.port;
       }
       {
-        name = "satisfactory-udp-beacon";
-        type = "udp";
+        name = "satisfactory-tcp-secondary";
+        type = "tcp";
         localIP = "127.0.0.1";
-        localPort = serviceCfg.beaconPort;
-        remotePort = serviceCfg.beaconPort;
-      }
-      {
-        name = "satisfactory-udp-query";
-        type = "udp";
-        localIP = "127.0.0.1";
-        localPort = serviceCfg.queryPort;
-        remotePort = serviceCfg.queryPort;
+        localPort = serviceCfg.secondaryPort;
+        remotePort = serviceCfg.secondaryPort;
       }
     ];
   };
