@@ -33,6 +33,7 @@ in
       fd # better find
       eza # better ls
       xh # http client
+      tree
     ];
 
     programs.direnv = {

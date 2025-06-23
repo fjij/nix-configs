@@ -7,5 +7,6 @@
     ./tmux.nix
     ./tools.nix
     ./nixvim.nix
+    ./work-tools.nix
   ];
 }
