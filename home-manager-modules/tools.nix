@@ -34,6 +34,7 @@ in
       eza # better ls
       xh # http client
       tree
+      xan # csv viewer
     ];
 
     programs.direnv = {
