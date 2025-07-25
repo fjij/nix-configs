@@ -411,17 +411,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1749489147,
-        "narHash": "sha256-L0z++9B6wyxRfL0/tU0WcMGwBG6o53suM7Ea6boe1FE=",
-        "owner": "fjij",
+        "lastModified": 1753439394,
+        "owner": "numtide",
         "repo": "treefmt-nix",
-        "rev": "96943be651fb9bc417a7b5c4b1e689ac6df63768",
+        "rev": "2673921c03d6e75fdf4aa93e025772608d1482cf",
         "type": "github"
       },
       "original": {
-        "owner": "fjij",
+        "owner": "numtide",
         "repo": "treefmt-nix",
-        "rev": "96943be651fb9bc417a7b5c4b1e689ac6df63768",
         "type": "github"
       }
     }
