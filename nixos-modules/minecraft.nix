@@ -36,7 +36,8 @@ in
 
       # Default:
       # dataDir = "/var/lib/minecraft";
-      dataDir = "/var/lib/minecraft/oct2024-world-2";
+      # dataDir = "/var/lib/minecraft/oct2024-world-2";
+      dataDir = "/var/lib/minecraft/aug2025-world-3";
 
       serverProperties = {
         server-port = cfg.port;
@@ -52,9 +53,9 @@ in
       # https://discourse.nixos.org/t/howto-setting-up-a-nixos-minecraft-server-using-the-newest-version-of-minecraft/3445
       package =
         let
-          version = "1.21";
-          url = "https://piston-data.mojang.com/v1/objects/450698d1863ab5180c25d7c804ef0fe6369dd1ba/server.jar";
-          sha256 = "c96394da86f9d9f9ef7ca2d2ee1f2f0980c29b7aa5c94b43c02c50435dbcf53f";
+          version = "1.21.8";
+          url = "https://piston-data.mojang.com/v1/objects/6bce4ef400e4efaa63a13d5e6f6b500be969ef81/server.jar";
+          sha256 = "1rxvgyz969yhc1a0fnwmwwap1c548vpr0a39wx02rgnly2ldjj93";
         in
         (pkgs.minecraft-server.overrideAttrs (_: rec {
           name = "minecraft-server-${version}";
