@@ -29,7 +29,7 @@ in
     services.minecraft-server = {
       enable = true;
       eula = true;
-      declarative = true;
+      declarative = false;
 
       # Don't need this since we are using a reverse proxy
       # openFirewall = true;
@@ -39,15 +39,19 @@ in
       # dataDir = "/var/lib/minecraft/oct2024-world-2";
       dataDir = "/var/lib/minecraft/aug2025-world-3";
 
-      serverProperties = {
-        server-port = cfg.port;
-        gamemode = "survival";
-        force-gamemode = true;
-        motd = "My cool minecraft server!";
-        max-players = 10;
-        enable-rcon = true;
-        "rcon.password" = "hunter2";
-      };
+      /*
+        serverProperties and whitelist are managed by Nix when only when declarative = true.
+
+        serverProperties = {
+          server-port = cfg.port;
+          gamemode = "survival";
+          force-gamemode = true;
+          motd = "My cool minecraft server!";
+          max-players = 10;
+          enable-rcon = true;
+          "rcon.password" = "hunter2";
+        };
+      */
 
       # I only have to define this section because the current server is out of date
       # https://discourse.nixos.org/t/howto-setting-up-a-nixos-minecraft-server-using-the-newest-version-of-minecraft/3445
