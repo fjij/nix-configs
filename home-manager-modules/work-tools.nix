@@ -15,6 +15,7 @@ in
       postgresql_16 # psql
       graphite-cli # graphite
       yq # jq for YAML
+      uv # manage dstack install
     ];
   };
 }
