@@ -247,6 +247,7 @@ in
           svelte.enable = true;
           gopls.enable = true;
           terraformls.enable = true;
+          superhtml.enable = true;
         };
         keymaps.lspBuf = {
           "K" = "hover";
