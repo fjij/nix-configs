@@ -35,6 +35,7 @@ in
       xh # http client
       tree
       xan # csv viewer
+      zig
     ];
 
     programs.direnv = {
