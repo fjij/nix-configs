@@ -36,6 +36,7 @@ in
       tree
       xan # csv viewer
       zig
+      uv
     ];
 
     programs.direnv = {
