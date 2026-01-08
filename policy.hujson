@@ -12,6 +12,11 @@
 			"ip":  ["*"],
 		},
 		{
+			"src": ["autogroup:members"],
+			"dst": ["tag:k8s"],
+			"ip":  ["*"],
+		},
+		{
 			"src": ["tag:worker"],
 			"dst": ["tag:worker"],
 			"ip":  ["*"],
