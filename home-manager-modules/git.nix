@@ -19,17 +19,10 @@ in
 
     programs.git = {
       enable = true;
-      userName = "fjij";
-      userEmail = "30779570+fjij@users.noreply.github.com";
-      lfs.enable = true;
-      aliases.sla = "log --graph --all --pretty=format:'%C(yellow)%h%C(reset) %an [%C(green)%ar%C(reset)] %s'";
-      ignores = [
-        ".vim/"
-        ".envrc"
-        ".env"
-        ".DS_Store"
-      ];
-      extraConfig = {
+      settings = {
+        user.name = "fjij";
+        user.email = "30779570+fjij@users.noreply.github.com";
+        alias.sla = "log --graph --all --pretty=format:'%C(yellow)%h%C(reset) %an [%C(green)%ar%C(reset)] %s'";
         core.editor = "nvim";
         core.excludesfile = "~/.gitignore";
         diff.colorMoved = "default";
@@ -42,6 +35,13 @@ in
         "add.interactive".useBuiltin = false;
         url."ssh://git@github.com/".insteadOf = "https://github.com/";
       };
+      lfs.enable = true;
+      ignores = [
+        ".vim/"
+        ".envrc"
+        ".env"
+        ".DS_Store"
+      ];
     };
   };
 }
