@@ -18,12 +18,7 @@
 		},
 		{
 			"src": ["autogroup:members"],
-			"dst": ["tag:proxygroup"],
-			"ip":  ["icmp:*"],
-		},
-		{
-			"src": ["autogroup:members"],
-			"dst": ["tag:service"],
+			"dst": ["tag:k8s-service"],
 			"ip":  ["*"],
 		},
 		{
@@ -39,7 +34,7 @@
 	],
 	"autoApprovers": {
 		"services": {
-			"tag:service": ["tag:proxygroup"],
+			"tag:k8s-service": ["tag:k8s"],
 		},
 	},
 	"tagOwners": {
@@ -47,8 +42,7 @@
 		"tag:ci":           ["autogroup:members"],
 		"tag:k8s-operator": [],
 		"tag:k8s":          ["tag:k8s-operator"],
-		"tag:proxygroup":   ["tag:k8s-operator"],
-		"tag:service":      ["tag:k8s-operator"],
+		"tag:k8s-service":  ["tag:k8s-operator"],
 	},
 	"ssh": [
 		{
