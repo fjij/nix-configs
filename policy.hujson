@@ -22,11 +22,6 @@
 			"ip":  ["*"],
 		},
 		{
-			"src": ["autogroup:members"],
-			"dst": ["192.168.2.144/32"],
-			"ip":  ["*"],
-		},
-		{
 			"src": ["tag:worker"],
 			"dst": ["tag:worker"],
 			"ip":  ["*"],
