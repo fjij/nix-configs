@@ -197,6 +197,14 @@ in
           }
         ];
 
+      # Helm filetype detection
+      filetype.pattern = {
+        ".*/templates/.*%.yaml" = "helm";
+        ".*/templates/.*%.yml" = "helm";
+        ".*/templates/NOTES.txt" = "helm";
+        ".*/templates/_.*%.tpl" = "helm";
+      };
+
       # Treesitter
       plugins.treesitter = {
         enable = true;
@@ -248,6 +256,19 @@ in
           gopls.enable = true;
           terraformls.enable = true;
           superhtml.enable = true;
+          yamlls = {
+            enable = true;
+            settings.yaml.schemas = {
+              kubernetes = "templates/*.yaml";
+              "http://json.schemastore.org/github-workflow" = ".github/workflows/*";
+              "http://json.schemastore.org/github-action" = ".github/action.{yml,yaml}";
+              "http://json.schemastore.org/chart" = "Chart.{yml,yaml}";
+              "https://json.schemastore.org/dependabot-v2" = ".github/dependabot.{yml,yaml}";
+              "https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json" =
+                "*docker-compose*.{yml,yaml}";
+            };
+          };
+          helm_ls.enable = true;
         };
         keymaps.lspBuf = {
           "K" = "hover";
