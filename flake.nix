@@ -136,6 +136,12 @@
           modules = [ ./home-manager-configs/work.nix ];
         };
 
+        "work-dstack" = home-manager.lib.homeManagerConfiguration {
+          inherit extraSpecialArgs;
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          modules = [ ./home-manager-configs/work-dstack.nix ];
+        };
+
         "work-laptop" = home-manager.lib.homeManagerConfiguration {
           inherit extraSpecialArgs;
           pkgs = nixpkgs.legacyPackages."aarch64-darwin";
