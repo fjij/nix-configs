@@ -11,6 +11,12 @@ set -gx fish_greeting
 fish_config prompt choose arrow
 fish_add_path ~/bin
 
+# Colors
+set -g fish_color_command blue
+set -g fish_color_error brred
+set -g fish_color_param cyan
+set -g fish_color_quote yellow
+
 # Homebrew
 if test -e /opt/homebrew/bin/brew
     eval (/opt/homebrew/bin/brew shellenv)
