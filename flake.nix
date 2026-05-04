@@ -159,8 +159,5 @@
 
       # scripts
       packages = scripts;
-
-      # Templates
-      templates = import ./templates;
     };
 }
