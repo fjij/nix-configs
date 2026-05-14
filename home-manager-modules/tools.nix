@@ -37,6 +37,7 @@ in
       xan # csv viewer
       zig
       uv
+      devbox # flake-free development environment manager
     ];
 
     programs.direnv = {
