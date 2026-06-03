@@ -28,7 +28,7 @@ in
       zoxide
       fzf
       nethack
-      nodejs_20
+      nodejs_22
       curl
       fd # better find
       eza # better ls
