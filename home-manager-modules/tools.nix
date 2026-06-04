@@ -38,6 +38,7 @@ in
       zig
       uv
       devbox # flake-free development environment manager
+      dnsutils # nslookup
     ];
 
     programs.direnv = {
