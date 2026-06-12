@@ -2,132 +2,56 @@
 
 My configs ... but in Nix!
 
-## Deploy configurations
+## Architecture
 
-### Deploy NixOS locally
+Each scope (`nixos`, `darwin`, `home-manager`) follows the same `configs / modules` split:
+
+- `<scope>-configs/<name>.nix` — thin entry points referenced from `flake.nix`. They `imports = [ ../<scope>-modules ]` and set `fjij.<name>.enable = true;` to turn modules on.
+- `<scope>-modules/<name>.nix` — reusable modules. Pattern: define `options.fjij.<name>` (typically `mkEnableOption`) and gate config with `lib.mkIf cfg.enable`. See `nixos-modules/base-system.nix` for the canonical example.
+- `nixos-hardware/<name>.nix` — per-machine hardware files (NixOS only).
+
+Shell wrappers in `scripts/` are folded into `packages.<system>` and run via `nix run .#<name>`.
+
+## Deploying
+
+Local:
 
 ```sh
-nix run .#deployNixosLocal -- '<config name>'
+nix run .#deployNixosLocal -- '<config>'
+nix run .#deployNixDarwin -- '<config>'
+nix run .#deployHomeManagerLocal -- '<config>'
 ```
 
-### Deploy Nix-darwin locally
+Remote (needs admin SSH key locally):
 
 ```sh
-nix run .#deployNixDarwin -- '<config name>'
+nix run .#deployNixosRemote -- '<config>' '<ip>'
 ```
 
-### Deploy Home Manager (standalone) locally
+Fresh bare-metal install via `nixos-anywhere`: see `INSTALL_NIXOS.md`.
+
+## Secrets
+
+Uses [sops-nix](https://github.com/Mic92/sops-nix). Encrypted secrets live in `secrets/secrets.yaml`; access is gated by the key groups in `.sops.yaml`. Wrapper scripts fetch the SOPS age key from 1Password, so sign in to `op` first.
 
 ```sh
-nix run .#deployHomeManagerLocal -- '<config name>'
+nix run .#secretsEdit     # Edit secrets/secrets.yaml
+nix run .#secretsSync     # Re-encrypt after changing .sops.yaml key groups
+nix run .#secretsRotate   # Rotate the data encryption key
 ```
 
-On first deploy, you may need to update your shell
+To add a new keypair: add its public key to `.sops.yaml`'s `keys` and the relevant key group, then `secretsSync`.
+
+## Keys
 
 ```sh
-nix run .#homeManagerUseFish
-```
-
-### Deploy NixOS to a remote
-
-Requires access to the admin ssh key
-
-```sh
-nix run .#deployNixosRemote -- '<config name>' '<ip>'
-```
-
-## Secrets management
-
-[Sops-nix](https://github.com/Mic92/sops-nix) is used for managing secrets.
-
-Secrets are encrypted and stored in `secrets/secrets.yaml`. Only users with keys
-in a key group can access secrets. Key group are declared in `.sops.yaml`.
-
-### Adding a new keypair to a key group
-
-**Note:** these commands currently use the 1password CLI to fetch the sops
-encryption key.
-
-**Prerequisites:**
-
-- [Age](https://github.com/FiloSottile/age) keypair
-
-**1. Update `.sops.yaml`**
-
-- Add the keypair's public key to the `keys` section of file
-- Add a reference to the key in the `age` key group
-
-**2. Re-encrypt `secrets/secrets.yaml` with the new key groups**
-
-```sh
-nix run .#secretsSync
-```
-
-### Editing the secrets file
-
-```sh
-nix run .#secretsEdit
-```
-
-### Rotate the shared data encryption key
-
-```sh
-nix run .#secretsRotate
-```
-
-## Key management
-
-### Copy keys from 1password
-
-```sh
-nix run .#saveAdminKeys
-```
-
-This will save a local copy of:
-
-- admin SSH key: needed to deploy to remotes
-- server (age) key: needed on all systems to access sops secrets
-
-### Distribute server key to a remote
-
-This requires a local copy of the admin SSH key and the server key.
-
-```sh
-nix run .#distributeAdminKeys -- '<ip>'
+nix run .#saveAdminKeys                  # Pull admin SSH + server age keys from 1Password
+nix run .#distributeServerKey -- '<ip>'  # Push local server key to a remote
 ```
 
 ## Development
 
-### Format code
-
 ```sh
-nix fmt
+nix fmt                           # Format (treefmt-nix)
+nix flake check . --all-systems   # CI check
 ```
-
-### List scripts
-
-```sh
-nix eval .#packages.aarch64-darwin --apply builtins.attrNames
-```
-
-## Manually Triggering Flake Update CI Task
-
-You can manually trigger the flake update CI task from the GitHub Actions interface. Follow these steps:
-
-1. Go to the repository on GitHub.
-2. Click on the "Actions" tab.
-3. In the left sidebar, find and click on the workflow named "Update flake.lock".
-4. Click on the "Run workflow" button.
-5. Confirm the action to manually trigger the workflow.
-
-## Manually Triggering CI Check
-
-You can manually trigger the CI check from the GitHub Actions interface. Follow these steps:
-
-1. Go to the repository on GitHub.
-2. Click on the "Actions" tab.
-3. In the left sidebar, find and click on the workflow named "CI".
-4. Click on the "Run workflow" button.
-5. Confirm the action to manually trigger the workflow.
-
-For more information on why actions don't trigger on auto-generated PRs, refer to [this discussion](https://github.com/orgs/community/discussions/55906).
