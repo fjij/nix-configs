@@ -35,6 +35,9 @@
 
     koekeishiya-formulae.url = "github:koekeishiya/homebrew-formulae";
     koekeishiya-formulae.flake = false;
+
+    keith-formulae.url = "github:keith/homebrew-formulae";
+    keith-formulae.flake = false;
   };
 
   outputs =

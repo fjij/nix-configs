@@ -39,6 +39,7 @@ in
       uv
       devbox # flake-free development environment manager
       dnsutils # nslookup
+      github-copilot-cli
     ];
 
     programs.direnv = {

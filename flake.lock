@@ -127,6 +127,22 @@
         "type": "github"
       }
     },
+    "keith-formulae": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1773344317,
+        "narHash": "sha256-DzIAZq58wpu74ze4djYsd0llEFBgJRgf+WhI39ElzLM=",
+        "owner": "keith",
+        "repo": "homebrew-formulae",
+        "rev": "53e818b82fdd581e6e0c84ff51c1e8cc02e19c98",
+        "type": "github"
+      },
+      "original": {
+        "owner": "keith",
+        "repo": "homebrew-formulae",
+        "type": "github"
+      }
+    },
     "koekeishiya-formulae": {
       "flake": false,
       "locked": {
@@ -227,6 +243,7 @@
         "homebrew-bundle": "homebrew-bundle",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
+        "keith-formulae": "keith-formulae",
         "koekeishiya-formulae": "koekeishiya-formulae",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",

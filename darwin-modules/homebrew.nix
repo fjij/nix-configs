@@ -31,9 +31,12 @@ in
         "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
         "homebrew/homebrew-cask" = inputs.homebrew-cask;
         "homebrew/homebrew-core" = inputs.homebrew-core;
+        "keith/homebrew-formulae" = inputs.keith-formulae;
         # this is broken rn, idk why
         # "koekeishiya/formulae" = inputs.koekeishiya-formulae;
       };
+
+      # autoMigrate = true;
     };
 
     homebrew = {
@@ -49,6 +52,7 @@ in
       brews = [
         "trash"
         "yabai"
+        "keith/homebrew-formulae/reminders-cli"
       ];
       taps = builtins.attrNames config.nix-homebrew.taps;
       casks = [
