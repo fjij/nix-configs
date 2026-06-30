@@ -1,0 +1,4 @@
+font-family = "ComicCodeLigatures Nerd Font"
+font-size = 18
+shell-integration-features = no-cursor
+term = xterm-256color

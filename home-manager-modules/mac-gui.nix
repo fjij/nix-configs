@@ -13,13 +13,16 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       _1password-cli
+      ghostty-bin
     ];
-
-    fjij.alacritty.enable = true;
-    fjij.alacritty.macApp = true;
 
     xdg.configFile.yabai = {
       source = ../dotfiles/yabai;
+      recursive = true;
+    };
+
+    xdg.configFile.ghostty = {
+      source = ../dotfiles/ghostty;
       recursive = true;
     };
   };
