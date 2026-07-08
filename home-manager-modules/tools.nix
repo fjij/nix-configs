@@ -44,7 +44,9 @@ in
 
     programs.direnv = {
       enable = true;
-      nix-direnv.enable = true;
+      nix-direnv.enable = true; # https://github.com/nix-community/nix-direnv
+      enableFishIntegration = true;
+      silent = true;
     };
 
     home.file = {
