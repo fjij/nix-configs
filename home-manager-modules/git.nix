@@ -41,6 +41,7 @@ in
         ".envrc"
         ".env"
         ".DS_Store"
+        ".direnv/"
       ];
     };
   };
