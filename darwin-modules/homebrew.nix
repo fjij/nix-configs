@@ -52,6 +52,7 @@ in
       brews = [
         "trash"
         "yabai"
+        "sox"
         "keith/homebrew-formulae/reminders-cli"
       ];
       taps = builtins.attrNames config.nix-homebrew.taps;
