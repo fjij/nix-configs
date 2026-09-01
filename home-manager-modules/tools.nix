@@ -40,6 +40,8 @@ in
       devbox # flake-free development environment manager
       dnsutils # nslookup
       github-copilot-cli
+      kubectl
+      kubernetes-helm
     ];
 
     programs.direnv = {
