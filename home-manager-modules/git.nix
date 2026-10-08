@@ -33,7 +33,8 @@ in
         pager.branch = false;
         init.defaultBranch = "main";
         "add.interactive".useBuiltin = false;
-        url."ssh://git@github.com/".insteadOf = "https://github.com/";
+        # url."ssh://git@github.com/".insteadOf = "https://github.com/";
+        # wally fix ^
       };
       lfs.enable = true;
       ignores = [

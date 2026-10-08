@@ -2,56 +2,126 @@
 
 My configs ... but in Nix!
 
-## Architecture
+## Nix Installation
 
-Each scope (`nixos`, `darwin`, `home-manager`) follows the same `configs / modules` split:
+### NixOS
 
-- `<scope>-configs/<name>.nix` — thin entry points referenced from `flake.nix`. They `imports = [ ../<scope>-modules ]` and set `fjij.<name>.enable = true;` to turn modules on.
-- `<scope>-modules/<name>.nix` — reusable modules. Pattern: define `options.fjij.<name>` (typically `mkEnableOption`) and gate config with `lib.mkIf cfg.enable`. See `nixos-modules/base-system.nix` for the canonical example.
-- `nixos-hardware/<name>.nix` — per-machine hardware files (NixOS only).
+See [INSTALL_NIXOS.md](./INSTALL_NIXOS.md) for instructions on how to install
+NixOS on a physical device. I also have a Cloud-Init config for DigitalOcean,
+but I can't remember how it works, so best of luck.
 
-Shell wrappers in `scripts/` are folded into `packages.<system>` and run via `nix run .#<name>`.
+### Nix Package Manager (non-NixOS systems)
 
-## Deploying
+Either use the [Determinate Nix
+Installer](https://github.com/DeterminateSystems/nix-installer) or follow the
+[official installation guide](https://nixos.org/download/). The former is
+recommended in most cases, the latter is recommended if you want to stick to
+FOSS or are having issues with the Determinate installer.
 
-Local:
+## Deploy configurations
+
+### Deploy NixOS locally
 
 ```sh
-nix run .#deployNixosLocal -- '<config>'
-nix run .#deployNixDarwin -- '<config>'
-nix run .#deployHomeManagerLocal -- '<config>'
+nix run .#deployNixosLocal -- '<config name>'
 ```
 
-Remote (needs admin SSH key locally):
+### Deploy Nix-darwin locally
 
 ```sh
-nix run .#deployNixosRemote -- '<config>' '<ip>'
+nix run .#deployDarwinLocal -- '<config name>'
 ```
 
-Fresh bare-metal install via `nixos-anywhere`: see `INSTALL_NIXOS.md`.
-
-## Secrets
-
-Uses [sops-nix](https://github.com/Mic92/sops-nix). Encrypted secrets live in `secrets/secrets.yaml`; access is gated by the key groups in `.sops.yaml`. Wrapper scripts fetch the SOPS age key from 1Password, so sign in to `op` first.
+### Deploy Home Manager (standalone) locally
 
 ```sh
-nix run .#secretsEdit     # Edit secrets/secrets.yaml
-nix run .#secretsSync     # Re-encrypt after changing .sops.yaml key groups
-nix run .#secretsRotate   # Rotate the data encryption key
+nix run .#deployHomeManagerLocal -- '<config name>'
 ```
 
-To add a new keypair: add its public key to `.sops.yaml`'s `keys` and the relevant key group, then `secretsSync`.
-
-## Keys
+On first deploy, you may need to update your shell
 
 ```sh
-nix run .#saveAdminKeys                  # Pull admin SSH + server age keys from 1Password
-nix run .#distributeServerKey -- '<ip>'  # Push local server key to a remote
+nix run .#homeManagerUseFish
+```
+
+### Deploy NixOS to a remote
+
+Requires access to the admin ssh key
+
+```sh
+nix run .#deployNixosRemote -- '<config name>' '<ip>'
+```
+
+## Secrets management
+
+[Sops-nix](https://github.com/Mic92/sops-nix) is used for managing secrets.
+
+Secrets are encrypted and stored in `secrets/secrets.yaml`. Only users with keys
+in a key group can access secrets. Key groups are declared in `.sops.yaml`.
+
+### Adding a new keypair to a key group
+
+**Note:** these commands currently use the 1password CLI to fetch the sops
+encryption key.
+
+**Prerequisites:**
+
+- [Age](https://github.com/FiloSottile/age) keypair
+
+**1. Update `.sops.yaml`**
+
+- Add the keypair's public key to the `keys` section of the file
+- Add a reference to the key in the `age` key group
+
+**2. Re-encrypt `secrets/secrets.yaml` with the new key groups**
+
+```sh
+nix run .#secretsSync
+```
+
+### Editing the secrets file
+
+```sh
+nix run .#secretsEdit
+```
+
+### Rotate the shared data encryption key
+
+```sh
+nix run .#secretsRotate
+```
+
+## Key management
+
+### Copy keys from 1password
+
+```sh
+nix run .#saveAdminKeys
+```
+
+This will save a local copy of:
+
+- admin SSH key: needed to deploy to remotes
+- server (age) key: needed on all systems to access sops secrets
+
+### Distribute server key to a remote
+
+This requires a local copy of the admin SSH key and the server key.
+
+```sh
+nix run .#distributeServerKey -- '<ip>'
 ```
 
 ## Development
 
+### Format code
+
 ```sh
-nix fmt                           # Format (treefmt-nix)
-nix flake check . --all-systems   # CI check
+nix fmt
+```
+
+### List scripts
+
+```sh
+nix eval .#packages.aarch64-darwin --apply builtins.attrNames
 ```
