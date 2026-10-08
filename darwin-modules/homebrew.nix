@@ -64,7 +64,6 @@ in
         # "koekeishiya/formulae/yabai"
         "1password-cli"
         # "yabai"
-        "claude-code"
       ];
       /*
         masApps = {
