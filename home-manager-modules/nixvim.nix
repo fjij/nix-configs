@@ -269,6 +269,7 @@ in
             };
           };
           helm_ls.enable = true;
+          elixirls.enable = true;
         };
         keymaps.lspBuf = {
           "K" = "hover";
