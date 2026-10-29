@@ -25,6 +25,7 @@ in
 
       # Nixvim has its own instance of nixpkgs
       nixpkgs.config.allowUnfree = true;
+      nixpkgs.source = inputs.nixpkgs;
 
       colorschemes.rose-pine.enable = true;
       colorschemes.rose-pine.settings.dark_variant = "moon";
