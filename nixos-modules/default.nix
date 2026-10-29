@@ -13,6 +13,7 @@
     ./openssh.nix
     ./satisfactory.nix
     ./satisfactory-fjij.nix
+    ./security-patches.nix
     ./sops.nix
     ./tailscale.nix
     ./wifi.nix
