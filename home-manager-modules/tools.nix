@@ -32,7 +32,12 @@ in
       curl
       fd # better find
       eza # better ls
-      xh # http client
+      (symlinkJoin { # http client
+        name = "xh";
+        paths = [ xh ];
+        nativeBuildInputs = [ makeWrapper ];
+        postBuild = "wrapProgram $out/bin/xh --add-flags --verify=${cacert}/etc/ssl/certs/ca-bundle.crt";
+      })
       tree
       xan # csv viewer
       zig
