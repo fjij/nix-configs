@@ -47,6 +47,7 @@ in
       github-copilot-cli
       kubectl
       kubernetes-helm
+      watch
     ];
 
     programs.direnv = {
