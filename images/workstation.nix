@@ -33,6 +33,14 @@ let
     ${username}:x:${toString gid}:
     nobody:x:65534:
     EOF
+    # Coder's agent refuses to start without one
+    cat > $out/etc/os-release <<EOF
+    NAME="Workstation"
+    ID=workstation
+    ID_LIKE=nixos
+    VERSION_ID="${pkgs.lib.trivial.release}"
+    PRETTY_NAME="Workstation (nixpkgs ${pkgs.lib.trivial.release})"
+    EOF
     echo "hosts: files dns" > $out/etc/nsswitch.conf
     echo ${shell} > $out/etc/shells
     cat > $out/etc/nix/nix.conf <<EOF
