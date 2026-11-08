@@ -32,7 +32,8 @@ in
       curl
       fd # better find
       eza # better ls
-      (symlinkJoin { # http client
+      (symlinkJoin {
+        # http client
         name = "xh";
         paths = [ xh ];
         nativeBuildInputs = [ makeWrapper ];
