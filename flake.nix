@@ -75,6 +75,20 @@
           )
         );
       treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
+      # Dev workstation: the home-manager config, and an image of it (images/workstation.nix)
+      workstationHome =
+        system:
+        home-manager.lib.homeManagerConfiguration {
+          inherit extraSpecialArgs;
+          pkgs = nixpkgs.legacyPackages.${system};
+          modules = [ ./home-manager-configs/workstation.nix ];
+        };
+      workstationImages = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (system: {
+        workstation-image = import ./images/workstation.nix {
+          pkgs = nixpkgs.legacyPackages.${system};
+          home = workstationHome system;
+        };
+      });
       scripts = eachSystemUnfree (
         pkgs:
         import ./scripts {
@@ -151,6 +165,8 @@
           pkgs = nixpkgs.legacyPackages."aarch64-darwin";
           modules = [ ./home-manager-configs/work-laptop.nix ];
         };
+
+        "workstation" = workstationHome "x86_64-linux";
       };
 
       # for `nix fmt`
@@ -161,7 +177,8 @@
         formatting = treefmtEval.${pkgs.system}.config.build.check self;
       });
 
-      # scripts
-      packages = scripts;
+      # scripts, and the workstation image
+      # Build Target: '.#packages.x86_64-linux.workstation-image'
+      packages = nixpkgs.lib.recursiveUpdate scripts workstationImages;
     };
 }

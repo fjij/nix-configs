@@ -1,0 +1,41 @@
+# Builds the dev workstation image (images/workstation.nix) and pushes it to GHCR (private).
+# The fjij/cluster repo's Coder template pins the tag to use.
+name: Workstation image
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - flake.nix
+      - flake.lock
+      - images/**
+      - home-manager-configs/**
+      - home-manager-modules/**
+      - dotfiles/**
+      - .github/workflows/workstation-image.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - run: nix build .#packages.x86_64-linux.workstation-image
+      # Fail before pushing if the environment doesn't come up
+      - run: |
+          docker load < result
+          docker run --rm ghcr.io/fjij/workstation:latest sh -c \
+            'workstation-activate && fish -c "nvim --version && nix --version && git --version"'
+      # Tags sort by commit time, like fjij/willharris.ca's
+      - run: echo "TAG=$(TZ=UTC git log -1 --format=%cd --date=format-local:%Y%m%d-%H%M%S)-${GITHUB_SHA::7}" >> "$GITHUB_ENV"
+      # skopeo pushes the image tarball straight to the registry
+      - run: >
+          nix run --inputs-from . nixpkgs#skopeo -- copy
+          --dest-creds "${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}"
+          docker-archive:result
+          docker://ghcr.io/fjij/workstation:${{ env.TAG }}
